@@ -6,6 +6,7 @@ import NavBar from "../nav-bar/NavBar";
 const custom = (Element: ComponentType) => {
     return <Element/>
 }
+
 const AppRouter = () => {
     return (
         <div>
