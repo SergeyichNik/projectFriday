@@ -18,31 +18,38 @@ import NotFound from "../../pages/not-found/NotFound";
 export const routesKit = [
     {
         path: LOGIN_ROUTE,
-        element: Login
+        element: Login,
+        linkName: "Login"
     },
     {
         path: NEW_PASS_ENTER_ROUTE,
-        element: PassEnterNew
+        element: PassEnterNew,
+        linkName: "New password enter"
     },
     {
         path: PASS_RECOVERY_ROUTE,
-        element: PassRecovery
+        element: PassRecovery,
+        linkName: "Password recovery"
     },
     {
         path: PROFILE_ROUTE,
-        element: Profile
+        element: Profile,
+        linkName: "Profile"
     },
     {
         path: REGISTRATION_ROUTE,
-        element: Registration
+        element: Registration,
+        linkName: "Registration"
     },
     {
         path: TEST_PAGE_ROUTE,
-        element: TestPage
+        element: TestPage,
+        linkName: "Test page"
     },
     {
         path: NOT_FOUND_ROUTE,
-        element: NotFound
+        element: NotFound,
+        linkName: "Not found 404"
     },
 ]
 
