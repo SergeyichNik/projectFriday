@@ -14,7 +14,7 @@ const AppRouter = () => {
             <hr/>
             <Routes>
                 {routesKit.map(({path,element}) => {
-                    return <Route path={path} element={custom(element)}/>
+                    return <Route path={path} element={custom(element)} />
                 })}
             </Routes>
         </div>

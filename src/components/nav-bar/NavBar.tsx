@@ -7,7 +7,7 @@ const NavBar = () => {
     return (
         <div className={classes.wrapper}>
             {routesKit.map(({path, linkName}) => {
-                return <Link to={path}>{linkName}</Link>
+                return <Link to={path} >{linkName}</Link>
             })}
         </div>
     );
