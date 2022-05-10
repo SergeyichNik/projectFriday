@@ -1,4 +1,4 @@
-export const LOGIN_ROUTE = "/"
+export const LOGIN_ROUTE = "/*"
 export const NEW_PASS_ENTER_ROUTE = "projectFriday/new-password-enter"
 export const PASS_RECOVERY_ROUTE = "projectFriday/password-recovery"
 export const PROFILE_ROUTE = "projectFriday/profile"
