@@ -1,15 +1,17 @@
 import React from 'react';
-import {routesKit} from "../app-router/routes";
-import {Link} from "react-router-dom";
 import classes from "./NavBar.module.css";
+import {CustomLink} from "../../utilities/CustomLink";
 
 const NavBar = () => {
     return (
-        <div className={classes.wrapper}>
-            {routesKit.map(({path, linkName}) => {
-                return <Link to={path} >{linkName}</Link>
-            })}
-        </div>
+        <>
+            <CustomLink to={'/'}>Profile</CustomLink>
+            <CustomLink to={'login'}>Login</CustomLink>
+            <CustomLink to={'recovery-password'}>Recovery Password</CustomLink>
+            <CustomLink to={'new-password'}>New Password</CustomLink>
+            <CustomLink to={'test-page'}>Test Page</CustomLink>
+            <CustomLink to={'registration'}>Registration</CustomLink>
+        </>
     );
 };
 

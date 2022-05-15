@@ -5,8 +5,8 @@ import AppRouter from "./components/app-router/AppRouter";
 
 function App() {
   return (
-    <BrowserRouter basename={'/projectFriday'}>
-        <AppRouter/>
+    <BrowserRouter >
+       <AppRouter/>
     </BrowserRouter>
   );
 }

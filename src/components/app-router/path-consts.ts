@@ -1,7 +1,0 @@
-export const LOGIN_ROUTE = "/login"
-export const NEW_PASS_ENTER_ROUTE = "/new-password-enter"
-export const PASS_RECOVERY_ROUTE = "/password-recovery"
-export const PROFILE_ROUTE = "/profile"
-export const REGISTRATION_ROUTE = "/registration"
-export const TEST_PAGE_ROUTE = "/test"
-export const NOT_FOUND_ROUTE = "/not-found"
