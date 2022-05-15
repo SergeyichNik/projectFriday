@@ -5,7 +5,7 @@ import AppRouter from "./components/app-router/AppRouter";
 
 function App() {
   return (
-    <HashRouter  basename={'projectFriday'}>
+    <HashRouter >
        <AppRouter/>
     </HashRouter>
   );
