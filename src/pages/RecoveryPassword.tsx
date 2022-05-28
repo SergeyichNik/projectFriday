@@ -1,10 +1,38 @@
 import React from 'react';
-import classes from "./CommonStyle.module.css";
+
 const RecoveryPassword = () => {
+
+    const getInstruction = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        console.log('called')
+    }
+
     return (
-        <div className={classes.common}>
-             <h1>Helli? Nikitos!!! :-P RECOVERY PASSWORD</h1>
-        </div>
+        <>
+            <h1>It-incubator</h1>
+            <div>Forgot your password?</div>
+
+            <form onSubmit={getInstruction}>
+                <div>
+                    <label htmlFor={'email'}>
+                        <input
+                            type={'text'}
+                            name={'email'}
+                            id={'email'}
+                            placeholder={'Email'}/>
+                    </label>
+                </div>
+
+                <div>
+                    <button type={'submit'}>
+                        Send Instructions
+                    </button>
+                </div>
+            </form>
+
+            <div>Did you remember your password?</div>
+            <div>Try logging in</div>
+        </>
     );
 };
 
