@@ -4,6 +4,7 @@ const NewPassword = () => {
     return (
         <div className={classes.common}>
              <h1>NEW PASSWORD</h1>
+            <p>Work was started...</p>
         </div>
     );
 };
