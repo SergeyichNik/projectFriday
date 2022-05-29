@@ -1,5 +1,4 @@
 import React from 'react';
-import classes from "./NavBar.module.css";
 import {CustomLink} from "../../utilities/CustomLink";
 
 const NavBar = () => {
