@@ -1,15 +1,7 @@
-/*button {*/
-/*    margin-top: 20px;*/
-/*    width: 60px;*/
-/*    height: 30px;*/
-/*    transition: 100ms all;*/
-/*    border: none;*/
-/*    border-radius: 5px;*/
-/*    box-shadow: 0 3px  grey;*/
-/*    background-color: #dad7d7;*/
-/*}*/
+button {
 
-/*button:active {*/
-/*    background-color: #c4c3c3;*/
-/*    box-shadow:  0 0 grey;*/
-/*}*/
+}
+
+button:active {
+
+}

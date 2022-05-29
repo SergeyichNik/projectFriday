@@ -9,7 +9,10 @@ const Layout = () => {
             <header className={classes.header}>
                 <NavBar/>
             </header>
-            <Outlet/>
+            <div style={{display: "flex",
+            justifyContent: "center"}}>
+                <Outlet/>
+            </div>
         </>
     );
 };
