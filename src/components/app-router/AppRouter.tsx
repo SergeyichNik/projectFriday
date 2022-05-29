@@ -6,7 +6,7 @@ import Profile from "../../pages/Profile";
 import RecoveryPassword from "../../pages/RecoveryPassword";
 import NewPassword from "../../pages/NewPassword";
 import TestPage from "../../pages/TestPage";
-import Registration from "../../pages/Registration";
+import Registration from "../../pages/Registration/Registration";
 import NotFound from "../../pages/NotFound";
 
 const AppRouter = () => {

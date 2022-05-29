@@ -1,16 +1,16 @@
 import {authAPI, RegistrationParamsType} from "../../api/api";
 import {ThunkType} from "../store/store";
 
-const InitialState = {
+export const InitialRegistrationState = {
     isRegistered: false
 }
 
 //Types
-type InitialStateType = typeof InitialState;
+export type InitialRegistrationStateType = typeof InitialRegistrationState;
 export type RegistrationActionType = ReturnType<typeof setRegistrationAC>;
 
 //Reducer
-export const RegistrationReducer = (state: InitialStateType, action: RegistrationActionType) => {
+export const RegistrationReducer = (state: InitialRegistrationStateType = InitialRegistrationState, action: RegistrationActionType):InitialRegistrationStateType => {
     switch (action.type) {
         case "REGISTRATION":
             return {...state, isRegistered: action.isRegistered};
@@ -18,11 +18,12 @@ export const RegistrationReducer = (state: InitialStateType, action: Registratio
             return state;
     }
 }
+
 //ActionCreator
 export const setRegistrationAC = (isRegistered: boolean) => ({type: "REGISTRATION", isRegistered} as const);
 
 //ThunkCreator
-export const registrationTC = (data: RegistrationParamsType): ThunkType => (dispatch) => {
+export const setRegistrationTC = (data: RegistrationParamsType): ThunkType => (dispatch) => {
     authAPI.registration(data)
         .then((res) => {
             console.log(res.data);
