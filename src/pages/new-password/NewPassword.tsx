@@ -43,7 +43,6 @@ const NewPassword = () => {
 
         <FormControl sx={{
             marginTop: "84px",
-            // padding: "25px 30px",
             width: "413px",
             height: "480px",
             borderRadius: "8px",
