@@ -4,7 +4,7 @@ import Layout from "../layout/Layout";
 import Login from "../../pages/Login";
 import Profile from "../../pages/Profile";
 import RecoveryPassword from "../../pages/RecoveryPassword";
-import NewPassword from "../../pages/NewPassword";
+import NewPassword from "../../pages/new-password/NewPassword";
 import TestPage from "../../pages/TestPage";
 import Registration from "../../pages/Registration";
 import NotFound from "../../pages/NotFound";
