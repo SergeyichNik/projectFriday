@@ -1,4 +1,4 @@
-import {authAPI, RegistrationParamsType} from "../../api/api";
+import {api, RegistrationParamsType} from "../../api/api";
 import {ThunkType} from "../store/store";
 
 export const InitialRegistrationState = {
@@ -24,12 +24,12 @@ export const setRegistrationAC = (isRegistered: boolean) => ({type: "REGISTRATIO
 
 //ThunkCreator
 export const setRegistrationTC = (data: RegistrationParamsType): ThunkType => (dispatch) => {
-    authAPI.registration(data)
+    api.registration(data)
         .then((res) => {
             console.log(res.data);
             dispatch(setRegistrationAC(true));
         })
         .catch((error) => {
-            console.log(error);
+            console.log(error.response.data.error);
         })
 }
