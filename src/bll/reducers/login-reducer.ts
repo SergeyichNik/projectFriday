@@ -5,7 +5,7 @@ type LoginStateType = {
     isAuth: boolean
 }
 
-type LoginResponseType = {
+export type LoginResponseType = {
     _id: string
     email: string
     name: string
@@ -35,22 +35,20 @@ const initState: LoginStateType = {
     },
     isAuth: false
 }
-export type LoginActionType = ReturnType<typeof getUserData> | ReturnType<typeof setError>
+export type LoginActionType = ReturnType<typeof getUserData>
 
 export const loginReducer = (state: LoginStateType = initState, action: LoginActionType): LoginStateType => {
     switch (action.type) {
         case "GET-USER-DATA":
             return {...state, data: action.data, isAuth: action.isAuth}
-        case "SET-ERROR":
-            return {...state, data: {...state.data, error: action.error}}
         default:
             return state
     }
 }
 const getUserData = (data: LoginResponseType, isAuth: boolean) => ({type: 'GET-USER-DATA', data, isAuth} as const)
-const setError = (error: string) => ({type: 'SET-ERROR', error} as const)
 
-export const loginTC = (email: string, password: string, rememberMe: boolean) => (dispatch: any) => {
+export const loginTC = (email: string, password: string, rememberMe: boolean,
+                        setStatus: (status?: any) => void) => (dispatch: any) => {
     api.login(email, password, rememberMe)
         .then(res => {
                 dispatch(getUserData(res.data, true))
@@ -60,7 +58,7 @@ export const loginTC = (email: string, password: string, rememberMe: boolean) =>
                 const error = e.response
                     ? e.response.data.error
                     : (e.message + ', more details in the console');
-                dispatch(setError(error))
+                setStatus(error)
             }
         )
 }

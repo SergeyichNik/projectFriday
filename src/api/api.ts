@@ -1,4 +1,5 @@
 import axios from "axios";
+import {LoginResponseType} from "../bll/reducers/login-reducer";
 
 export const instance = axios.create({
     baseURL: process.env.REACT_APP_BACK_URL || 'http://localhost:7542/2.0/',
@@ -43,19 +44,3 @@ export const api = {
         return instance.post<LoginResponseType>('/auth/login', {email, password, rememberMe})
     }
 }
-
-// types
-type LoginResponseType ={
-    _id: string
-    email: string
-    name: string
-    avatar?: string
-    publicCardPacksCount: number // количество колод
-    created: Date
-    updated: Date
-    isAdmin: boolean
-    verified: boolean // подтвердил ли почту
-    rememberMe: boolean
-    error?: string
-}
-
