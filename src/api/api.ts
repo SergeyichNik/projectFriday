@@ -23,17 +23,18 @@ export const api = {
             {email, password}
         )
     },
-    recoveryPass() {
+    recoveryPassword(email: string) {
         return instance.post(
             "/auth/forgot",
             {
-                email: "gipis67316@nifect.com", // кому восстанавливать пароль
+                email, // кому восстанавливать пароль
                 from: "test-front-admin <gipis67316@nifect.com>",
                 // можно указать разработчика фронта)
-                message: `<div style="background-color: lime; padding: 15px">
-                    password recovery link: 
-                    <a href='http://localhost:3000/#/set-new-password/$token$'>
-                    link</a>
+                message: `<div style="background-color: #f7f7f7; padding: 15px">
+                    Follow  
+                    <a href='http://localhost:3000/#/set-new-password/$token$'
+                    style="font-weight: bold; color: #1a73e8;">
+                    this link</a> to recover your password
                     </div>` // хтмп-письмо, вместо $token$ бэк вставит токен
 
             }

@@ -17,7 +17,7 @@ const TestPage = () => {
     }
 
     const handlerRecovery = () => {
-        api.recoveryPass()
+        api.recoveryPassword('bad string')
             .then(res => {
             console.log(res)
             })

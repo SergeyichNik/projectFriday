@@ -1,10 +1,14 @@
 import React from 'react';
-import {ErrorMessage, Form, Formik} from 'formik';
+import {ErrorMessage, Form, Formik, FormikHelpers} from 'formik';
 import * as Yup from 'yup';
-import {Button, Container, Grid, TextField, Typography} from '@mui/material';
-import { Link } from 'react-router-dom';
+import {Button, Grid, TextField, Typography} from '@mui/material';
+import {Link} from 'react-router-dom';
+import {ErrorText} from './ErrorText/ErrorText';
+import {RequestProgressStatusType, sendPasswordRecovery} from '../../bll/reducers/recoveryPassword-reducer';
+import {useAppDispatch, useAppSelector} from './hooks/typedHooks';
 
-type InitialValuesType = {
+
+export type InitialValuesType = {
     email: string
 }
 
@@ -13,21 +17,17 @@ const SignupSchema = Yup.object().shape({
 })
 
 const RecoveryPassword = () => {
+    const dispatch = useAppDispatch()
+
+    const progressStatus = useAppSelector<RequestProgressStatusType>(state => state.recoverPassword.progressStatus)
 
     const initialValues: InitialValuesType = {
         email: ''
     }
 
-    const onSubmit = (values: InitialValuesType) => {
-        console.log('Values: ', values)
-    }
-
-    console.log(initialValues)
-
-    const forCont: React.CSSProperties = {
-        background: '#ccc',
-        height: '93.82vh',
-        maxWidth: 2150
+    const onSubmit = (values: InitialValuesType, {resetForm}: FormikHelpers<InitialValuesType>) => {
+        dispatch(sendPasswordRecovery(values.email))
+        resetForm()
     }
 
     const forTypoH: React.CSSProperties = {
@@ -48,77 +48,70 @@ const RecoveryPassword = () => {
         color: '#2D2E46'
     }
 
-    const forGr = {
-        background: '#F9F9FE'
+    const forGr: React.CSSProperties = {
+        background: '#F9F9FE',
+        marginTop: '84px',
+        width: '413px',
+        justifyContent: 'center',
+        textAlign: 'center',
+        borderRadius: '8px',
+        padding: '24px'
     }
 
     return (
         <>
-            <Container sx={forCont} maxWidth={false}>
-                <Grid container justifyContent={'center'} alignItems={'center'} height={'100%'}>
-                    <Grid sx={forGr} sm={2.5} justifyContent={'center'} textAlign={'center'} padding={3}
-                          borderRadius={2}>
+            <Grid container justifyContent={'center'} alignItems={'center'} height={'100%'}>
+                <Grid sx={forGr}>
 
-                        <Typography sx={forTypoH} variant={'h1'} marginBottom={'30px'}>
-                            It-incubator</Typography>
-                        <Typography sx={forTypoP} variant={'body1'} marginBottom={'56px'}>
-                            Forgot your password?</Typography>
+                    <Typography sx={forTypoH} variant={'h1'} marginBottom={'30px'}>
+                        It-incubator</Typography>
+                    <Typography sx={forTypoP} variant={'body1'} marginBottom={'56px'}>
+                        Forgot your password?</Typography>
 
-                        <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={SignupSchema}>
-                            {
-                                (formik) => {
-                                    return (
-                                        <Form>
-                                            <div style={{position: 'relative'}}>
-                                                <TextField variant={'standard'} fullWidth
-                                                           autoComplete={'off'}
-                                                           error={!formik.isValid}
-                                                           id={'email'} label={'email'}
-                                                           {...formik.getFieldProps('email')}/>
-                                                <ErrorMessage
-                                                    name={'email'}
-                                                    render={msg => <div
-                                                        style={{color: 'red', fontWeight: 'bold', position: 'absolute',
-                                                        bottom: '-24px', left: 0}}>{msg}</div>}/>
+                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={SignupSchema}>
+                        {
+                            (formik) => {
+                                return (
+                                    <Form>
+                                        <div style={{position: 'relative'}}>
+                                            <TextField variant={'standard'} fullWidth
+                                                       autoComplete={'off'}
+                                                       error={!formik.isValid}
+                                                       id={'email'} label={'email'}
+                                                       disabled={progressStatus === 'loading'}
+                                                       {...formik.getFieldProps('email')}/>
+                                            <ErrorMessage
+                                                name={'email'}
+                                                render={msg => <ErrorText errorText={msg}/>}
+                                            />
+                                        </div>
 
+                                        <Typography variant={'body2'} marginTop={'30px'} marginBottom={'90px'}
+                                                    align={'left'} color={'#9293a2'}>
+                                            Enter your email address and we will send you further instructions
+                                        </Typography>
 
-                                                {/*<label htmlFor={'email'}>*/}
-                                                {/*    <Field*/}
-                                                {/*        type={'text'}*/}
-                                                {/*        name={'email'}*/}
-                                                {/*        id={'email'}*/}
-                                                {/*        placeholder={'Email'}/>*/}
-                                                {/*    <ErrorMessage*/}
-                                                {/*        name={'email'}*/}
-                                                {/*        render={msg => <div style={{color: 'red', fontWeight: 'bold'}}>{msg}</div>}/>*/}
-                                                {/*</label>*/}
-                                            </div>
-
-                                            <Typography variant={'body2'} marginTop={'30px'} marginBottom={'90px'}
-                                                        align={'left'} color={'#9293a2'}>
-                                                Enter your email address and we will send you further instructions
-                                            </Typography>
-
-                                            <div>
-                                                <Button variant="contained" style={{fontWeight: 'bold'}}>
-                                                    Send Instructions
-                                                </Button>
-                                            </div>
-                                        </Form>
-                                    )
-                                }
+                                        <div>
+                                            <Button type={'submit'} variant="contained"
+                                                    disabled={progressStatus === 'loading'}
+                                                    style={{fontWeight: 'bold'}}>
+                                                Send Instructions
+                                            </Button>
+                                        </div>
+                                    </Form>
+                                )
                             }
-                        </Formik>
+                        }
+                    </Formik>
 
-                        <div style={{margin: '30px 0 10px', color: '#9293a2', textAlign: 'center'}}>Did you remember
-                            your password?
-                        </div>
-                        <div style={{marginBottom: 10, textAlign: 'center'}}>
-                            <Link to={'/login'}>Try logging in</Link>
-                        </div>
-                    </Grid>
+                    <div style={{margin: '30px 0 10px', color: '#9293a2', textAlign: 'center'}}>Did you remember
+                        your password?
+                    </div>
+                    <div style={{marginBottom: 10, textAlign: 'center'}}>
+                        <Link to={'/login'}>Try logging in</Link>
+                    </div>
                 </Grid>
-            </Container>
+            </Grid>
         </>
     );
 };
