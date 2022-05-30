@@ -5,7 +5,7 @@ import {ThunkAction, ThunkDispatch } from 'redux-thunk';
 export type RequestProgressStatusType = 'idle' | 'loading'
 
 type InitStateType = {
-    info?: string
+    info: string
     progressStatus: RequestProgressStatusType
 }
 
