@@ -1,5 +1,5 @@
 import React from 'react';
-import classes from "./CommonStyle.module.css";
+import classes from './CommonStyle.module.css';
 import * as Yup from 'yup';
 import {
     Button,
@@ -8,14 +8,80 @@ import {
     FormControlLabel,
     FormLabel,
     FormGroup,
-    Paper,
     Grid,
-    TextField} from "@mui/material";
+    TextField
+} from "@mui/material";
 import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../bll/reducers/login-reducer";
 import {AppRootStateType} from "../bll/store/store";
 import {Link, Navigate} from "react-router-dom";
+
+const styleBtn = {
+    borderRadius: '18px',
+    margin: "100px auto 30px",
+    width: "266px",
+    height: "36px",
+    textTransform: "none",
+    backgroundColor: "#21268F",
+    fontSize: "16px",
+    fontWeight: "400",
+    color: "#ECECF9",
+}
+const styleForm = {
+    marginTop: "84px auto",
+    textAlign: 'center',
+    width: "413px",
+    height: '580px',
+    borderRadius: "8px",
+    backgroundColor: "#fff",
+}
+const styleInput = {
+    margin: "10px auto 0",
+    width: "347px",
+}
+const rememberMe = {
+    width: "347px",
+    margin: "20px auto 10px ",
+    color: "#2D2E46",
+}
+const styleH1 = {
+    lineHeight: "39px",
+    fontWeight: "700",
+    fontSize: "26px",
+    color: "#2D2E46",
+}
+const styleH2 = {
+    fontWeight: "700",
+    fontSize: "22px",
+    lineHeight: "33px",
+    color: "#2D2E46",
+}
+const styleP = {
+    color: "#2D2E46",
+    opacity: "0.5",
+    fontWeight: "600",
+    fontSize: "14px",
+    lineHeight: "24px",
+}
+const forgotPassword = {
+    width: '101px',
+    height: '17px',
+    fontFamily: 'SF UI Display',
+    fontStyle: 'normal',
+    fontWeight: '400',
+    fontSize: '14px',
+    lineHeight: '17px',
+    textDecoration: 'none',
+    color: '#2D2E46',
+}
+const signUp = {
+    fontWeight: "600",
+    fontSize: "16px",
+    lineHeight: "24px",
+    color: "#21268F",
+    textDecoration: "none",
+}
 
 const Login = () => {
     const useAppDispatch = () => useDispatch<any>()
@@ -47,47 +113,50 @@ const Login = () => {
         <div className={classes.common}>
             <Grid container justifyContent={'center'} style={{padding: '30px'}}>
                 <Grid item justifyContent={'center'}>
-                    <Paper style={{padding: '20px', background: 'rgb(255,250,250, 0.9)'}}>
-                        <form onSubmit={formik.handleSubmit}>
-                            <FormControl>
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormControl sx={styleForm} style={{padding: '20px'}} variant={"filled"}>
+                            <FormLabel>
+                                <h1 style={styleH1}>It-incubator</h1>
+                                <h2 style={styleH2}>Sign In</h2>
+                            </FormLabel>
+                            <FormGroup>
+                                <TextField
+                                    style={styleInput}
+                                    label={'email'}
+                                    variant="standard"
+                                    {...formik.getFieldProps('email')}
+                                />
+                                {formik.touched.email
+                                    && formik.errors.email
+                                    && <div style={{color: 'red'}}>{formik.errors.email}</div>}
+                                <TextField
+                                    variant="standard"
+                                    style={styleInput}
+                                    label={'password'}
+                                    type={'password'}
+                                    {...formik.getFieldProps('password')}
+                                />
+                                {formik.touched.password
+                                    && formik.errors.password
+                                    && <div style={{color: 'red'}}>{formik.errors.password}</div>}
+                                <FormControlLabel
+                                    style={rememberMe}
+                                    label={'Remember me'}
+                                    control={<Checkbox checked={formik.values.rememberMe}/>}
+                                    {...formik.getFieldProps('rememberMe')}
+                                />
+                                <div>
+                                    <Link style={forgotPassword} to={'/recovery-password'}>Forgot Password</Link>
+                                </div>
+                                <Button sx={styleBtn} type={'submit'}>Login</Button>
+                                {formik.status && <div style={{color: 'red'}}>{formik.status}</div>}
                                 <FormLabel>
-                                    <h1>It-incubator</h1>
-                                    <h2>Sign In</h2>
+                                    <p style={styleP}>Don't have an account?</p>
+                                    <Link style={signUp} to={'/registration'}>Sign Up</Link>
                                 </FormLabel>
-                                <FormGroup>
-                                    <TextField
-                                        label={'email'}
-                                        {...formik.getFieldProps('email')}
-                                    />
-                                    {formik.touched.email
-                                        && formik.errors.email
-                                        && <div style={{color: 'red'}}>{formik.errors.email}</div>}
-                                    <TextField
-                                        label={'password'}
-                                        type={'password'}
-                                        {...formik.getFieldProps('password')}
-                                    />
-                                    {formik.touched.password
-                                        && formik.errors.password
-                                        && <div style={{color: 'red'}}>{formik.errors.password}</div>}
-                                    <FormControlLabel
-                                        label={'Remember me'}
-                                        control={<Checkbox checked={formik.values.rememberMe}/>}
-                                        {...formik.getFieldProps('rememberMe')}
-                                    />
-                                    <div>
-                                        <Link to={'/recovery-password'}>Forgot Password</Link>
-                                    </div>
-                                    <Button type={'submit'}>Login</Button>
-                                    {formik.status && <div style={{color: 'red'}}>{formik.status}</div>}
-                                    <FormLabel>
-                                        <p>Don't have an account?</p>
-                                        <Link to={'/registration'}>Sign Up</Link>
-                                    </FormLabel>
-                                </FormGroup>
-                            </FormControl>
-                        </form>
-                    </Paper>
+                            </FormGroup>
+                        </FormControl>
+                    </form>
                 </Grid>
             </Grid>
         </div>
