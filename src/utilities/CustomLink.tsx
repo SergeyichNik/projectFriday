@@ -10,7 +10,7 @@ export const CustomLink: FC<PropsType> = (props) => {
     return (
         <Link {...props}
               style={{
-                  color: match ? 'blue' : 'white'
+                  color: match ? '#43C6AC' : '#F8FFAE'
               }}
               to={props.to} >
             {props.children}

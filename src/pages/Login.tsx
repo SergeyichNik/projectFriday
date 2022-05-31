@@ -11,11 +11,11 @@ import {
     Grid,
     TextField
 } from "@mui/material";
-import {useFormik} from "formik";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../bll/reducers/login-reducer";
 import {AppRootStateType} from "../bll/store/store";
 import {Link, Navigate} from "react-router-dom";
+import {useFormik} from "formik";
 
 const styleBtn = {
     borderRadius: '18px',
@@ -96,7 +96,7 @@ const Login = () => {
         },
         validationSchema: Yup.object({
             email: Yup.string().required('Required').email('Invalid email format'),
-            password: Yup.string().required('Required').min(6, 'Minimum 5 symbols'),
+            password: Yup.string().required('Required').min(7, 'Minimum 7 symbols'),
         }),
         onSubmit: (values, {setSubmitting, setStatus}) => {
             dispatch(loginTC(values.email, values.password, values.rememberMe, setStatus));

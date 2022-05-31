@@ -10,7 +10,7 @@ type InitStateType = {
 }
 
 const init: InitStateType = {
-    info: '',
+    info: 'ok',
     progressStatus: 'idle'
 }
 
