@@ -6,23 +6,20 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
+export type RegistrationParamsType = {
+    email: string
+    password: string
+}
+
 export const api = {
     getPing() {
         return instance.get("/ping?frontTime=1596635884283")
     },
     setNewPass() {
-        return instance.post(
-            "/auth/set-new-password",
-            {
-                password: "new-password",
-
-            })
+        return instance.post("/auth/set-new-password", {password: "new-password"})
     },
-    registration(email: string, password: string) {
-        return instance.post(
-            "/auth/register",
-            {email, password}
-        )
+    registration(data: RegistrationParamsType) {
+        return instance.post("/auth/register", data)
     },
     recoveryPass() {
         return instance.post(
