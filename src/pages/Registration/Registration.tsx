@@ -4,13 +4,13 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../bll/store/store";
 import {setRegistrationTC} from "../../bll/reducers/registration-reducer";
 import {Navigate, NavLink} from "react-router-dom";
-import {Button, FormControl, FormGroup, IconButton, Input, InputAdornment, TextField} from "@mui/material";
+import {Button, FormControl, IconButton, Input, InputAdornment, TextField} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 
 const styleBtn = {
     borderRadius: '18px',
-    margin: "60px 0px 0px 190px",
+    /*margin: "60px 0px 0px 190px",*/
     width: "160px",
     height: "30px",
     textTransform: "none",
@@ -30,7 +30,7 @@ const styleForm = {
     backgroundColor: "#fff",
 }
 const styleInput = {
-    margin: "30px 33px 0 33px",
+    margin: "20px 33px 0 33px",
     width: "347px",
 }
 const styleH1 = {
@@ -53,7 +53,11 @@ const styleLink = {
     borderRadius: "18px",
     fontWeight: "400",
     fontSize: "16px",
-    marginLeft: "33px"
+    marginRight: "140px"
+}
+const styleButtons = {
+    width: "347px",
+    margin: "60px 33px 0 33px",
 }
 
 type FormikErrorType = {
@@ -71,6 +75,7 @@ export const Registration = () => {
 
     const dispatch = useAppDispatch();
     const isRegisteredIn = useSelector<AppRootStateType, boolean>(state => state.registration.isRegistered);
+    const errorFromServer = useSelector<AppRootStateType, string | null>(state => state.registration.error);
 
     const formik = useFormik({
         initialValues: {
@@ -105,6 +110,7 @@ export const Registration = () => {
         <FormControl sx={styleForm} variant={"filled"}>
             <h1 style={styleH1}>It-incubator</h1>
             <h2 style={styleH2}>Sign Up</h2>
+            { errorFromServer && <div style={{color: "red"}}>{errorFromServer}</div>}
             <form onSubmit={formik.handleSubmit}>
                 <TextField id={"standard-basic"}
                            label={"Email"}
@@ -133,13 +139,15 @@ export const Registration = () => {
                 />
                 {formik.touched.password && formik.errors.password &&
                     <div style={{color: 'red', fontSize: "small"}}>{formik.errors.password}</div>}
-                <Button type={'submit'}
-                        variant={'contained'}
-                        sx={styleBtn}>
-                    Register
-                </Button>
+                <div style={styleButtons}>
+                    <NavLink to={'/login'} style={styleLink}>Cancel</NavLink>
+                    <Button type={'submit'}
+                            variant={'contained'}
+                            sx={styleBtn}>
+                        Register
+                    </Button>
+                </div>
             </form>
-            <NavLink to={'/login'} style={styleLink}>Cancel</NavLink>
         </FormControl>
     );
 };
