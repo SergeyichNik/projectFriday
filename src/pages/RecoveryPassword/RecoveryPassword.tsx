@@ -9,16 +9,16 @@ const RecoveryPassword = () => {
 
     const responseInfo = useAppSelector<string>(state => state.recoverPassword.info)
 
-    const forTypoH: React.CSSProperties = {
-        fontFamily: 'Poppins',
+    const titleOne: React.CSSProperties = {
         fontStyle: 'normal',
         fontWeight: 600,
         fontSize: 26,
         lineHeight: '39px',
-        color: '#2D2E46'
+        color: '#2D2E46',
+        marginBottom: '30px'
     }
 
-    const forGr: React.CSSProperties = {
+    const gridItem: React.CSSProperties = {
         background: '#F9F9FE',
         marginTop: '84px',
         width: '413px',
@@ -32,9 +32,9 @@ const RecoveryPassword = () => {
     return (
         <>
             <Grid container justifyContent={'center'} alignItems={'center'} height={'100%'}>
-                <Grid sx={forGr}>
+                <Grid sx={gridItem}>
 
-                    <Typography sx={forTypoH} variant={'h1'} marginBottom={'30px'}>
+                    <Typography sx={titleOne} variant={'h1'} >
                         It-incubator</Typography>
 
                     {responseInfo

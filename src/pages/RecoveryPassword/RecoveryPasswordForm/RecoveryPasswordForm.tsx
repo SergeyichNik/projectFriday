@@ -29,8 +29,7 @@ export const RecoveryPasswordForm = () => {
         resetForm()
     }
 
-    const forTypoP = {
-        fontFamily: 'Poppins',
+    const forgot = {
         fontStyle: 'normal',
         fontWeight: 600,
         fontSize: 22,
@@ -39,8 +38,9 @@ export const RecoveryPasswordForm = () => {
     }
 
     return (
-        <><Typography sx={forTypoP} variant={'body1'} marginBottom={'56px'}>
-            Forgot your password?</Typography>
+        <>
+            <Typography sx={forgot} variant={'body1'} marginBottom={'56px'}>
+                Forgot your password?</Typography>
 
             <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={SignupSchema}>
                 {
