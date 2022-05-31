@@ -9,13 +9,14 @@ import {
     FormLabel,
     FormGroup,
     Grid,
-    TextField
+    TextField, InputAdornment, IconButton
 } from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../bll/reducers/login-reducer";
 import {AppRootStateType} from "../bll/store/store";
 import {Link, Navigate} from "react-router-dom";
 import {useFormik} from "formik";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const styleBtn = {
     borderRadius: '18px',
@@ -135,6 +136,7 @@ const Login = () => {
                                     label={'password'}
                                     type={'password'}
                                     {...formik.getFieldProps('password')}
+
                                 />
                                 {formik.touched.password
                                     && formik.errors.password
@@ -145,7 +147,7 @@ const Login = () => {
                                     control={<Checkbox checked={formik.values.rememberMe}/>}
                                     {...formik.getFieldProps('rememberMe')}
                                 />
-                                <div>
+                                <div style={{textAlign: "right", marginRight: "33px"}}>
                                     <Link style={forgotPassword} to={'/recovery-password'}>Forgot Password</Link>
                                 </div>
                                 <Button sx={styleBtn} type={'submit'}>Login</Button>

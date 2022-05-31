@@ -80,40 +80,45 @@ const NewPassword = () => {
     })
 
     return (
-        <FormControl sx={styleForm} variant={"filled"}>
-            <h1 style={styleH1}>It-incubator</h1>
-            <h2 style={styleH2}>Create new password</h2>
-            <Input style={styleInput}
-                placeholder={"Password"}
-                id="standard-adornment-password"
 
-                type={hidden ? 'password' : 'text'}
+        <form onSubmit={formik.handleSubmit}>
+            <FormControl sx={styleForm} variant={"filled"}>
+                <h1 style={styleH1}>It-incubator</h1>
+                <h2 style={styleH2}>Create new password</h2>
+                <Input style={styleInput}
+                       placeholder={"Password"}
+                       id="standard-adornment-password"
 
-                {...formik.getFieldProps("password")}
+                       type={hidden ? 'password' : 'text'}
 
-                endAdornment={
-                    <InputAdornment position="end">
-                        <IconButton
-                            aria-label="toggle password visibility"
-                            onClick={handleClickShowPassword}
-                        >
-                            {!hidden ? <VisibilityOff /> : <Visibility />}
-                        </IconButton>
-                    </InputAdornment>
+                       {...formik.getFieldProps("password")}
+
+                       endAdornment={
+                           <InputAdornment position="end">
+                               <IconButton
+                                   aria-label="toggle password visibility"
+                                   onClick={handleClickShowPassword}
+                               >
+                                   {!hidden ? <VisibilityOff /> : <Visibility />}
+                               </IconButton>
+                           </InputAdornment>
+                       }
+                />
+                {formik.touched.password
+                    && formik.errors.password
+                    && <div style={{color: 'red'}}>{formik.errors.password}</div>
                 }
-            />
-            {formik.touched.password
-                && formik.errors.password
-                && <div style={{color: 'red'}}>{formik.errors.password}</div>
-            }
-            <p style={{textAlign: 'left', ...styleP}}>
-                Create new password and we will send you further instructions to email
-            </p>
-            <Button onClick={formik.submitForm}
+                <p style={{textAlign: 'left', ...styleP}}>
+                    Create new password and we will send you further instructions to email
+                </p>
+                <Button
+                    type={"submit"}
                     sx={styleBtn}
                     variant="contained"
-            >Create new password</Button>
-        </FormControl>
+                >Create new password</Button>
+            </FormControl>
+        </form>
+
 
     );
 };
