@@ -5,10 +5,14 @@ import {loginReducer} from "../reducers/login-reducer";
 import thunk, {ThunkAction} from "redux-thunk";
 import {RegistrationActionType, RegistrationReducer} from "../reducers/registration-reducer";
 import {useDispatch} from "react-redux";
+import {recoveryPasswordReducer} from '../reducers/recoveryPassword-reducer';
+import {newPasswordReducer} from "../reducers/newPasswordReducer";
 
 
 const reducer = combineReducers({
     appReducer: AppReducer,
+    newPassword: newPasswordReducer,
+    recoverPassword: recoveryPasswordReducer,
     login: loginReducer,
     registration: RegistrationReducer
 })
