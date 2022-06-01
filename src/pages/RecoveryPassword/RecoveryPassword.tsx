@@ -1,8 +1,8 @@
 import React from 'react';
 import {Grid, Typography} from '@mui/material';
-import {useAppSelector} from './hooks/typedHooks';
 import {Answer} from './Answer/Answer';
 import {RecoveryPasswordForm} from './RecoveryPasswordForm/RecoveryPasswordForm';
+import {useAppSelector} from "../../bll/store/store";
 
 
 const RecoveryPassword = () => {

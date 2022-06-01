@@ -1,10 +1,11 @@
 import {api} from "../../api/api";
+import {setAppError, setLoadingStatus} from "./app-reducer";
+import {ThunkType} from "../store/store";
 
 type LoginStateType = {
     data: LoginResponseType
     isAuth: boolean
 }
-
 export type LoginResponseType = {
     _id: string
     email: string
@@ -47,18 +48,15 @@ export const loginReducer = (state: LoginStateType = initState, action: LoginAct
 }
 const getUserData = (data: LoginResponseType, isAuth: boolean) => ({type: 'GET-USER-DATA', data, isAuth} as const)
 
-export const loginTC = (email: string, password: string, rememberMe: boolean,
-                        setStatus: (status?: any) => void) => (dispatch: any) => {
-    api.login(email, password, rememberMe)
-        .then(res => {
-                dispatch(getUserData(res.data, true))
-            }
-        )
-        .catch((e) => {
-                const error = e.response
-                    ? e.response.data.error
-                    : (e.message + ', more details in the console');
-                setStatus(error)
-            }
-        )
+export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => async dispatch => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await api.login(email, password, rememberMe)
+        dispatch(getUserData(res.data, true));
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'));
+    }
 }

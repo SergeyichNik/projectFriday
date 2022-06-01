@@ -9,14 +9,12 @@ import {
     FormLabel,
     FormGroup,
     Grid,
-    TextField, InputAdornment, IconButton
+    TextField,
 } from "@mui/material";
-import {useDispatch, useSelector} from "react-redux";
 import {loginTC} from "../bll/reducers/login-reducer";
-import {AppRootStateType} from "../bll/store/store";
+import {useAppDispatch, useAppSelector} from "../bll/store/store";
 import {Link, Navigate} from "react-router-dom";
 import {useFormik} from "formik";
-import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 const styleBtn = {
     borderRadius: '18px',
@@ -31,9 +29,10 @@ const styleBtn = {
 }
 const styleForm = {
     marginTop: "84px auto",
+    padding: '20px',
     textAlign: 'center',
     width: "413px",
-    height: '580px',
+    minHeight: "580px",
     borderRadius: "8px",
     backgroundColor: "#fff",
 }
@@ -68,7 +67,6 @@ const styleP = {
 const forgotPassword = {
     width: '101px',
     height: '17px',
-    fontFamily: 'SF UI Display',
     fontStyle: 'normal',
     fontWeight: '400',
     fontSize: '14px',
@@ -85,9 +83,8 @@ const signUp = {
 }
 
 const Login = () => {
-    const useAppDispatch = () => useDispatch<any>()
     const dispatch = useAppDispatch()
-    const isAuth = useSelector<AppRootStateType, boolean>(state => state.login.isAuth)
+    const isAuth = useAppSelector<boolean>(state => state.login.isAuth)
 
     const formik = useFormik({
         initialValues: {
@@ -99,8 +96,8 @@ const Login = () => {
             email: Yup.string().required('Required').email('Invalid email format'),
             password: Yup.string().required('Required').min(7, 'Minimum 7 symbols'),
         }),
-        onSubmit: (values, {setSubmitting, setStatus}) => {
-            dispatch(loginTC(values.email, values.password, values.rememberMe, setStatus));
+        onSubmit: (values, {setSubmitting}) => {
+            dispatch(loginTC(values.email, values.password, values.rememberMe));
             setSubmitting(false)
             formik.resetForm();
         }
@@ -115,7 +112,7 @@ const Login = () => {
             <Grid container justifyContent={'center'} style={{padding: '30px'}}>
                 <Grid item justifyContent={'center'}>
                     <form onSubmit={formik.handleSubmit}>
-                        <FormControl sx={styleForm} style={{padding: '20px'}} variant={"filled"}>
+                        <FormControl sx={styleForm} variant={"filled"}>
                             <FormLabel>
                                 <h1 style={styleH1}>It-incubator</h1>
                                 <h2 style={styleH2}>Sign In</h2>
@@ -151,7 +148,6 @@ const Login = () => {
                                     <Link style={forgotPassword} to={'/recovery-password'}>Forgot Password</Link>
                                 </div>
                                 <Button sx={styleBtn} type={'submit'}>Login</Button>
-                                {formik.status && <div style={{color: 'red'}}>{formik.status}</div>}
                                 <FormLabel>
                                     <p style={styleP}>Don't have an account?</p>
                                     <Link style={signUp} to={'/registration'}>Sign Up</Link>

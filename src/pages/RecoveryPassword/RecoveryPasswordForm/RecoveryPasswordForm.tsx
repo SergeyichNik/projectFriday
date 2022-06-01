@@ -5,7 +5,7 @@ import {ErrorText} from '../ErrorText/ErrorText';
 import {Link} from 'react-router-dom';
 import {RequestProgressStatusType, sendPasswordRecovery} from '../../../bll/reducers/recoveryPassword-reducer';
 import * as Yup from 'yup';
-import {useAppDispatch, useAppSelector} from '../hooks/typedHooks';
+import {useAppDispatch, useAppSelector} from "../../../bll/store/store";
 
 export type InitialValuesType = {
     email: string
