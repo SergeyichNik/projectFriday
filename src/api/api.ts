@@ -1,5 +1,4 @@
 import axios from "axios";
-import { RecPasApiType } from "../pages/RecoveryPassword/rec-pas-api-types";
 import {LoginResponseType} from "../bll/reducers/login-reducer";
 
 export const instance = axios.create({
@@ -23,15 +22,15 @@ export const api = {
         return instance.post("/auth/register", data)
     },
     recoveryPassword(email: string) {
-        return instance.post<RecPasApiType>(
+        return instance.post(
             "/auth/forgot",
             {
                 email, // кому восстанавливать пароль
                 from: "test-front-admin <gipis67316@nifect.com>",
                 // можно указать разработчика фронта)
                 message: `<div style="background-color: #f7f7f7; padding: 15px">
-                    Follow  
-                    <a href='http://localhost:3000/#/set-new-password/$token$'
+                    Follow 
+                    <a href='https://sergeyichnik.github.io/projectFriday/#/set-new-password/$token$'
                     style="font-weight: bold; color: #1a73e8;">
                     this link</a> to recover your password
                     </div>` // хтмп-письмо, вместо $token$ бэк вставит токен

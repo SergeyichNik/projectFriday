@@ -1,13 +1,15 @@
 import React from 'react';
 import {Grid, Typography} from '@mui/material';
-import {useAppSelector} from './hooks/typedHooks';
 import {Answer} from './Answer/Answer';
 import {RecoveryPasswordForm} from './RecoveryPasswordForm/RecoveryPasswordForm';
+import { useAppSelector } from '../../bll/store/store';
+import {ErrorInfoType, Nullable} from '../../bll/reducers/recoveryPassword-reducer';
 
 
 const RecoveryPassword = () => {
 
     const responseInfo = useAppSelector<string>(state => state.recoverPassword.info)
+    const errorInfo = useAppSelector<Nullable<ErrorInfoType>>(state => state.recoverPassword.errorInfo)
 
     const titleOne: React.CSSProperties = {
         fontStyle: 'normal',
@@ -39,7 +41,7 @@ const RecoveryPassword = () => {
 
                     {responseInfo
                         ? <Answer/>
-                        : <RecoveryPasswordForm/>
+                        : <RecoveryPasswordForm errorInfo={errorInfo}/>
                     }
 
                 </Grid>

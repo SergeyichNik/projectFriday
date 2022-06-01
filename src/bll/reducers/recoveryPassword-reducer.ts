@@ -1,16 +1,9 @@
 import {api} from '../../api/api';
-import {AppRootStateType} from '../store/store';
-import {ThunkAction, ThunkDispatch } from 'redux-thunk';
-
-export type RequestProgressStatusType = 'idle' | 'loading'
-
-type InitStateType = {
-    info: string
-    progressStatus: RequestProgressStatusType
-}
+import {DispatchActionType} from '../store/store';
 
 const init: InitStateType = {
-    info: 'ok',
+    info: '',
+    errorInfo: null,
     progressStatus: 'idle'
 }
 
@@ -28,36 +21,66 @@ export const recoveryPasswordReducer = (state: InitStateType = init, action: Rec
                 info: action.info
             }
         }
-        default: return state
+        case 'rp/SET_ERROR_RESPONSE_RECOVERY_PASSWORD': {
+            return {
+                ...state,
+                errorInfo: action.e
+            }
+        }
+        default:
+            return state
     }
 }
 
 
 // --- action ---------
 
-type RecoveryPasswordActionsType =
-    | RequestRecoveryPassword
-    | SetResponseInfoRecoveryPassword
-
-type RequestRecoveryPassword = ReturnType<typeof requestRecoveryPassword>
 const requestRecoveryPassword = (progressStatus: RequestProgressStatusType) =>
     ({type: 'rp/REQUEST_RECOVERY_PASSWORD', progressStatus} as const)
 
-type SetResponseInfoRecoveryPassword = ReturnType<typeof setResponseInfoRecoveryPassword>
 const setResponseInfoRecoveryPassword = (info: string) =>
     ({type: 'rp/SET_RESPONSE_INFO', info} as const)
+
+const setErrorResponseRecoveryPassword = (e: ErrorInfoType) =>
+    ({type: 'rp/SET_ERROR_RESPONSE_RECOVERY_PASSWORD', e} as const)
 
 
 // --- thunk ---------
 
-export const sendPasswordRecovery = (email: string) => (dispatch: AppDispatchActionType) => {
+export const sendPasswordRecovery = (email: string) => (dispatch: DispatchActionType) => {
     dispatch(requestRecoveryPassword('loading'))
     api.recoveryPassword(email)
         .then(res => setResponseInfoRecoveryPassword(res.data.info))
-        .catch(e => e)
+        .catch(e => dispatch(setErrorResponseRecoveryPassword(e.response.data)))
         .finally(() => dispatch(requestRecoveryPassword('idle')))
 }
 
-export type AppThunksType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, RecoveryPasswordActionsType>
-export type AppDispatchActionType = ThunkDispatch<AppRootStateType, unknown, RecoveryPasswordActionsType>
+
+// --- type ---------
+
+export type RequestProgressStatusType = 'idle' | 'loading'
+
+export type Nullable<T> = T | null
+
+export type ErrorInfoType = {
+    error: string
+    email: string
+    in: string
+}
+
+type InitStateType = {
+    info: string,
+    errorInfo: Nullable<ErrorInfoType>
+    progressStatus: RequestProgressStatusType
+}
+
+export type RecoveryPasswordActionsType =
+    | RequestRecoveryPassword
+    | SetResponseInfoRecoveryPassword
+    | SetErrorResponseRecoveryPassword
+
+type RequestRecoveryPassword = ReturnType<typeof requestRecoveryPassword>
+type SetResponseInfoRecoveryPassword = ReturnType<typeof setResponseInfoRecoveryPassword>
+type SetErrorResponseRecoveryPassword = ReturnType<typeof setErrorResponseRecoveryPassword>
+
 
