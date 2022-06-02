@@ -3,19 +3,12 @@ import {Button, TextField, Typography} from '@mui/material';
 import {ErrorMessage, Form, Formik, FormikHelpers} from 'formik';
 import {ErrorText} from '../ErrorText/ErrorText';
 import {Link} from 'react-router-dom';
-import {
-    ErrorInfoType,
-    Nullable,
-    RequestProgressStatusType,
+import {RequestProgressStatusType,
     sendPasswordRecovery
 } from '../../../bll/reducers/recoveryPassword-reducer';
 import * as Yup from 'yup';
 import {useAppDispatch, useAppSelector } from '../../../bll/store/store';
 
-
-type RecoveryPasswordPropsType = {
-    errorInfo: Nullable<ErrorInfoType>
-}
 
 export type InitialValuesType = {
     email: string
@@ -25,7 +18,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required')
 })
 
-export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({errorInfo}) => {
+export const RecoveryPasswordForm = () => {
 
     const dispatch = useAppDispatch()
     const progressStatus = useAppSelector<RequestProgressStatusType>(state => state.recoverPassword.progressStatus)
@@ -34,9 +27,8 @@ export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({error
         email: ''
     }
 
-    const onSubmit = (values: InitialValuesType, {resetForm}: FormikHelpers<InitialValuesType>) => {
+    const onSubmit = (values: InitialValuesType) => {
         dispatch(sendPasswordRecovery(values.email))
-        resetForm()
     }
 
     const forgot = {
@@ -58,18 +50,19 @@ export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({error
                         return (
                             <Form>
                                 <div style={{position: 'relative'}}>
-                                    <TextField variant={'standard'} fullWidth
+                                    <TextField id={'email'}
+                                               label={'email'}
+                                               variant={'standard'}
                                                autoComplete={'off'}
                                                error={!formik.isValid}
-                                               id={'email'} label={'email'}
+                                               fullWidth
                                                disabled={progressStatus === 'loading'}
                                                {...formik.getFieldProps('email')}/>
                                     <ErrorMessage
                                         name={'email'}
-                                        render={msg => <ErrorText errorText={msg}/>}
+                                        component={ErrorText}
+                                        // render={msg => <ErrorText errorText={msg}/>}
                                     />
-
-                                    <div>{errorInfo && errorInfo.email} {errorInfo && errorInfo.error}</div>
                                 </div>
 
                                 <Typography variant={'body2'} marginTop={'30px'} marginBottom={'90px'}
@@ -78,7 +71,8 @@ export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({error
                                 </Typography>
 
                                 <div>
-                                    <Button type={'submit'} variant="contained"
+                                    <Button type={'submit'}
+                                            variant="contained"
                                             disabled={progressStatus === 'loading'}
                                             style={{fontWeight: 'bold'}}>
                                         Send Instructions

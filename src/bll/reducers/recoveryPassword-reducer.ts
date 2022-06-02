@@ -1,9 +1,9 @@
 import {api} from '../../api/api';
 import {DispatchActionType} from '../store/store';
+import {setAppError} from './app-reducer';
 
 const init: InitStateType = {
     info: '',
-    errorInfo: null,
     progressStatus: 'idle'
 }
 
@@ -21,12 +21,6 @@ export const recoveryPasswordReducer = (state: InitStateType = init, action: Rec
                 info: action.info
             }
         }
-        case 'rp/SET_ERROR_RESPONSE_RECOVERY_PASSWORD': {
-            return {
-                ...state,
-                errorInfo: action.e
-            }
-        }
         default:
             return state
     }
@@ -41,9 +35,6 @@ const requestRecoveryPassword = (progressStatus: RequestProgressStatusType) =>
 const setResponseInfoRecoveryPassword = (info: string) =>
     ({type: 'rp/SET_RESPONSE_INFO', info} as const)
 
-const setErrorResponseRecoveryPassword = (e: ErrorInfoType) =>
-    ({type: 'rp/SET_ERROR_RESPONSE_RECOVERY_PASSWORD', e} as const)
-
 
 // --- thunk ---------
 
@@ -51,7 +42,7 @@ export const sendPasswordRecovery = (email: string) => (dispatch: DispatchAction
     dispatch(requestRecoveryPassword('loading'))
     api.recoveryPassword(email)
         .then(res => setResponseInfoRecoveryPassword(res.data.info))
-        .catch(e => dispatch(setErrorResponseRecoveryPassword(e.response.data)))
+        .catch(e => dispatch(setAppError(e.response.data.error)))
         .finally(() => dispatch(requestRecoveryPassword('idle')))
 }
 
@@ -62,25 +53,20 @@ export type RequestProgressStatusType = 'idle' | 'loading'
 
 export type Nullable<T> = T | null
 
-export type ErrorInfoType = {
-    error: string
-    email: string
-    in: string
-}
-
 type InitStateType = {
     info: string,
-    errorInfo: Nullable<ErrorInfoType>
     progressStatus: RequestProgressStatusType
 }
 
 export type RecoveryPasswordActionsType =
     | RequestRecoveryPassword
     | SetResponseInfoRecoveryPassword
-    | SetErrorResponseRecoveryPassword
 
 type RequestRecoveryPassword = ReturnType<typeof requestRecoveryPassword>
 type SetResponseInfoRecoveryPassword = ReturnType<typeof setResponseInfoRecoveryPassword>
-type SetErrorResponseRecoveryPassword = ReturnType<typeof setErrorResponseRecoveryPassword>
 
-
+// export type ErrorInfoType = {
+//     error: string
+//     email: string
+//     in: string
+// }
