@@ -1,13 +1,12 @@
 import React from 'react';
 import {Button, TextField, Typography} from '@mui/material';
-import {ErrorMessage, Form, Formik, FormikHelpers} from 'formik';
+import {ErrorMessage, Form, Formik} from 'formik';
 import {ErrorText} from '../ErrorText/ErrorText';
 import {Link} from 'react-router-dom';
-import {RequestProgressStatusType,
-    sendPasswordRecovery
-} from '../../../bll/reducers/recoveryPassword-reducer';
+import {sendPasswordRecovery} from '../../../bll/reducers/recoveryPassword-reducer';
 import * as Yup from 'yup';
-import {useAppDispatch, useAppSelector } from '../../../bll/store/store';
+import {useAppDispatch, useAppSelector} from '../../../bll/store/store';
+import {LoadingStatusType} from '../../../bll/reducers/app-reducer';
 
 
 export type InitialValuesType = {
@@ -21,7 +20,7 @@ const SignupSchema = Yup.object().shape({
 export const RecoveryPasswordForm = () => {
 
     const dispatch = useAppDispatch()
-    const progressStatus = useAppSelector<RequestProgressStatusType>(state => state.recoverPassword.progressStatus)
+    const loadingStatus = useAppSelector<LoadingStatusType>(state => state.appReducer.loadingStatus)
 
     const initialValues: InitialValuesType = {
         email: ''
@@ -56,7 +55,7 @@ export const RecoveryPasswordForm = () => {
                                                autoComplete={'off'}
                                                error={!formik.isValid}
                                                fullWidth
-                                               disabled={progressStatus === 'loading'}
+                                               disabled={loadingStatus === 'loading'}
                                                {...formik.getFieldProps('email')}/>
                                     <ErrorMessage
                                         name={'email'}
@@ -73,8 +72,8 @@ export const RecoveryPasswordForm = () => {
                                 <div>
                                     <Button type={'submit'}
                                             variant="contained"
-                                            disabled={progressStatus === 'loading'}
-                                            style={{fontWeight: 'bold'}}>
+                                            disabled={loadingStatus === 'loading'}
+                                            style={{fontWeight: 'bold', background: '#35b197'}}>
                                         Send Instructions
                                     </Button>
                                 </div>
@@ -88,7 +87,7 @@ export const RecoveryPasswordForm = () => {
                 your password?
             </div>
             <div style={{marginBottom: 10, textAlign: 'center'}}>
-                <Link to={'/login'}>Try logging in</Link>
+                <Link to={'/login'} style={{color: '#3e3c66'}}>Try logging in</Link>
             </div>
         </>
     );
