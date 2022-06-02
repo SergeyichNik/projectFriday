@@ -7,7 +7,7 @@ export const Loader = () => {
     return (
         <div className={styles.overlay}>
             <div className={styles.progress}>
-                <CircularProgress/>
+                <CircularProgress size={50}/>
             </div>
         </div>
     );

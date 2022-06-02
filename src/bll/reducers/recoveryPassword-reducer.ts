@@ -1,5 +1,5 @@
 import {api} from '../../api/api';
-import {DispatchActionType} from '../store/store';
+import {DispatchActionType, ThunkType} from '../store/store';
 import {setAppError, setLoadingStatus} from './app-reducer';
 
 const init: InitStateType = {
@@ -28,12 +28,16 @@ const setResponseInfoRecoveryPassword = (info: string) =>
 
 // --- thunk ---------
 
-export const sendPasswordRecovery = (email: string) => (dispatch: DispatchActionType) => {
-    dispatch(setLoadingStatus('loading'))
-    api.recoveryPassword(email)
-        .then(res => setResponseInfoRecoveryPassword(res.data.info))
-        .catch(e => dispatch(setAppError(e.response.data.error)))
-        .finally(() => dispatch(setLoadingStatus('idle')))
+export const sendPasswordRecovery = (email: string):ThunkType => async (dispatch: DispatchActionType) => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await api.recoveryPassword(email)
+        setResponseInfoRecoveryPassword(res.data.info)
+    } catch (e: any) {
+        dispatch(setAppError(e.response.data.error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
 }
 
 

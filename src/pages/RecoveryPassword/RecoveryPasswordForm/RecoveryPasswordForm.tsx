@@ -73,7 +73,7 @@ export const RecoveryPasswordForm = () => {
                                     <Button type={'submit'}
                                             variant="contained"
                                             disabled={loadingStatus === 'loading'}
-                                            style={{fontWeight: 'bold', background: '#35b197'}}>
+                                            sx={{fontWeight: 'bold'}}>
                                         Send Instructions
                                     </Button>
                                 </div>
@@ -87,7 +87,7 @@ export const RecoveryPasswordForm = () => {
                 your password?
             </div>
             <div style={{marginBottom: 10, textAlign: 'center'}}>
-                <Link to={'/login'} style={{color: '#3e3c66'}}>Try logging in</Link>
+                <Link to={'/login'} style={{color: '#35b197'}}>Try logging in</Link>
             </div>
         </>
     );
