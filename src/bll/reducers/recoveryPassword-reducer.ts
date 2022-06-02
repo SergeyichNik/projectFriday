@@ -82,3 +82,5 @@ export type RecoveryPasswordActionsType =
 type RequestRecoveryPassword = ReturnType<typeof requestRecoveryPassword>
 type SetResponseInfoRecoveryPassword = ReturnType<typeof setResponseInfoRecoveryPassword>
 type SetErrorResponseRecoveryPassword = ReturnType<typeof setErrorResponseRecoveryPassword>
+
+

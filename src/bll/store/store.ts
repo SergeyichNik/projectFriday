@@ -5,8 +5,7 @@ import {LoginActionType, loginReducer} from '../reducers/login-reducer';
 import thunk, {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {RegistrationActionType, RegistrationReducer} from '../reducers/registration-reducer';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
-import {
-    RecoveryPasswordActionsType,
+import {RecoveryPasswordActionsType,
     recoveryPasswordReducer
 } from '../reducers/recoveryPassword-reducer';
 import {newPasswordReducer} from '../reducers/newPasswordReducer';

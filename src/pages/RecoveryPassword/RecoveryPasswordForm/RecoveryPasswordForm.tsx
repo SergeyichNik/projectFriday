@@ -3,9 +3,19 @@ import {Button, TextField, Typography} from '@mui/material';
 import {ErrorMessage, Form, Formik, FormikHelpers} from 'formik';
 import {ErrorText} from '../ErrorText/ErrorText';
 import {Link} from 'react-router-dom';
-import {RequestProgressStatusType, sendPasswordRecovery} from '../../../bll/reducers/recoveryPassword-reducer';
+import {
+    ErrorInfoType,
+    Nullable,
+    RequestProgressStatusType,
+    sendPasswordRecovery
+} from '../../../bll/reducers/recoveryPassword-reducer';
 import * as Yup from 'yup';
-import {useAppDispatch, useAppSelector} from "../../../bll/store/store";
+import {useAppDispatch, useAppSelector } from '../../../bll/store/store';
+
+
+type RecoveryPasswordPropsType = {
+    errorInfo: Nullable<ErrorInfoType>
+}
 
 export type InitialValuesType = {
     email: string
@@ -15,7 +25,7 @@ const SignupSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Email is required')
 })
 
-export const RecoveryPasswordForm = () => {
+export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({errorInfo}) => {
 
     const dispatch = useAppDispatch()
     const progressStatus = useAppSelector<RequestProgressStatusType>(state => state.recoverPassword.progressStatus)
@@ -58,6 +68,8 @@ export const RecoveryPasswordForm = () => {
                                         name={'email'}
                                         render={msg => <ErrorText errorText={msg}/>}
                                     />
+
+                                    <div>{errorInfo && errorInfo.email} {errorInfo && errorInfo.error}</div>
                                 </div>
 
                                 <Typography variant={'body2'} marginTop={'30px'} marginBottom={'90px'}
