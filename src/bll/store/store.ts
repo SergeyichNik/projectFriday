@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers} from 'redux';
+import {applyMiddleware, combineReducers, compose} from 'redux';
 import {legacy_createStore as createStore} from 'redux';
 import {AppActionType, AppReducer} from '../reducers/app-reducer';
 import {LoginActionType, loginReducer} from '../reducers/login-reducer';
@@ -11,6 +11,9 @@ import {RecoveryPasswordActionsType,
 import {newPasswordReducer} from '../reducers/newPasswordReducer';
 
 
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const reducer = combineReducers({
     appReducer: AppReducer,
     newPassword: newPasswordReducer,
@@ -19,7 +22,7 @@ const reducer = combineReducers({
     registration: RegistrationReducer
 })
 
-const store = createStore(reducer, applyMiddleware(thunk))
+const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)))
 
 export type AppRootStateType = ReturnType<typeof reducer>
 export type AppRootActionsType =
@@ -36,3 +39,6 @@ export const useAppDispatch = () => useDispatch<DispatchActionType>()
 export const useAppSelector: TypedUseSelectorHook<AppRootStateType> = useSelector
 
 export default store
+
+//@ts-ignore
+window.store = store
