@@ -32,7 +32,7 @@ export const sendPasswordRecovery = (email: string):ThunkType => async (dispatch
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await api.recoveryPassword(email)
-        setResponseInfoRecoveryPassword(res.data.info)
+        dispatch(setResponseInfoRecoveryPassword(res.data.info))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
