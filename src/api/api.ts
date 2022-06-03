@@ -22,7 +22,7 @@ export const api = {
         return instance.post("/auth/register", data)
     },
     recoveryPassword(email: string) {
-        return instance.post(
+        return instance.post<{info: string}>(
             "/auth/forgot",
             {
                 email, // кому восстанавливать пароль
@@ -40,6 +40,12 @@ export const api = {
     },
     login(email: string, password: string, rememberMe: boolean) {
         return instance.post<LoginResponseType>('/auth/login', {email, password, rememberMe})
+    },
+    logOut() {
+        return instance.delete<{info: string}>('/auth/me', {})
+    },
+    authMe() {
+        return instance.post<LoginResponseType>('/auth/me', {})
     }
 }
 

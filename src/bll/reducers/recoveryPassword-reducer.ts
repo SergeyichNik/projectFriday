@@ -34,7 +34,8 @@ export const sendPasswordRecovery = (email: string):ThunkType => async (dispatch
         const res = await api.recoveryPassword(email)
         setResponseInfoRecoveryPassword(res.data.info)
     } catch (e: any) {
-        dispatch(setAppError(e.response.data.error))
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
     }

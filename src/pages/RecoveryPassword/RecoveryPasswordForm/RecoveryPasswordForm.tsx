@@ -71,7 +71,7 @@ export const RecoveryPasswordForm = () => {
 
                                 <div>
                                     <Button type={'submit'}
-                                            variant="contained"
+                                            variant={'contained'}
                                             disabled={loadingStatus === 'loading'}
                                             sx={{fontWeight: 'bold'}}>
                                         Send Instructions

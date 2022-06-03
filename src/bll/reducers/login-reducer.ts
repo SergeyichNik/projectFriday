@@ -46,7 +46,7 @@ export const loginReducer = (state: LoginStateType = initState, action: LoginAct
             return state
     }
 }
-const getUserData = (data: LoginResponseType, isAuth: boolean) => ({type: 'GET-USER-DATA', data, isAuth} as const)
+export const getUserData = (data: LoginResponseType, isAuth: boolean) => ({type: 'GET-USER-DATA', data, isAuth} as const)
 
 export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => async dispatch => {
     try {

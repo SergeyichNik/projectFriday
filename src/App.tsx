@@ -4,12 +4,17 @@ import {HashRouter} from 'react-router-dom';
 import AppRouter from './components/app-router/AppRouter';
 import ErrorSnackbar from './components/common/c7-ErrorSnackbar/ErrorSnackbar';
 import {Loader} from './components/common/Loader/Loader';
-import {useAppSelector} from './bll/store/store';
-import {LoadingStatusType} from './bll/reducers/app-reducer';
+import {useAppDispatch, useAppSelector} from './bll/store/store';
+import {authMe, LoadingStatusType} from './bll/reducers/app-reducer';
 
 function App() {
+    const dispatch = useAppDispatch()
 
     const loadingStatus = useAppSelector<LoadingStatusType>(state => state.appReducer.loadingStatus)
+
+    React.useEffect(() => {
+            dispatch(authMe())
+    }, [])
 
     return (
         <HashRouter>
