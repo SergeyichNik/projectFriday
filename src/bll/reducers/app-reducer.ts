@@ -6,12 +6,16 @@ export type LoadingStatusType = 'idle' | 'loading'
 type InitialStateType = {
     error: string | null
     loadingStatus: LoadingStatusType
+    isInitialized: boolean
 }
-export type AppActionType = ReturnType<typeof setAppError> | ReturnType<typeof setLoadingStatus>
+export type AppActionType = ReturnType<typeof setAppError>
+    | ReturnType<typeof setLoadingStatus>
+    | ReturnType<typeof setIsInitialized>
 
 const initialState: InitialStateType = {
     error: null,
-    loadingStatus: 'idle'
+    loadingStatus: 'idle',
+    isInitialized: false
 }
 export const AppReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
     switch (action.type) {
@@ -19,6 +23,9 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, error: action.error}
         case 'app/SET-LOADING-STATUS':
             return {...state, loadingStatus: action.loadingStatus}
+        case 'app/SET_IS_INITIALIZED': {
+            return {...state, isInitialized: action.isInitialized}
+        }
         default:
             return state;
     }
@@ -31,6 +38,9 @@ export const setLoadingStatus = (loadingStatus: LoadingStatusType) => {
     } as const
 }
 
+export const setIsInitialized = (isInitialized: boolean) =>
+    ({type: 'app/SET_IS_INITIALIZED', isInitialized} as const)
+
 export const authMe = (): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
@@ -41,6 +51,7 @@ export const authMe = (): ThunkType => async dispatch => {
         console.log(error)
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(setIsInitialized(true))
     }
 }
 

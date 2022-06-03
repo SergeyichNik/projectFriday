@@ -11,10 +11,13 @@ function App() {
     const dispatch = useAppDispatch()
 
     const loadingStatus = useAppSelector<LoadingStatusType>(state => state.appReducer.loadingStatus)
+    const isInitialize = useAppSelector<boolean>(state => state.appReducer.isInitialized)
 
     React.useEffect(() => {
             dispatch(authMe())
     }, [])
+
+    if (!isInitialize) return <Loader />
 
     return (
         <HashRouter>
