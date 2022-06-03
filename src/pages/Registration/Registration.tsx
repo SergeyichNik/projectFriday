@@ -4,8 +4,9 @@ import {useSelector} from "react-redux";
 import {AppRootStateType, useAppDispatch} from "../../bll/store/store";
 import {setRegistrationTC} from "../../bll/reducers/registration-reducer";
 import {Navigate, NavLink} from "react-router-dom";
-import {Button, FormControl, IconButton, Input, InputAdornment, TextField} from "@mui/material";
+import {Button, IconButton, Input, InputAdornment, TextField} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {LoadingStatusType} from "../../bll/reducers/app-reducer";
 
 const styleBtn: React.CSSProperties = {
     borderRadius: '18px',
@@ -81,7 +82,7 @@ export const Registration = () => {
 
     const dispatch = useAppDispatch();
     const isRegisteredIn = useSelector<AppRootStateType, boolean>(state => state.registration.isRegistered);
-    const errorFromServer = useSelector<AppRootStateType, string | null>(state => state.registration.error);
+    const loadingStatus = useSelector<AppRootStateType, LoadingStatusType>(state => state.appReducer.loadingStatus);
 
     const formik = useFormik({
         initialValues: {
@@ -97,7 +98,7 @@ export const Registration = () => {
             }
             if (!values.password) {
                 errors.password = 'Password is required';
-            } else if (values.password.length <= 7) {
+            } else if (values.password.length < 7) {
                 errors.password = 'Password should be more than 7 symbols';
             }
             return errors;
@@ -117,7 +118,6 @@ export const Registration = () => {
             <div style={styleForm}>
                 <h1 style={styleH1}>It-incubator</h1>
                 <h2 style={styleH2}>Sign Up</h2>
-                {errorFromServer && <div style={{color: "red"}}>{errorFromServer}</div>}
                 <form onSubmit={formik.handleSubmit}>
                     <TextField id={"standard-basic"}
                                label={"Email"}
@@ -152,7 +152,8 @@ export const Registration = () => {
                         <NavLink to={'/login'} style={styleLink}>Cancel</NavLink>
                         <Button type={'submit'}
                                 variant={'contained'}
-                                sx={styleBtn}>
+                                sx={styleBtn}
+                                disabled={loadingStatus === 'loading'}>
                             Register
                         </Button>
                     </div>

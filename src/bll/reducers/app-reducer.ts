@@ -1,4 +1,4 @@
-type LoadingStatusType = 'idle' | 'loading'
+export type LoadingStatusType = 'idle' | 'loading'
 type InitialStateType = {
     error: string | null
     loadingStatus: LoadingStatusType
