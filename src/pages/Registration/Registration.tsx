@@ -7,15 +7,15 @@ import {Navigate, NavLink} from "react-router-dom";
 import {Button, FormControl, IconButton, Input, InputAdornment, TextField} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-const styleBtn = {
+const styleBtn: React.CSSProperties = {
     borderRadius: '18px',
-    width: "160px",
-    height: "30px",
+    width: "180px",
+    height: "36px",
     textTransform: "none",
-    backgroundColor: "#21268F",
+    background: "linear-gradient(to right, #F8FFAE, #43C6AC)",
     fontSize: "16px",
     fontWeight: "400",
-    color: "#ECECF9",
+    color: "#21268F",
 }
 const mainBlock: React.CSSProperties = {
     display: "flex",
@@ -28,38 +28,40 @@ const styleForm: React.CSSProperties = {
     marginTop: "84px",
     textAlign: 'center',
     width: "413px",
-    minHeight: "480px",
+    minHeight: "580px",
     borderRadius: "8px",
     backgroundColor: "#fff",
-    padding: "24px"
+    padding: "24px",
+    boxShadow: "0 0 10px rgba(0,0,0,0.4)"
 }
-const styleInput = {
+const styleInput: React.CSSProperties = {
     margin: "20px 0 0 0"
 }
-const styleH1 = {
+const styleH1: React.CSSProperties = {
     marginTop: "25px",
     lineHeight: "39px",
     fontWeight: "700",
     fontSize: "26px",
 }
-const styleH2 = {
+const styleH2: React.CSSProperties = {
     fontWeight: "700",
     fontSize: "22px",
     lineHeight: "33px",
 }
-const styleLink = {
+const styleLink: React.CSSProperties = {
     backgroundColor: "#D7D8EF",
     color: "#21268F",
     textDecoration: "none",
-    height: "30px",
-    lineHeight: "1.7",
+    height: "36px",
+    lineHeight: "2.0",
     borderRadius: "18px",
     fontWeight: "400",
     fontSize: "16px",
-    padding: "0 20px"
+    padding: "0 20px",
+    width: "120px"
 }
 const styleButtons: React.CSSProperties = {
-    margin: "60px 0 0 0",
+    margin: "100px 0 0 0",
     display: "flex",
     justifyContent: "space-between"
 }

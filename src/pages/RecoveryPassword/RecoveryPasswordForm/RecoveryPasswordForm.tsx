@@ -46,6 +46,12 @@ export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({error
         lineHeight: '33px',
         color: '#2D2E46'
     }
+    const btn = {
+        fontWeight: "400",
+        background: "linear-gradient(to right, #F8FFAE, #43C6AC)",
+        color: "#21268F",
+        borderRadius: "18px"
+    }
 
     return (
         <>
@@ -80,7 +86,7 @@ export const RecoveryPasswordForm: React.FC<RecoveryPasswordPropsType> = ({error
                                 <div>
                                     <Button type={'submit'} variant="contained"
                                             disabled={progressStatus === 'loading'}
-                                            style={{fontWeight: 'bold'}}>
+                                            style={btn}>
                                         Send Instructions
                                     </Button>
                                 </div>

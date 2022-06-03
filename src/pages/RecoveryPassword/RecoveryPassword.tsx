@@ -28,7 +28,8 @@ const RecoveryPassword = () => {
         justifyContent: 'center',
         textAlign: 'center',
         borderRadius: '8px',
-        padding: '24px'
+        padding: '24px',
+        boxShadow: "0 0 10px rgba(0,0,0,0.4)"
     }
 
     return (

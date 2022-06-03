@@ -29,7 +29,7 @@ export type AppRootActionsType =
     | AppActionType
 
 export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppRootActionsType>
-// export const useAppDispatch = () => useDispatch<any>();
+
 export type DispatchActionType = ThunkDispatch<AppRootStateType, unknown, AppRootActionsType>
 
 export const useAppDispatch = () => useDispatch<DispatchActionType>()
