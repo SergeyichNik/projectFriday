@@ -22,10 +22,10 @@ const styleBtn = {
     width: "266px",
     height: "36px",
     textTransform: "none",
-    backgroundColor: "#21268F",
+    background: "linear-gradient(to right, #F8FFAE, #43C6AC)",
     fontSize: "16px",
     fontWeight: "400",
-    color: "#ECECF9",
+    color: "#21268F"
 }
 const styleForm = {
     marginTop: "84px auto",
@@ -35,6 +35,7 @@ const styleForm = {
     minHeight: "580px",
     borderRadius: "8px",
     backgroundColor: "#fff",
+    boxShadow: "0 0 10px rgba(0,0,0,0.4)",
 }
 const styleInput = {
     margin: "10px auto 0",
