@@ -8,6 +8,8 @@ import * as Yup from 'yup';
 import {useAppDispatch, useAppSelector} from '../../../bll/store/store';
 import {LoadingStatusType} from '../../../bll/reducers/app-reducer';
 
+import {styleBtn} from '../../../styles/commonMui';
+
 
 export type InitialValuesType = {
     email: string
@@ -36,12 +38,6 @@ export const RecoveryPasswordForm = () => {
         fontSize: 22,
         lineHeight: '33px',
         color: '#2D2E46'
-    }
-    const btn = {
-        fontWeight: "400",
-        background: "linear-gradient(to right, #F8FFAE, #43C6AC)",
-        color: "#21268F",
-        borderRadius: "18px"
     }
 
     return (
@@ -79,7 +75,7 @@ export const RecoveryPasswordForm = () => {
                                     <Button type={'submit'}
                                             variant={'contained'}
                                             disabled={loadingStatus === 'loading'}
-                                            sx={btn}>
+                                            sx={styleBtn}>
                                         Send Instructions
                                     </Button>
                                 </div>

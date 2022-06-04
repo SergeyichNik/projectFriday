@@ -20,22 +20,10 @@ const RecoveryPassword = () => {
         marginBottom: '30px'
     }
 
-    const gridItem: React.CSSProperties = {
-        background: '#F9F9FE',
-        marginTop: '84px',
-        width: '413px',
-        minHeight: '468px',
-        justifyContent: 'center',
-        textAlign: 'center',
-        borderRadius: '8px',
-        padding: '24px',
-        boxShadow: '0 0 10px rgba(0,0,0,0.4)'
-    }
-
     return (
         <>
             <Grid container className={'containerGrid'}>
-                <Grid className={'itemInner'}>
+                <Grid className={'itemGrid'}>
 
                     <Typography sx={titleOne} variant={'h1'}>
                         It-incubator</Typography>

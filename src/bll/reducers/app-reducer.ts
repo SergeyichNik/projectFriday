@@ -7,15 +7,18 @@ type InitialStateType = {
     error: string | null
     loadingStatus: LoadingStatusType
     isInitialized: boolean
+    trash: any
 }
 export type AppActionType = ReturnType<typeof setAppError>
     | ReturnType<typeof setLoadingStatus>
     | ReturnType<typeof setIsInitialized>
+    | ReturnType<typeof setTrash>
 
 const initialState: InitialStateType = {
     error: null,
     loadingStatus: 'idle',
-    isInitialized: false
+    isInitialized: false,
+    trash: null
 }
 export const AppReducer = (state: InitialStateType = initialState, action: AppActionType): InitialStateType => {
     switch (action.type) {
@@ -23,8 +26,11 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppAc
             return {...state, error: action.error}
         case 'app/SET-LOADING-STATUS':
             return {...state, loadingStatus: action.loadingStatus}
-        case 'app/SET_IS_INITIALIZED': {
+        case 'app/SET-IS-INITIALIZED': {
             return {...state, isInitialized: action.isInitialized}
+        }
+        case 'app/SET-TRASH':{
+            return {...state, trash: action.value}
         }
         default:
             return state;
@@ -39,7 +45,9 @@ export const setLoadingStatus = (loadingStatus: LoadingStatusType) => {
 }
 
 export const setIsInitialized = (isInitialized: boolean) =>
-    ({type: 'app/SET_IS_INITIALIZED', isInitialized} as const)
+    ({type: 'app/SET-IS-INITIALIZED', isInitialized} as const)
+
+export const setTrash = (value?: any) => ({type: 'app/SET-TRASH', value} as const)
 
 export const authMe = (): ThunkType => async dispatch => {
     try {
@@ -47,8 +55,7 @@ export const authMe = (): ThunkType => async dispatch => {
         const res = await api.authMe()
         dispatch(getUserData(res.data, true))
     } catch (e: any) {
-        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
-        console.log(error)
+        // const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
     } finally {
         dispatch(setLoadingStatus('idle'))
         dispatch(setIsInitialized(true))
@@ -59,6 +66,7 @@ export const logOut = (): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await api.logOut()
+        dispatch(setTrash(res.data.info))
         dispatch(getUserData({} as LoginResponseType, false))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');

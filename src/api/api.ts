@@ -7,11 +7,6 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
-export type RegistrationParamsType = {
-    email: string
-    password: string
-}
-
 export const api = {
     getPing() {
         return instance.get("/ping?frontTime=1596635884283")
@@ -47,6 +42,20 @@ export const api = {
     },
     authMe() {
         return instance.post<LoginResponseType>('/auth/me', {})
+    },
+    updateUserInfo(data: UpdateUserInfo) {
+        return instance.put<{ updatedUser: LoginResponseType }>('/auth/me', data)
     }
 }
 
+
+// type
+export type RegistrationParamsType = {
+    email: string
+    password: string
+}
+
+export type UpdateUserInfo = {
+    name: string
+    avatar: string
+}

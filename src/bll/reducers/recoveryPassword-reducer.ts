@@ -8,12 +8,8 @@ const init: InitStateType = {
 
 export const recoveryPasswordReducer = (state: InitStateType = init, action: RecoveryPasswordActionsType): InitStateType => {
     switch (action.type) {
-        case 'rp/SET_RESPONSE_INFO': {
-            return {
-                ...state,
-                info: action.info
-            }
-        }
+        case 'rp/SET_RESPONSE_INFO':
+            return {...state, info: action.info}
         default:
             return state
     }
