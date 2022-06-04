@@ -2,7 +2,9 @@ import React from 'react';
 import {Grid, Typography} from '@mui/material';
 import {Answer} from './Answer/Answer';
 import {RecoveryPasswordForm} from './RecoveryPasswordForm/RecoveryPasswordForm';
-import { useAppSelector } from '../../bll/store/store';
+import {useAppSelector} from '../../bll/store/store';
+
+import '../../styles/common.css';
 
 
 const RecoveryPassword = () => {
@@ -27,15 +29,15 @@ const RecoveryPassword = () => {
         textAlign: 'center',
         borderRadius: '8px',
         padding: '24px',
-        boxShadow: "0 0 10px rgba(0,0,0,0.4)"
+        boxShadow: '0 0 10px rgba(0,0,0,0.4)'
     }
 
     return (
         <>
-            <Grid container justifyContent={'center'} alignItems={'center'} height={'100%'}>
-                <Grid sx={gridItem}>
+            <Grid container className={'containerGrid'}>
+                <Grid className={'itemInner'}>
 
-                    <Typography sx={titleOne} variant={'h1'} >
+                    <Typography sx={titleOne} variant={'h1'}>
                         It-incubator</Typography>
 
                     {responseInfo
