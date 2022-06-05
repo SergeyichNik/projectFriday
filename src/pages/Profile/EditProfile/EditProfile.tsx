@@ -43,17 +43,22 @@ export const EditProfile: React.FC<EditProfilePropsType> = ({avatar, name, editM
     }
 
     const onSubmit = (values: InitialValuesType) => {
+        if (values.nickname === initialValues.nickname && values.email === initialValues.email) {
+            onClickChangeEditModeHandler()
+            return
+        }
         dispatch(updateUserInfo(values.nickname, values.email))
         onClickChangeEditModeHandler()
+
     }
 
     return (
         <Grid container className={'containerGrid'}>
             <Grid className={'itemGrid'}>
                 <div className={styles.wrapper}>
-                    <div>Personal Information</div>
+                    <div style={{fontSize: '20px', fontWeight: 'bolder', marginBottom: '16px'}}>Personal Information</div>
 
-                    <UserAvatar avatar={avatar} editMode={editMode} />
+                    <UserAvatar avatar={avatar} editMode={editMode}/>
 
                     <div className={styles.formWrapper}>
                         <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={SignupSchema}>
@@ -77,7 +82,7 @@ export const EditProfile: React.FC<EditProfilePropsType> = ({avatar, name, editM
                                                 />
                                             </>
                                             </div>
-                                            <div style={{position: 'relative', marginTop: 20}}>
+                                            <div style={{position: 'relative', marginTop: 26}}>
                                                 <TextField id={'email'}
                                                            label={'Email'}
                                                            variant={'standard'}
@@ -96,7 +101,7 @@ export const EditProfile: React.FC<EditProfilePropsType> = ({avatar, name, editM
                                                         type={'reset'}
                                                         variant={'contained'}
                                                         disabled={loadingStatus === 'loading'}>
-                                                    Cancel
+                                                    Reset
                                                 </Button>
                                                 <Button sx={styleBtn}
                                                         type={'submit'}

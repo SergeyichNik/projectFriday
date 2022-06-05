@@ -8,6 +8,7 @@ import NewPassword from "../../pages/new-password/NewPassword";
 import TestPage from "../../pages/TestPage";
 import Registration from "../../pages/Registration/Registration";
 import NotFound from "../../pages/NotFound";
+import {PackTable} from '../../pages/PackTable/PackTable';
 
 const AppRouter = () => {
     return (
@@ -19,6 +20,9 @@ const AppRouter = () => {
                 <Route path={'new-password'} element={<NewPassword/>}/>
                 <Route path={'test-page'} element={<TestPage/>}/>
                 <Route path={'registration'} element={<Registration/>}/>
+
+                <Route path={'pack-table'} element={<PackTable/>} />
+
                 <Route path={'*'} element={<NotFound/>}/>
             </Route>
         </Routes>

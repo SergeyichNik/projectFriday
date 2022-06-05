@@ -11,6 +11,8 @@ const NavBar = () => {
             <CustomLink to={'new-password'}>New Password</CustomLink>
             <CustomLink to={'test-page'}>Test Page</CustomLink>
             <CustomLink to={'registration'}>Registration</CustomLink>
+
+            <CustomLink to={'pack-table'}>Packs list</CustomLink>
         </>
     );
 };

@@ -14,14 +14,19 @@ export type UserAvatarPropsType = {
 export const UserAvatar: React.FC<UserAvatarPropsType> = ({avatar, editMode}) => {
     return (
         <div className={styles.userPhotoWrapper}>
-        <div className={styles.userPhoto}>
-            <div className={styles.userPhotoInner}><img src={avatar && avatar != ' ' ? avatar : userAvatar}
-                                                        alt={'user photo'}/></div>
-            {editMode && <IconButton className={styles.svgPosition} size={'small'}>
-                <PhotoCameraOutlinedIcon/>
-            </IconButton>}
+            <div className={styles.userPhoto}>
 
-        </div>
+                <div className={styles.userPhotoInner}>
+                    <img src={avatar && avatar !== ' ' ? avatar : userAvatar} alt={'user'}/>
+                </div>
+
+                {editMode &&
+                    <IconButton className={styles.svgPosition} size={'small'}>
+                        <PhotoCameraOutlinedIcon/>
+                    </IconButton>
+                }
+
+            </div>
         </div>
     );
 };
