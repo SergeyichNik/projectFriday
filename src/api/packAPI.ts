@@ -1,7 +1,7 @@
 import {instance} from './api';
 
 
-export const CardsPackApi = {
+export const CardsPackAPI = {
     getPack({packName, min, max, sortPacks, page, pageCount, user_id}: PackQueryParams) {
         return instance.get<Pack>('/cards/pack', {params: {packName, min, max, sortPacks, page, pageCount, user_id}})
     }
@@ -10,7 +10,7 @@ export const CardsPackApi = {
 
 // --- type
 
-type PackCard = {
+export type PackCard = {
     _id: string
     user_id: string
     user_name: string
@@ -29,10 +29,9 @@ type PackCard = {
     __v: number
 }
 
-export type PackCards = PackCard[]
 
 export type Pack = {
-    cardPacks: PackCards
+    cardPacks: PackCard[]
     page: number
     pageCount: number
     cardPacksTotalCount: number

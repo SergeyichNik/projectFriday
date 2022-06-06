@@ -1,5 +1,5 @@
 import {DispatchActionType, ThunkType} from '../store/store';
-import {CardsPackApi, Pack, PackCards} from '../../api/packApi';
+import {CardsPackAPI, Pack, PackCard} from '../../api/packAPI';
 import {setAppError, setLoadingStatus} from './app-reducer';
 
 const initialState: Pack = {
@@ -25,7 +25,7 @@ export const packReducer = (state: Pack = initialState, action: PackReducerActio
 
 
 // --- action
-const setCardPacks = (cardPacks: PackCards) => ({type: 'PACK/SET_CARD_PACKS', cardPacks} as const)
+const setCardPacks = (cardPacks: PackCard[]) => ({type: 'PACK/SET_CARD_PACKS', cardPacks} as const)
 const setCardPacksInfo = (cardPacksInfo: PackCardsInfo) => ({type: 'PACK/SET_CARD_PACKS_INFO', cardPacksInfo} as const)
 
 
@@ -34,7 +34,7 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     const pageCount = '10'
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await CardsPackApi.getPack({pageCount})
+        const res = await CardsPackAPI.getPack({pageCount})
         dispatch(setCardPacks(res.data.cardPacks))
         const info:PackCardsInfo = {
             page: res.data.page,

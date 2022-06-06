@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination/TablePagination';
 import {useAppSelector} from '../../bll/store/store';
-import {PackCards} from '../../api/packApi';
+import {PackCard} from '../../api/packAPI';
 
 interface Data {
     packName: string;
@@ -45,7 +45,7 @@ function createData(
 // ];
 
 export const TablePack = () => {
-    const pack = useAppSelector<PackCards>(state => state.pack.cardPacks)
+    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
 
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -89,8 +89,9 @@ export const TablePack = () => {
     // const emptyRows =
     //     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-    const styleTHead: React.CSSProperties = {
+    const styleTHead = {
         background: '#2c2b3f',
+        'th': {color: '#fff', fontWeight: 'bold'}
     }
 
     const styleTd = {
@@ -107,12 +108,12 @@ export const TablePack = () => {
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead sx={styleTHead}>
                         <TableRow>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}}>Pack name</TableCell>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}} align="right">Count</TableCell>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}} align="right">Created at</TableCell>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}} align="right">Created by</TableCell>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}} align="right">Updated</TableCell>
-                            <TableCell sx={{fontWeight: 'bold', color: '#fff'}} align="right">Actions</TableCell>
+                            <TableCell>Pack name</TableCell>
+                            <TableCell align="right">Count</TableCell>
+                            <TableCell align="right">Created at</TableCell>
+                            <TableCell align="right">Created by</TableCell>
+                            <TableCell align="right">Updated</TableCell>
+                            <TableCell align="right">Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
