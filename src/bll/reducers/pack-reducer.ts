@@ -19,7 +19,8 @@ export const packReducer = (state: Pack = initialState, action: PackReducerActio
             return {...state, cardPacks: action.cardPacks}
         case 'PACK/SET_CARD_PACKS_INFO':
             return {...state, ...action.cardPacksInfo}
-        default: return state
+        default:
+            return state
     }
 }
 
@@ -36,7 +37,31 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
         dispatch(setLoadingStatus('loading'))
         const res = await CardsPackAPI.getPack({pageCount})
         dispatch(setCardPacks(res.data.cardPacks))
-        const info:PackCardsInfo = {
+        const info: PackCardsInfo = {
+            page: res.data.page,
+            pageCount: res.data.pageCount,
+            cardPacksTotalCount: res.data.cardPacksTotalCount,
+            minCardsCount: res.data.minCardsCount,
+            maxCardsCount: res.data.minCardsCount,
+            token: res.data.token,
+            tokenDeathTime: res.data.tokenDeathTime
+        }
+        dispatch(setCardPacksInfo(info))
+
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+export const searchPacksByName = (packName: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setLoadingStatus('loading'));
+        const res = await CardsPackAPI.searchPacksByName({packName});
+        dispatch(setCardPacks(res.data.cardPacks));
+        dispatch(setCardPacks(res.data.cardPacks))
+        const info: PackCardsInfo = {
             page: res.data.page,
             pageCount: res.data.pageCount,
             cardPacksTotalCount: res.data.cardPacksTotalCount,
