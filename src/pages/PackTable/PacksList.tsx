@@ -26,12 +26,12 @@ export const PacksList = () => {
     const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
     React.useEffect(() => {
-
         dispatch(fetchCardsPack())
     }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
 
-    const handleChangePage = (newPage: number) => {
 
+
+    const handleChangePage = (newPage: number) => {
         dispatch(setPage(newPage));
     };
 
