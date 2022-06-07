@@ -6,8 +6,8 @@ import {PackCard} from '../../api/packAPI';
 import styles from '../Profile/Profile.module.css';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
-import SearchField from "../../components/common/SearchField/SearchField";
-import {Pagination} from "../../components/common/Pagination/Pagination";
+import SearchField from '../../components/common/SearchField/SearchField';
+import {Pagination} from '../../components/common/Pagination/Pagination';
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
@@ -31,7 +31,7 @@ export const PacksList = () => {
 
     const handleChangePage = (newPage: number) => {
 
-        dispatch(setPage(newPage));
+        dispatch(setPage(newPage + 1));
     };
 
     const handleChangeRowsPerPage = (pageCount: number) => {
