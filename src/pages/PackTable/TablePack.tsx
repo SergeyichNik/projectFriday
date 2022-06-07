@@ -6,9 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination/TablePagination';
-import {useAppSelector} from '../../bll/store/store';
+import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/packAPI';
+import {Pagination} from "../../components/common/Pagination/Pagination";
+import {useEffect} from "react";
+import {fetchCardsPack, setPageCount, setPage} from "../../bll/reducers/pack-reducer";
 
 interface Data {
     packName: string;
@@ -29,65 +31,31 @@ function createData(
     return {packName, cardsCount, createdDate, createdByName, updatedDate};
 }
 
-// const rows = [
-//     createData('pack one', 0, 37, 'name leo'),
-//     createData('pack two', 1, 250, 'name max'),
-//     createData('pack three', 3, 163, 'name di'),
-//     createData('pack four', 5, 610, 'name ser'),
-//     createData('pack five', 4, 160, 'name kol'),
-//     createData('pack six', 1, 132, 'name pet'),
-//     createData('pack seven', 3, 90, 'name once'),
-//     createData('pack eight', 0, 111, 'name is'),
-//     createData('pack nine', 1, 1000, 'name user'),
-//     createData('pack ten', 2, 111, 'name dan'),
-//     createData('pack eleven', 0, 11011, 'name mor'),
-//     createData('pack twelve', 3, 20100, 'name bad'),
-// ];
-
 export const TablePack = () => {
-    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const dispatch = useAppDispatch()
+
+    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
+    const page = useAppSelector<number>(state => state.pack.page)
+    const pageCount = useAppSelector<number>(state => state.pack.pageCount)
+    const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
+
+
+    useEffect(() => {
+        dispatch(fetchCardsPack())
+    }, [page, pageCount])
+
 
     const rows = pack.map(el => createData(el.name, el.cardsCount, el.created, el.user_name, el.updated))
 
-    let a
-    let v
-    let n
-    let z
-    if (pack[0]?.created) {
-        let b = pack[0].created
-        let c = b.toString()
-    a = new Date(c)
 
-      v = a.toLocaleTimeString()
-      n = a.toLocaleDateString()
-        z = a.toLocaleString()
-    }
-
-//     const date = pack[0]?.created
-//
-//     const addZero = (date: number | null) => {
-//         if (date === null) return
-//         return date < 10 ? `0${date}` : date
-//     }
-//     debugger
-// //@ts-ignore
-//     const stringTime = date &&`${addZero(date!.getHours())} : ${addZero(date!.getMinutes())} : ${addZero(date!.getSeconds())}`
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
+    const handleChangePage = (newPage: number) => {
+        dispatch(setPage(newPage));
     };
 
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+    const handleChangeRowsPerPage = (pageCount: number) => {
+        dispatch(setPageCount(pageCount))
     };
-
-    // Avoid a layout jump when reaching the last page with empty rows
-    // const emptyRows =
-    //     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
     const styleTHead = {
         background: '#2c2b3f',
@@ -101,9 +69,6 @@ export const TablePack = () => {
 
     return (
         <>
-            <div>time toLocaleTimeString: {v}</div>
-            <div>time toLocaleDateString: {n}</div>
-            <div>time toLocaleString: {z}</div>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead sx={styleTHead}>
@@ -131,28 +96,14 @@ export const TablePack = () => {
                                 <TableCell align="right">buttons would be here</TableCell>
                             </TableRow>
                         ))}
-                        {/*{emptyRows > 0 && (*/}
-                        {/*    <TableRow*/}
-                        {/*        style={{*/}
-                        {/*            height: (dense ? 33 : 53) * emptyRows,*/}
-                        {/*        }}*/}
-                        {/*    >*/}
-                        {/*        <TableCell colSpan={6}/>*/}
-                        {/*    </TableRow>*/}
-                        {/*)}*/}
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
+            <Pagination page={page}
+                        pageCount={pageCount}
+                        cardsPacksTotalCount={cardsPacksTotalCount}
+                        handleChangePage={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
             />
         </>
     );
