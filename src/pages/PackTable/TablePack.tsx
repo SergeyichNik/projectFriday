@@ -8,9 +8,13 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination/TablePagination';
 import {useAppDispatch} from '../../bll/store/store';
+import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/packAPI';
 import {TableSortLabel} from '@mui/material';
 import {setSortBy} from '../../bll/reducers/pack-reducer';
+import {Pagination} from "../../components/common/Pagination/Pagination";
+import {useEffect} from "react";
+import {fetchCardsPack, setPageCount, setPage} from "../../bll/reducers/pack-reducer";
 
 interface Data {
     packName: string;
@@ -47,19 +51,21 @@ function createData(
 //     createData('pack eleven', 0, 11011, 'name mor'),
 //     createData('pack twelve', 3, 20100, 'name bad'),
 // ];
-
 type TablePackPropsType = {
     pack: PackCard[]
     sortBy: string
     order: 'desc' | 'asc'
 }
 
-export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) => {
-    const dispatch = useAppDispatch()
 
-    // const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
-    // const sortBy = useAppSelector<string>(state => state.pack.sortBy)
-    // const order = useAppSelector<'desc' | 'asc'>(state => state.pack.order)
+
+export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) => {
+
+    const dispatch = useAppDispatch()
+    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
+    const page = useAppSelector<number>(state => state.pack.page)
+    const pageCount = useAppSelector<number>(state => state.pack.pageCount)
+    const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
     const rows = pack.map(el => createData(
         el.name,
@@ -69,18 +75,13 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         new Date(el.updated).toLocaleString(),
         el._id))
 
-    // const handleChangePage = (event: unknown, newPage: number) => {
-    //     setPage(newPage);
-    // };
-    //
-    // const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     setRowsPerPage(+event.target.value);
-    //     setPage(0);
-    // };
+    const handleChangePage = (newPage: number) => {
+        dispatch(setPage(newPage));
+    };
 
-    // Avoid a layout jump when reaching the last page with empty rows
-    // const emptyRows =
-    //     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+    const handleChangeRowsPerPage = (pageCount: number) => {
+        dispatch(setPageCount(pageCount))
+    };
 
     const styleTHead = {
         background: '#2c2b3f',
@@ -169,29 +170,15 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 <TableCell>buttons would be here</TableCell>
                             </TableRow>
                         ))}
-                        {/*{emptyRows > 0 && (*/}
-                        {/*    <TableRow*/}
-                        {/*        style={{*/}
-                        {/*            height: (dense ? 33 : 53) * emptyRows,*/}
-                        {/*        }}*/}
-                        {/*    >*/}
-                        {/*        <TableCell colSpan={6}/>*/}
-                        {/*    </TableRow>*/}
-                        {/*)}*/}
                     </TableBody>
                 </Table>
             </TableContainer>
-
-
-            {/*<TablePagination*/}
-            {/*    rowsPerPageOptions={[5, 10, 25]}*/}
-            {/*    component="div"*/}
-            {/*    count={rows.length}*/}
-            {/*    rowsPerPage={rowsPerPage}*/}
-            {/*    page={page}*/}
-            {/*    onPageChange={handleChangePage}*/}
-            {/*    onRowsPerPageChange={handleChangeRowsPerPage}*/}
-            {/*/>*/}
+            <Pagination page={page}
+                        pageCount={pageCount}
+                        cardsPacksTotalCount={cardsPacksTotalCount}
+                        handleChangePage={handleChangePage}
+                        onRowsPerPageChange={handleChangeRowsPerPage}
+            />
         </>
     );
 }

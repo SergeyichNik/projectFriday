@@ -4,8 +4,8 @@ import {setAppError, setLoadingStatus} from './app-reducer';
 
 const initialState: PackInitStateType = {
     cardPacks: [],
-    page: 1,
-    pageCount: 10,
+    page: 0,
+    pageCount: 5,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
     maxCardsCount: 0,
@@ -41,6 +41,11 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
             return {...state, minSort: action.range[0], maxSort: action.range[1]}
         default:
             return state
+        case "PACK/SET_PAGE":
+            return {...state, page: action.page}
+        case "PACK/SET_PAGE_COUNT":
+            return {...state, pageCount: action.pageCount}
+        default: return state
     }
 }
 
@@ -52,18 +57,20 @@ export const setSortBy = (sortBy: string) => ({type: 'PACK/SET_SORT_BY', sortBy}
 export const setPackOwner = (owner: 'all' | 'my') => ({type: 'PACK/SET_PACK_OWNER', owner} as const)
 export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT', range} as const)
 
+export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
+export const setPageCount = (pageCount: number) => ({type:'PACK/SET_PAGE_COUNT', pageCount} as const)
 
 // --- thunk
 export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
-    const packState = getState().pack
+    const state = getState()
     const params: PackQueryParams = {
-        packName: packState.packName,
-        page: packState.page,
-        pageCount: packState.pageCount,
-        sortPacks: (packState.order === 'desc' ? 0 : 1) + packState.sortBy,
-        max: packState.maxSort,
-        min: packState.minSort,
-        user_id: (packState.packOwner === 'all' ? '' : getState().login.data._id)
+        packName: state.pack.packName,
+        page: state.pack.page,
+        pageCount: state.pack.pageCount,
+        sortPacks: (state.pack.order === 'desc' ? 0 : 1) + state.pack.sortBy,
+        max: state.pack.maxSort,
+        min: state.pack.minSort,
+        user_id: (state.pack.packOwner === 'all' ? '' : getState().login.data._id)
     }
     try {
         dispatch(setLoadingStatus('loading'))
@@ -96,6 +103,8 @@ export type PackReducerActionsType =
     | ReturnType<typeof setSortBy>
     | ReturnType<typeof setPackOwner>
     | ReturnType<typeof setMinMaxSort>
+    | ReturnType<typeof setPage>
+    | ReturnType<typeof setPageCount>
 
 type PackCardsInfo = {
     page: number

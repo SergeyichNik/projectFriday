@@ -64,39 +64,7 @@ const Profile = () => {
 
                     </div>
                     <div className={styles.content}>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
-                        beatae fuga ipsum quo sint. Aspernatur eum eveniet, fugit perspiciatis quibusdam sequi velit.
-                        Aperiam architecto asperiores consectetur consequatur consequuntur debitis distinctio dolorem
-                        doloribus ducimus eligendi esse exercitationem id incidunt iure, maxime nesciunt odit placeat
-                        qui
-                        quisquam quos, recusandae rerum sed soluta tempora tenetur ut vel! Ab alias animi aspernatur,
-                        corporis debitis dolor eaque esse eum facilis fuga ipsam iusto magni maiores molestias natus
-                        nihil
-                        numquam odit officia porro quas tenetur vitae voluptates voluptatibus! Commodi culpa cum
-                        deserunt
-                        doloribus ea eos et excepturi exercitationem, harum illo minima obcaecati quod ratione
-                        recusandae,
-                        repellat reprehenderit tempora temporibus unde. Consequuntur enim error eveniet nihil quis
-                        ratione
-                        reprehenderit. Consequuntur cumque eveniet laudantium, nemo pariatur quia veritatis. A aliquid
-                        animi
-                        cum, eaque eveniet excepturi illo iure maiores minus necessitatibus pariatur qui, vel? Ad,
-                        aperiam
-                        aut blanditiis corporis dolor, fugiat hic minima nobis obcaecati odio reiciendis voluptate. Ab
-                        ad
-                        architecto asperiores assumenda atque aut autem corporis delectus doloribus ea eos, facilis
-                        fugit
-                        illo ipsum labore natus necessitatibus nostrum obcaecati pariatur quisquam ratione repudiandae
-                        sapiente sequi similique soluta ut voluptas voluptate? Dignissimos, eos est expedita facere illo
-                        iste molestiae molestias nesciunt placeat quibusdam sunt, suscipit tempora unde velit voluptate!
-                        Ab,
-                        accusamus alias commodi cupiditate delectus eius fuga, minima nam nesciunt quidem quos totam.
-                        Dicta
-                        dolorum earum enim et explicabo in magnam molestias porro reprehenderit, similique suscipit
-                        totam?
-                        Deleniti ea earum est libero nisi perferendis quod suscipit voluptatem. Consectetur cumque ea
-                        eos
-                        facilis, in ipsam quasi recusandae. Accusamus commodi, perferendis?250
+                        Content
                     </div>
                 </div>
 
