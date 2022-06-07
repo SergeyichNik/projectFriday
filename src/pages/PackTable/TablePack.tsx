@@ -7,8 +7,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination/TablePagination';
-import {useAppSelector} from '../../bll/store/store';
+import {useAppDispatch} from '../../bll/store/store';
 import {PackCard} from '../../api/packAPI';
+import {TableSortLabel} from '@mui/material';
+import {setSortBy} from '../../bll/reducers/pack-reducer';
 
 interface Data {
     packName: string;
@@ -16,6 +18,7 @@ interface Data {
     createdDate: string;
     createdByName: string;
     updatedDate: string;
+    cardID: string;
     actions?: null;
 }
 
@@ -24,9 +27,10 @@ function createData(
     cardsCount: number,
     createdDate: string,
     createdByName: string,
-    updatedDate: string
+    updatedDate: string,
+    cardID: string
 ): Data {
-    return {packName, cardsCount, createdDate, createdByName, updatedDate};
+    return {packName, cardsCount, createdDate, createdByName, updatedDate, cardID};
 }
 
 // const rows = [
@@ -44,46 +48,35 @@ function createData(
 //     createData('pack twelve', 3, 20100, 'name bad'),
 // ];
 
-export const TablePack = () => {
-    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
+type TablePackPropsType = {
+    pack: PackCard[]
+    sortBy: string
+    order: 'desc' | 'asc'
+}
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) => {
+    const dispatch = useAppDispatch()
 
-    const rows = pack.map(el => createData(el.name, el.cardsCount, el.created, el.user_name, el.updated))
+    // const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
+    // const sortBy = useAppSelector<string>(state => state.pack.sortBy)
+    // const order = useAppSelector<'desc' | 'asc'>(state => state.pack.order)
 
-    let a
-    let v
-    let n
-    let z
-    if (pack[0]?.created) {
-        let b = pack[0].created
-        let c = b.toString()
-    a = new Date(c)
+    const rows = pack.map(el => createData(
+        el.name,
+        el.cardsCount,
+        new Date(el.created).toLocaleDateString(),
+        el.user_name,
+        new Date(el.updated).toLocaleString(),
+        el._id))
 
-      v = a.toLocaleTimeString()
-      n = a.toLocaleDateString()
-        z = a.toLocaleString()
-    }
-
-//     const date = pack[0]?.created
-//
-//     const addZero = (date: number | null) => {
-//         if (date === null) return
-//         return date < 10 ? `0${date}` : date
-//     }
-//     debugger
-// //@ts-ignore
-//     const stringTime = date &&`${addZero(date!.getHours())} : ${addZero(date!.getMinutes())} : ${addZero(date!.getSeconds())}`
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
-    };
+    // const handleChangePage = (event: unknown, newPage: number) => {
+    //     setPage(newPage);
+    // };
+    //
+    // const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setRowsPerPage(+event.target.value);
+    //     setPage(0);
+    // };
 
     // Avoid a layout jump when reaching the last page with empty rows
     // const emptyRows =
@@ -99,36 +92,81 @@ export const TablePack = () => {
         '&:nth-of-type(even)': {background: ' #F8F7FD'}
     }
 
+    const styleAlignCell = {
+        '& :not(:first-of-type)': {textAlign: 'right'}
+    }
+
+    const styleActiveLabel = {
+        color: '#fff !important',
+        '& svg': {color: '#fff !important'}
+    }
+
+    const onClickSortByHandler = (sortBy: string) => () => {
+        dispatch(setSortBy(sortBy))
+    }
+
     return (
         <>
-            <div>time toLocaleTimeString: {v}</div>
-            <div>time toLocaleDateString: {n}</div>
-            <div>time toLocaleString: {z}</div>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead sx={styleTHead}>
-                        <TableRow>
-                            <TableCell>Pack name</TableCell>
-                            <TableCell align="right">Count</TableCell>
-                            <TableCell align="right">Created at</TableCell>
-                            <TableCell align="right">Created by</TableCell>
-                            <TableCell align="right">Updated</TableCell>
-                            <TableCell align="right">Actions</TableCell>
+                        <TableRow sx={styleAlignCell}>
+                            <TableCell>
+                                <TableSortLabel
+                                    sx={styleActiveLabel}
+                                    active={sortBy === 'name'}
+                                    direction={sortBy === 'name' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('name')}
+                                >Pack name</TableSortLabel>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    sx={styleActiveLabel}
+                                    active={sortBy === 'cardsCount'}
+                                    direction={sortBy === 'cardsCount' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('cardsCount')}
+                                >Count</TableSortLabel>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    sx={styleActiveLabel}
+                                    active={sortBy === 'created'}
+                                    direction={sortBy === 'created' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('created')}
+                                >Created at</TableSortLabel>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    sx={styleActiveLabel}
+                                    active={sortBy === 'user_name'}
+                                    direction={sortBy === 'user_name' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('user_name')}
+                                >Created by</TableSortLabel>
+                            </TableCell>
+                            <TableCell>
+                                <TableSortLabel
+                                    sx={styleActiveLabel}
+                                    active={sortBy === 'updated'}
+                                    direction={sortBy === 'updated' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('updated')}
+                                >Updated</TableSortLabel>
+                            </TableCell>
+                            <TableCell>Actions</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow
-                                key={row.createdDate}
-                                sx={styleTd}
+                                key={row.cardID}
+                                sx={[styleTd, styleAlignCell]}
                                 // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell>{row.packName}</TableCell>
-                                <TableCell align="right">{row.cardsCount}</TableCell>
-                                <TableCell align="right">{row.createdDate}</TableCell>
-                                <TableCell align="right">{row.createdByName}</TableCell>
-                                <TableCell align="right">{row.updatedDate}</TableCell>
-                                <TableCell align="right">buttons would be here</TableCell>
+                                <TableCell>{row.cardsCount}</TableCell>
+                                <TableCell>{row.createdDate}</TableCell>
+                                <TableCell>{row.createdByName}</TableCell>
+                                <TableCell>{row.updatedDate}</TableCell>
+                                <TableCell>buttons would be here</TableCell>
                             </TableRow>
                         ))}
                         {/*{emptyRows > 0 && (*/}
@@ -145,15 +183,15 @@ export const TablePack = () => {
             </TableContainer>
 
 
-            <TablePagination
-                rowsPerPageOptions={[5, 10, 25]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={handleChangePage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+            {/*<TablePagination*/}
+            {/*    rowsPerPageOptions={[5, 10, 25]}*/}
+            {/*    component="div"*/}
+            {/*    count={rows.length}*/}
+            {/*    rowsPerPage={rowsPerPage}*/}
+            {/*    page={page}*/}
+            {/*    onPageChange={handleChangePage}*/}
+            {/*    onRowsPerPageChange={handleChangeRowsPerPage}*/}
+            {/*/>*/}
         </>
     );
 }

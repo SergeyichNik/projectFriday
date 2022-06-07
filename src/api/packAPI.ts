@@ -44,12 +44,12 @@ export type Pack = {
     tokenDeathTime: number
 }
 
-type PackQueryParams = {
+export type PackQueryParams = {
     packName?: string
-    min?: string
-    max?: string
+    min?: number
+    max?: number
     sortPacks?: string
-    page?: string
-    pageCount?: string
+    page?: number
+    pageCount?: number
     user_id?: string
 }
