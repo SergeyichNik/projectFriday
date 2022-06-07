@@ -45,7 +45,7 @@ const SearchField = () => {
         <div>
                 <input
                     className={s.searchInput}
-                    // type="search"
+                    type="search"
                     placeholder="Search ..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.currentTarget.value)}
