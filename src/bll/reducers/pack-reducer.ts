@@ -58,7 +58,7 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
 export const searchPacksByName = (packName: string): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'));
-        const res = await CardsPackAPI.searchPacksByName({packName});
+        const res = await CardsPackAPI.getPack({packName});
         dispatch(setCardPacks(res.data.cardPacks));
         dispatch(setCardPacks(res.data.cardPacks))
         const info: PackCardsInfo = {

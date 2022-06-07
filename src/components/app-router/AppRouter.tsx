@@ -1,7 +1,7 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
 import Layout from "../layout/Layout";
-import Login from "../../pages/Login";
+import Login from "../../pages/Login/Login";
 import Profile from "../../pages/Profile/Profile";
 import RecoveryPassword from "../../pages/RecoveryPassword/RecoveryPassword";
 import NewPassword from "../../pages/new-password/NewPassword";
