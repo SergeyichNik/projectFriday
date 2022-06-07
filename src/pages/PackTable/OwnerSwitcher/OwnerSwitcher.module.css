@@ -1,0 +1,23 @@
+.wrapper {
+    margin: 24px;
+}
+
+.owner {
+    display: flex;
+    margin-top: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.ownerBtn {
+    flex-grow: 1;
+    background: #fff;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.activeOwner {
+    background: #9A91C8;
+    color: #fff;
+}

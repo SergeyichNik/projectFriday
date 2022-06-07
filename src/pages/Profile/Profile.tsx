@@ -8,7 +8,6 @@ import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {EditProfile} from './EditProfile/EditProfile';
 import {ProfileInfo} from './ProfileInfo/ProfileInfo';
 import {fetchCardsPack} from '../../bll/reducers/pack-reducer';
-import {TablePack} from '../PackTable/TablePack';
 
 
 const Profile = () => {
@@ -65,7 +64,6 @@ const Profile = () => {
 
                     </div>
                     <div className={styles.content}>
-                        <TablePack />
                         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto
                         beatae fuga ipsum quo sint. Aspernatur eum eveniet, fugit perspiciatis quibusdam sequi velit.
                         Aperiam architecto asperiores consectetur consequatur consequuntur debitis distinctio dolorem
