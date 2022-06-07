@@ -27,10 +27,6 @@ const Profile = () => {
         dispatch(logOut())
     }
 
-    const getpar = () => {
-        dispatch(fetchCardsPack())
-    }
-
     if (!isAuth) return <Navigate to={'/login'}/>
 
     return (
@@ -49,8 +45,6 @@ const Profile = () => {
                                     onClick={onClickLogOutHandler}>
                                 Log out
                             </Button>
-
-                            <div onClick={getpar}>UP</div>
                         </div>
 
                         <div style={{background: '#ddd'}}>
