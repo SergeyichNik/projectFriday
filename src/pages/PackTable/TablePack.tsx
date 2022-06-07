@@ -105,10 +105,6 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         dispatch(setSortBy(sortBy))
     }
 
-    // React.useEffect(() => {
-    //     dispatch(fetchCardsPack())
-    // }, [sortBy, order])
-
     return (
         <>
             <TableContainer component={Paper}>

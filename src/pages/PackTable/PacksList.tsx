@@ -15,6 +15,7 @@ export const PacksList = () => {
     const order = useAppSelector<'desc' | 'asc'>(state => state.pack.order)
     const owner = useAppSelector<'all' | 'my'>(state => state.pack.packOwner)
     const maxCardsCount = useAppSelector<number>(state => state.pack.maxCardsCount)
+    const minCardsCount = useAppSelector<number>(state => state.pack.minCardsCount)
     const maxSort = useAppSelector<number>(state => state.pack.maxSort)
     const minSort = useAppSelector<number>(state => state.pack.minSort)
 
@@ -26,10 +27,16 @@ export const PacksList = () => {
         <div className={styles.profileContainer}>
             <div className={styles.sidebar}>
                 <OwnerSwitcher owner={owner}/>
-                <RangeCards minSort={minSort} maxSort={maxSort} maxCardsCount={maxCardsCount}/>
+                <RangeCards
+                    // minSort={minSort}
+                    //         maxSort={maxSort}
+                            maxCardsCount={maxCardsCount}
+                            minCardsCount={minCardsCount}
+                />
             </div>
 
             <div className={styles.content}>
+
                 <TablePack pack={pack} sortBy={sortBy} order={order}/>
             </div>
         </div>

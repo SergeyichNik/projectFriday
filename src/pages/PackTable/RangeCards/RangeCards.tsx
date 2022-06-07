@@ -10,16 +10,16 @@ import {useAppDispatch} from '../../../bll/store/store';
 const minDistance = 1;
 
 type RangeCardsPropsType = {
-    minSort: number
-    maxSort: number
+    // minSort: number
+    // maxSort: number
+    minCardsCount: number
     maxCardsCount: number
 }
 
-export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minSort, maxSort, maxCardsCount}) => {
+export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCount, maxCardsCount}) => {
     const dispatch = useAppDispatch()
-    const range = React.useRef(null)
 
-    const [value, setValue] = React.useState<number[]>([0, 1]);
+    const [value, setValue] = React.useState<number[]>([0, maxCardsCount]);
 
     const handleChange = (event: Event, newValue: number | number[], activeThumb: number) => {
         if (!Array.isArray(newValue)) {
@@ -32,28 +32,41 @@ export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minSort, m
         }
     };
 
-    React.useEffect(() => {
-        const handleClick = () => {
-            dispatch(setMinMaxSort(value))
-        };
+    const range = React.useRef(null)
 
+    React.useEffect(() => {
         let element: any
         if (range.current !== null) {
             element = range.current;
         }
+        //
+        // const openListeners = () => {
+        //     element.addEventListener('mouseup', onChangeMinMax);
+        //     element.addEventListener('mouseleave', onChangeMinMax);
+        // }
 
-        element.addEventListener('click', handleClick);
-        element.addEventListener('mouseleave', handleClick);
+        const onChangeMinMax = () => {
+            dispatch(setMinMaxSort(value))
+        };
+
+
+        // element.addEventListener('mousedown', openListeners)
+
+        element.addEventListener('click', onChangeMinMax);
+        // element.addEventListener('mouseout', onChangeMinMax);
 
         return () => {
-            element.removeEventListener('click', handleClick);
-            element.removeEventListener('mouseleave', handleClick);
+            // element.removeEventListener('mousedown', openListeners);
+            // element.removeEventListener('mouseup', onChangeMinMax);
+            // element.removeEventListener('mouseleave', onChangeMinMax);
+            element.removeEventListener('click', onChangeMinMax);
+            // element.removeEventListener('mouseout', onChangeMinMax);
         };
     }, [value])
 
     React.useEffect(() => {
-        setValue([minSort, maxSort])
-    }, [])
+        setValue([minCardsCount, maxCardsCount])
+    }, [maxCardsCount])
 
     console.log(value)
 

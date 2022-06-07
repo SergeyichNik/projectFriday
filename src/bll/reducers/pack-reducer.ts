@@ -17,7 +17,7 @@ const initialState: PackInitStateType = {
     order: 'desc',
     packOwner: 'all',
     minSort: 0,
-    maxSort: 1
+    maxSort: 0
 }
 
 export const packReducer = (state: PackInitStateType = initialState, action: PackReducerActionsType): PackInitStateType => {
