@@ -6,15 +6,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import TablePagination from '@mui/material/TablePagination/TablePagination';
-import {useAppDispatch} from '../../bll/store/store';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/packAPI';
 import {TableSortLabel} from '@mui/material';
-import {setSortBy} from '../../bll/reducers/pack-reducer';
+import {setPage, setPageCount, setSortBy} from '../../bll/reducers/pack-reducer';
 import {Pagination} from "../../components/common/Pagination/Pagination";
-import {useEffect} from "react";
-import {fetchCardsPack, setPageCount, setPage} from "../../bll/reducers/pack-reducer";
 
 interface Data {
     packName: string;
@@ -37,35 +33,16 @@ function createData(
     return {packName, cardsCount, createdDate, createdByName, updatedDate, cardID};
 }
 
-// const rows = [
-//     createData('pack one', 0, 37, 'name leo'),
-//     createData('pack two', 1, 250, 'name max'),
-//     createData('pack three', 3, 163, 'name di'),
-//     createData('pack four', 5, 610, 'name ser'),
-//     createData('pack five', 4, 160, 'name kol'),
-//     createData('pack six', 1, 132, 'name pet'),
-//     createData('pack seven', 3, 90, 'name once'),
-//     createData('pack eight', 0, 111, 'name is'),
-//     createData('pack nine', 1, 1000, 'name user'),
-//     createData('pack ten', 2, 111, 'name dan'),
-//     createData('pack eleven', 0, 11011, 'name mor'),
-//     createData('pack twelve', 3, 20100, 'name bad'),
-// ];
 type TablePackPropsType = {
     pack: PackCard[]
     sortBy: string
     order: 'desc' | 'asc'
 }
 
-
-
 export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) => {
 
     const dispatch = useAppDispatch()
-    const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
-    const page = useAppSelector<number>(state => state.pack.page)
-    const pageCount = useAppSelector<number>(state => state.pack.pageCount)
-    const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
+
 
     const rows = pack.map(el => createData(
         el.name,
@@ -74,14 +51,6 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         el.user_name,
         new Date(el.updated).toLocaleString(),
         el._id))
-
-    const handleChangePage = (newPage: number) => {
-        dispatch(setPage(newPage));
-    };
-
-    const handleChangeRowsPerPage = (pageCount: number) => {
-        dispatch(setPageCount(pageCount))
-    };
 
     const styleTHead = {
         background: '#2c2b3f',
@@ -173,12 +142,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                     </TableBody>
                 </Table>
             </TableContainer>
-            <Pagination page={page}
-                        pageCount={pageCount}
-                        cardsPacksTotalCount={cardsPacksTotalCount}
-                        handleChangePage={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
-            />
+
         </>
     );
 }

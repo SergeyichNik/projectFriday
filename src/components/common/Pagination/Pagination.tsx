@@ -13,7 +13,7 @@ export const Pagination: React.FC<PaginationPropsType> = (props) => {
 
     let pagesCount = Math.ceil(props.cardsPacksTotalCount / props.pageCount);
     let pages = [];
-    for (let i = 1; i <= pagesCount; i++) {
+    for (let i = 0; i <= pagesCount; i++) {
         pages.push(i);
     }
     return (

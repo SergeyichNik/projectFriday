@@ -4,7 +4,7 @@ import {setAppError, setLoadingStatus} from './app-reducer';
 
 const initialState: PackInitStateType = {
     cardPacks: [],
-    page: 0,
+    page: 1,
     pageCount: 5,
     cardPacksTotalCount: 0,
     minCardsCount: 0,
@@ -21,7 +21,7 @@ const initialState: PackInitStateType = {
 }
 
 export const packReducer = (state: PackInitStateType = initialState, action: PackReducerActionsType): PackInitStateType => {
-    // debugger
+
     switch (action.type) {
         case 'PACK/SET_CARD_PACKS':
             return {...state, cardPacks: action.cardPacks}
@@ -39,12 +39,12 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
             return {...state, packOwner: action.owner}
         case 'PACK/SET_MIN_MAX_SORT':
             return {...state, minSort: action.range[0], maxSort: action.range[1]}
-        default:
-            return state
         case "PACK/SET_PAGE":
             return {...state, page: action.page}
         case "PACK/SET_PAGE_COUNT":
             return {...state, pageCount: action.pageCount}
+        case "PACK/SET_PACK_NAME":
+            return {...state, ...action}
         default: return state
     }
 }
@@ -59,6 +59,7 @@ export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT
 
 export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type:'PACK/SET_PAGE_COUNT', pageCount} as const)
+export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
 
 // --- thunk
 export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
@@ -105,6 +106,7 @@ export type PackReducerActionsType =
     | ReturnType<typeof setMinMaxSort>
     | ReturnType<typeof setPage>
     | ReturnType<typeof setPageCount>
+    | ReturnType<typeof setSearchPackName>
 
 type PackCardsInfo = {
     page: number
@@ -124,3 +126,6 @@ type PackInitStateType = Pack & {
     minSort: number
     maxSort: number
 }
+
+//selector
+export const selectPack = (state: AppRootStateType) => state.pack
