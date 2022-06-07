@@ -23,7 +23,7 @@ export const Pagination: React.FC<PaginationPropsType> = (props) => {
                 component="div"
                 count={pages.length}
                 rowsPerPage={props.pageCount}
-                page={props.page}
+                page={props.page - 1}
                 onPageChange={(event, newPage) => props.handleChangePage(newPage)}
                 onRowsPerPageChange={(event) => props.onRowsPerPageChange(+event.target.value)}
             />
