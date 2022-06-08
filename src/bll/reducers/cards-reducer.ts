@@ -1,6 +1,7 @@
 import {CardsApi, CardsQueryParams, CardType} from "../../api/cards-api";
 import {AppRootStateType, DispatchActionType, ThunkType} from "../store/store";
 import {setAppError, setLoadingStatus} from "./app-reducer";
+import {PackQueryParams} from "../../api";
 
 const initialState = {
     cards: [],
@@ -8,7 +9,7 @@ const initialState = {
     minGrade: 0,
     maxGrade: 0,
     page: 0,
-    pageCount: 0,
+    pageCount: 5,
     packUserId: '',
 
     sortCards: '',
@@ -36,7 +37,7 @@ export const cardsReducer = (state: InitialStateType = initialState,
         case "CARDS/SET-ANSWER":
             return {...state, cardAnswer: action.cardAnswer}
         case "CARDS/SET-QUESTION":
-            return {...state, cardAnswer: action.cardQuestion}
+            return {...state, cardQuestion: action.cardQuestion}
         default:
             return state
     }
@@ -59,13 +60,21 @@ export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER'
 export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)
 
 // thunk
-export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType,
-                                                                                  getState: () => AppRootStateType) => {
+export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
     const state = getState();
-    const cardsPackId = state.cards.cardsPackId;
+    const params: CardsQueryParams = {
+        cardQuestion: state.cards.cardQuestion,
+        cardAnswer: state.cards.cardAnswer,
+        cardsPack_id: state.cards.cardsPackId,
+        min: state.cards.min,
+        max: state.cards.max,
+        sortCards: state.cards.sortCards,
+        page: state.cards.page,
+        pageCount: state.cards.pageCount,
+    }
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await CardsApi.fetchCards({cardsPack_id: cardsPackId})
+        const res = await CardsApi.fetchCards(params)
         dispatch(setCards(res.data.cards))
         const info: CardsInfoType = {
             page: res.data.page,
@@ -85,7 +94,7 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType,
 }
 
 // type
-type InitialStateType = CardsInfoType & {
+export type InitialStateType = CardsInfoType & {
     cards: CardType[]
     sortCards: string
     cardAnswer: string

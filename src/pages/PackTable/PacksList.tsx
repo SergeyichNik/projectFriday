@@ -8,6 +8,7 @@ import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
 import SearchField from '../../components/common/SearchField/SearchField';
 import {Pagination} from '../../components/common/Pagination/Pagination';
+import {Paper} from "@mui/material";
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
@@ -39,9 +40,15 @@ export const PacksList = () => {
         dispatch(fetchCardsPack())
     }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
 
+    const styleContainer = {
+        width: '80%',
+        background: '#F9F9FE',
+        margin: '24px auto'
+    }
+
     return (
-        <div style={{margin: '30px auto', minWidth: '850px'}}>
-            <div className={styles.profileContainer}>
+        <div style={{margin: '30px auto'}}>
+            <Paper className={styles.profileContainer} sx={styleContainer} elevation={3}>
                 <div className={styles.sidebar}>
                     <OwnerSwitcher owner={owner}/>
                     <RangeCards
@@ -53,7 +60,7 @@ export const PacksList = () => {
                 </div>
 
                 <div className={styles.content}>
-                    <SearchField searchCallback={searchByPackName}/>
+                    <SearchField searchCallback={searchByPackName} placeholder={'Search'}/>
                     <TablePack pack={pack} sortBy={sortBy} order={order}/>
                     <Pagination page={page}
                                 pageCount={pageCount}
@@ -62,7 +69,7 @@ export const PacksList = () => {
                                 setPageCountCallback={setPackPageCountCallback}
                     />
                 </div>
-            </div>
+            </Paper>
         </div>
     );
 };

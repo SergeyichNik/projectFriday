@@ -1,9 +1,6 @@
 .profileContainer {
     display: flex;
     justify-content: space-between;
-    max-width: 1600px;
-    background: #F9F9FE;
-    margin: 24px auto;
 }
 
 .sidebar {
@@ -12,7 +9,9 @@
 }
 
 .content {
-    width: calc(100% - 280px);
-    background: #eee;
-    padding: 38px; /* всегда вопрос с падингами и марджинами. по БЭМ марджины детей */
+    width: calc(100% - 260px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 30px; /* всегда вопрос с падингами и марджинами. по БЭМ марджины детей */
 }

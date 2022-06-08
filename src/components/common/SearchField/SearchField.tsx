@@ -3,6 +3,7 @@ import s from './SearchField.module.css';
 
 type SearchFieldType = {
     searchCallback: (search: string) => void
+    placeholder: string
 }
 
 const SearchField = (props: SearchFieldType) => {
@@ -18,11 +19,11 @@ const SearchField = (props: SearchFieldType) => {
     );
 
     return (
-        <div>
+        <div className={s.searchWrapper}>
                 <input
                     className={s.searchInput}
                     type="search"
-                    placeholder="Search ..."
+                    placeholder={props.placeholder}
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.currentTarget.value)}
                 />
