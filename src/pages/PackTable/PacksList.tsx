@@ -1,13 +1,21 @@
 import React from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
+import {
+    addCardPack,
+    fetchCardsPack,
+    selectPack,
+    setPage,
+    setPageCount,
+    setSearchPackName
+} from '../../bll/reducers/pack-reducer';
 import {PackCard} from '../../api/pack-api';
 import styles from '../Profile/Profile.module.css';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
 import SearchField from '../../components/common/SearchField/SearchField';
 import {Pagination} from '../../components/common/Pagination/Pagination';
+import {Button} from "@mui/material";
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
@@ -25,6 +33,7 @@ export const PacksList = () => {
     const pageCount = useAppSelector<number>(state => state.pack.pageCount)
     const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
+
     const setPackPageCallback = (page: number) => {
         dispatch(setPage(page + 1));
     }
@@ -33,6 +42,9 @@ export const PacksList = () => {
     }
     const searchByPackName = (search: string) => {
         dispatch(setSearchPackName(search))
+    }
+    const addNewPack = () => {
+        dispatch(addCardPack())
     }
 
     React.useEffect(() => {
@@ -54,6 +66,12 @@ export const PacksList = () => {
 
                 <div className={styles.content}>
                     <SearchField searchCallback={searchByPackName}/>
+                    <Button
+                            variant={'contained'}
+                            onClick={addNewPack}
+                    >
+                        Add new Pack
+                    </Button>
                     <TablePack pack={pack} sortBy={sortBy} order={order}/>
                     <Pagination page={page}
                                 pageCount={pageCount}
