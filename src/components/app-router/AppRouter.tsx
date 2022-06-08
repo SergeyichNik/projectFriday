@@ -9,6 +9,7 @@ import TestPage from "../../pages/TestPage";
 import Registration from "../../pages/Registration/Registration";
 import NotFound from "../../pages/NotFound";
 import {PacksList} from '../../pages/PackTable/PacksList';
+import CardsList from "../../pages/CardsTable/CardsList";
 
 const AppRouter = () => {
     return (
@@ -22,7 +23,7 @@ const AppRouter = () => {
                 <Route path={'registration'} element={<Registration/>}/>
 
                 <Route path={'pack-table'} element={<PacksList/>} />
-
+                <Route path={'cards'} element={<CardsList/>} />
                 <Route path={'*'} element={<NotFound/>}/>
             </Route>
         </Routes>

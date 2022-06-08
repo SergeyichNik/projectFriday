@@ -1,6 +1,9 @@
-import {instance} from "./api";
+import {instance} from "./auth-api";
 
 export const CardsApi = {
+    fetchCards({cardsPack_id}: CardsQueryParams) {
+        return instance.get<CardsResponseType>('/cards/card', {params: {cardsPack_id}})
+    },
     getCards({cardAnswer, cardQuestion, cardsPack_id, sortCards, min, max, page, pageCount}: CardsQueryParams) {
         return instance.get<CardsResponseType>('/cards/card',
             {params: {cardAnswer, cardQuestion, cardsPack_id, sortCards, min, max, page, pageCount}})
@@ -31,10 +34,10 @@ export type CardsResponseType = {
 export type CardsQueryParams = {
     cardAnswer?: string
     cardQuestion?: string
-    cardsPack_id?: string
-    min?: string
-    max?: string
+    cardsPack_id: string
+    min?: number
+    max?: number
     sortCards?: string
-    page?: string
-    pageCount?: string
+    page?: number
+    pageCount?: number
 }

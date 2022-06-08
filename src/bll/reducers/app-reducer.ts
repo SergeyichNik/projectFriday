@@ -1,5 +1,5 @@
 import {ThunkType} from '../store/store';
-import {api} from '../../api/api';
+import {authApi} from '../../api/auth-api';
 import {getUserData, LoginResponseType} from './login-reducer';
 
 export type LoadingStatusType = 'idle' | 'loading'
@@ -52,7 +52,7 @@ export const setTrash = (value?: any) => ({type: 'app/SET-TRASH', value} as cons
 export const authMe = (): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await api.authMe()
+        const res = await authApi.authMe()
         dispatch(getUserData(res.data, true))
     } catch (e: any) {
         // const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
@@ -65,7 +65,7 @@ export const authMe = (): ThunkType => async dispatch => {
 export const logOut = (): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await api.logOut()
+        const res = await authApi.logOut()
         dispatch(setTrash(res.data.info))
         dispatch(getUserData({} as LoginResponseType, false))
     } catch (e: any) {

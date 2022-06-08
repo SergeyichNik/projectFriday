@@ -8,6 +8,7 @@ import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 import {RecoveryPasswordActionsType, recoveryPasswordReducer} from '../reducers/recoveryPassword-reducer';
 import {newPasswordReducer} from '../reducers/newPasswordReducer';
 import {packReducer, PackReducerActionsType} from '../reducers/pack-reducer';
+import {cardsReducer, CardsReducerActionType} from "../reducers/cards-reducer";
 
 
 // @ts-ignore
@@ -19,7 +20,8 @@ const reducer = combineReducers({
     recoverPassword: recoveryPasswordReducer,
     login: loginReducer,
     registration: RegistrationReducer,
-    pack: packReducer
+    pack: packReducer,
+    cards: cardsReducer
 })
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)))
@@ -31,6 +33,7 @@ export type AppRootActionsType =
     | RecoveryPasswordActionsType
     | AppActionType
     | PackReducerActionsType
+    | CardsReducerActionType
 
 export type ThunkType<ReturnType = void> = ThunkAction<ReturnType, AppRootStateType, unknown, AppRootActionsType>
 

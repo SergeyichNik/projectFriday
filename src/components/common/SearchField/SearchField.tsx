@@ -1,18 +1,18 @@
 import React, {useEffect, useState} from 'react';
-import {useAppDispatch} from "../../../bll/store/store";
 import s from './SearchField.module.css';
-import {fetchCardsPack, setSearchPackName} from "../../../bll/reducers/pack-reducer";
 
-const SearchField = () => {
-    const dispatch = useAppDispatch()
+type SearchFieldType = {
+    searchCallback: (search: string) => void
+}
+
+const SearchField = (props: SearchFieldType) => {
     const [searchTerm, setSearchTerm] = useState<string>("");
-
     const debouncedSearchTerm: string = useDebounce<string>(searchTerm, 1000);
 
     // Effect for API call
     useEffect(
         () => {
-                dispatch(setSearchPackName(debouncedSearchTerm))
+            props.searchCallback(debouncedSearchTerm)
         },
         [debouncedSearchTerm] // Only call effect if debounced search term changes
     );
