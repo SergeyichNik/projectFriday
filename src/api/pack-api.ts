@@ -1,12 +1,9 @@
-import {instance} from './api';
+import {instance} from './auth-api';
 
 
 export const CardsPackAPI = {
     getPack({packName, min, max, sortPacks, page, pageCount, user_id}: PackQueryParams) {
         return instance.get<Pack>('/cards/pack', {params: {packName, min, max, sortPacks, page, pageCount, user_id}})
-    },
-    searchPacksByName({packName}: PackQueryParams) {
-        return instance.get<Pack>('/cards/pack', {params: {packName}})
     }
 }
 

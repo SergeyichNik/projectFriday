@@ -1,4 +1,4 @@
-import {api} from '../../api/api';
+import {authApi} from '../../api/auth-api';
 import {DispatchActionType, ThunkType} from '../store/store';
 import {setAppError, setLoadingStatus} from './app-reducer';
 
@@ -27,7 +27,7 @@ const setResponseInfoRecoveryPassword = (info: string) =>
 export const sendPasswordRecovery = (email: string):ThunkType => async (dispatch: DispatchActionType) => {
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await api.recoveryPassword(email)
+        const res = await authApi.recoveryPassword(email)
         dispatch(setResponseInfoRecoveryPassword(res.data.info))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');

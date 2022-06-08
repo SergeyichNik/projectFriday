@@ -1,5 +1,5 @@
 import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
-import {CardsPackAPI, Pack, PackCard, PackQueryParams} from '../../api/packAPI';
+import {CardsPackAPI, Pack, PackCard, PackQueryParams} from '../../api/pack-api';
 import {setAppError, setLoadingStatus} from './app-reducer';
 
 const initialState: PackInitStateType = {

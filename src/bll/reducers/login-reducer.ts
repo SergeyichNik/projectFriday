@@ -1,4 +1,4 @@
-import {api} from '../../api/api';
+import {authApi} from '../../api/auth-api';
 import {setAppError, setLoadingStatus} from './app-reducer';
 import {ThunkType} from '../store/store';
 
@@ -58,7 +58,7 @@ export const updateUserDataInfo = (data: LoginResponseType) =>
 export const loginTC = (email: string, password: string, rememberMe: boolean): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await api.login(email, password, rememberMe)
+        const res = await authApi.login(email, password, rememberMe)
         dispatch(getUserData(res.data, true));
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
@@ -74,7 +74,7 @@ export const updateUserInfo = (name: string, avatar: string): ThunkType => async
         let temp: string = avatar
         temp = ' '
         const data = {name, avatar: temp}
-        const res = await api.updateUserInfo(data)
+        const res = await authApi.updateUserInfo(data)
         dispatch(updateUserDataInfo(res.data.updatedUser))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');

@@ -7,7 +7,7 @@ export const instance = axios.create({
     withCredentials: true,
 })
 
-export const api = {
+export const authApi = {
     getPing() {
         return instance.get("/ping?frontTime=1596635884283")
     },

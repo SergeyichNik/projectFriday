@@ -1,1 +1,1 @@
-export type { PackQueryParams }  from "./packAPI"
+export type { PackQueryParams }  from "./pack-api"

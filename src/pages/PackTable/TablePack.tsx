@@ -6,11 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {PackCard} from '../../api/packAPI';
+import {useAppDispatch} from '../../bll/store/store';
+import {PackCard} from '../../api/pack-api';
 import {TableSortLabel} from '@mui/material';
-import {setPage, setPageCount, setSortBy} from '../../bll/reducers/pack-reducer';
-import {Pagination} from "../../components/common/Pagination/Pagination";
+import {setSortBy} from '../../bll/reducers/pack-reducer';
+import {CardType} from "../../api/cards-api";
+import {useNavigate} from "react-router-dom";
+import {setPackId} from "../../bll/reducers/cards-reducer";
 
 interface Data {
     packName: string;
@@ -18,7 +20,7 @@ interface Data {
     createdDate: string;
     createdByName: string;
     updatedDate: string;
-    cardID: string;
+    packID: string;
     actions?: null;
 }
 
@@ -28,9 +30,9 @@ function createData(
     createdDate: string,
     createdByName: string,
     updatedDate: string,
-    cardID: string
+    packID: string
 ): Data {
-    return {packName, cardsCount, createdDate, createdByName, updatedDate, cardID};
+    return {packName, cardsCount, createdDate, createdByName, updatedDate, packID};
 }
 
 type TablePackPropsType = {
@@ -40,9 +42,8 @@ type TablePackPropsType = {
 }
 
 export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) => {
-
     const dispatch = useAppDispatch()
-
+    const navigate = useNavigate()
 
     const rows = pack.map(el => createData(
         el.name,
@@ -73,6 +74,10 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
 
     const onClickSortByHandler = (sortBy: string) => () => {
         dispatch(setSortBy(sortBy))
+    }
+    const handlerGetCards = (id: string) => {
+        navigate('../cards')
+        dispatch(setPackId(id))
     }
 
     return (
@@ -127,7 +132,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                     <TableBody>
                         {rows.map((row) => (
                             <TableRow
-                                key={row.cardID}
+                                key={row.packID}
                                 sx={[styleTd, styleAlignCell]}
                                 // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
@@ -136,7 +141,9 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 <TableCell>{row.createdDate}</TableCell>
                                 <TableCell>{row.createdByName}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
-                                <TableCell>buttons would be here</TableCell>
+                                <TableCell>
+                                    <button onClick={() => handlerGetCards(row.packID)}>Learn</button>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>

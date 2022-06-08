@@ -1,4 +1,4 @@
-import {api, RegistrationParamsType} from "../../api/api";
+import {authApi, RegistrationParamsType} from "../../api/auth-api";
 import {ThunkType} from "../store/store";
 import {setAppError, setLoadingStatus} from "./app-reducer";
 
@@ -27,7 +27,7 @@ export const setRegistrationAC = (isRegistered: boolean) => ({type: "REGISTRATIO
 export const setRegistrationTC = (data: RegistrationParamsType): ThunkType => async (dispatch) => {
     try {
         dispatch(setLoadingStatus('loading'));
-        const res = await api.registration(data);
+        const res = await authApi.registration(data);
         console.log(res.data);
         dispatch(setRegistrationAC(true));
     } catch (e: any) {

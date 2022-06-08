@@ -2,7 +2,7 @@ import React from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {fetchCardsPack, selectPack, setPage, setPageCount} from '../../bll/reducers/pack-reducer';
-import {PackCard} from '../../api/packAPI';
+import {PackCard} from '../../api/pack-api';
 import styles from '../Profile/Profile.module.css';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
@@ -25,20 +25,16 @@ export const PacksList = () => {
     const pageCount = useAppSelector<number>(state => state.pack.pageCount)
     const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
-    React.useEffect(() => {
+    const setPackPageCallback = (page: number) => {
+        dispatch(setPage(page));
+    }
+    const setPackPageCountCallback = (page: number) => {
+        dispatch(setPageCount(page))
+    }
 
+    React.useEffect(() => {
         dispatch(fetchCardsPack())
     }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
-
-    const handleChangePage = (newPage: number) => {
-
-        dispatch(setPage(newPage));
-    };
-
-    const handleChangeRowsPerPage = (pageCount: number) => {
-        dispatch(setPageCount(pageCount))
-
-    };
 
     return (
         <div style={{margin: '30px auto', minWidth: '850px'}}>
@@ -60,8 +56,8 @@ export const PacksList = () => {
                     <Pagination page={page}
                                 pageCount={pageCount}
                                 cardsPacksTotalCount={cardsPacksTotalCount}
-                                handleChangePage={handleChangePage}
-                                onRowsPerPageChange={handleChangeRowsPerPage}
+                                setPageCallback={setPackPageCallback}
+                                setPageCountCallback={setPackPageCountCallback}
                     />
                 </div>
             </div>
