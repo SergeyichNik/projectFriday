@@ -59,13 +59,7 @@ const setCardPacksInfo = (cardPacksInfo: PackCardsInfo) => ({type: 'PACK/SET_CAR
 export const setSortBy = (sortBy: string) => ({type: 'PACK/SET_SORT_BY', sortBy} as const)
 export const setPackOwner = (owner: 'all' | 'my') => ({type: 'PACK/SET_PACK_OWNER', owner} as const)
 export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT', range} as const)
-
-export const setPage = (page: number) => {
-    return {
-        type: 'PACK/SET_PAGE'
-        , page
-    } as const
-}
+export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type:'PACK/SET_PAGE_COUNT', pageCount} as const)
 export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
 export const addNewPack = (cardsPack: PackCard) => ({type: 'PACK/ADD_NEW_PACK', cardsPack} as const)
@@ -85,6 +79,7 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     }
     try {
         dispatch(setLoadingStatus('loading'))
+        debugger
         const res = await CardsPackAPI.getPack(params)
         dispatch(setCardPacks(res.data.cardPacks))
         const info: PackCardsInfo = {
@@ -96,6 +91,7 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
             token: res.data.token,
             tokenDeathTime: res.data.tokenDeathTime
         }
+        debugger
         dispatch(setCardPacksInfo(info))
 
     } catch (e: any) {

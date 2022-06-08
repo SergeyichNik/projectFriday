@@ -18,7 +18,6 @@ export const Pagination: React.FC<PaginationPropsType> = (props) => {
         props.setPageCountCallback(+event.target.value);
     };
 
-    const currentPage = props.page - 1;
     return (
         <>
             <TablePagination
@@ -26,7 +25,7 @@ export const Pagination: React.FC<PaginationPropsType> = (props) => {
                 component="div"
                 count={props.cardsPacksTotalCount}
                 rowsPerPage={props.pageCount}
-                page={currentPage}
+                page={props.page - 1}
                 onPageChange={(e, newPage) => handleChangePage(newPage)}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />

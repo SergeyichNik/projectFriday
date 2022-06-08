@@ -54,7 +54,8 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         el._id))
 
     const styleTHead = {
-        background: '#2c2b3f',
+        // background: '#2c2b3f',
+        background: 'rgb(109,106,153, 0.8)',
         'th': {color: '#fff', fontWeight: 'bold'}
     }
 
@@ -64,7 +65,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     }
 
     const styleAlignCell = {
-        '& :not(:first-of-type)': {textAlign: 'right'}
+        '& :not(:first-of-type)': {textAlign: 'left'}
     }
 
     const styleActiveLabel = {

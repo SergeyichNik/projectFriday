@@ -7,9 +7,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch} from '../../bll/store/store';
-import {TableSortLabel} from '@mui/material';
+import {Rating, TableSortLabel} from '@mui/material';
 import {setSortBy} from '../../bll/reducers/pack-reducer';
 import {CardType} from "../../api/cards-api";
+import StarIcon from '@mui/icons-material/Star';
 
 interface Data {
     question: string;
@@ -49,7 +50,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
         el.cardsPack_id))
 
     const styleTHead = {
-        background: '#2c2b3f',
+        background: 'rgb(109,106,153, 0.8)',
         'th': {color: '#fff', fontWeight: 'bold'}
     }
     const styleTd = {
@@ -57,7 +58,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
         '&:nth-of-type(even)': {background: ' #F8F7FD'}
     }
     const styleAlignCell = {
-        '& :not(:first-of-type)': {textAlign: 'right'}
+        '& :not(:first-of-type)': {textAlign: 'left'}
     }
     const styleActiveLabel = {
         color: '#fff !important',
@@ -118,7 +119,15 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
                                 <TableCell>{row.question}</TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
-                                <TableCell>{row.grade}</TableCell>
+                                <TableCell>
+                                    <Rating
+                                        name="simple-controlled"
+                                        value={row.grade}
+                                        readOnly
+                                        precision={0.5}
+                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                    />
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
