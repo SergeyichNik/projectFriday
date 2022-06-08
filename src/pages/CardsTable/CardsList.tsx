@@ -4,7 +4,7 @@ import SearchField from "../../components/common/SearchField/SearchField";
 import {TablePack} from "../PackTable/TablePack";
 import {Pagination} from "../../components/common/Pagination/Pagination";
 import {useAppDispatch, useAppSelector} from "../../bll/store/store";
-import {fetchCards, setPage, setPageCount} from "../../bll/reducers/cards-reducer";
+import {fetchCards, searchByAnswer, searchByQuestion, setPage, setPageCount} from "../../bll/reducers/cards-reducer";
 import {TableCards} from "./TableCards";
 import {CardType} from "../../api/cards-api";
 
@@ -23,13 +23,26 @@ const CardsList = () => {
         dispatch(fetchCards())
     }, [cardsPage, cardsPageCount, cardsTotalCount, cardsPackId])
 
+    const searchByQuestionCallback = (question: string) => {
+        dispatch(searchByQuestion(question))
+    }
+    const searchByAnswerCallback = (answer: string) => {
+        dispatch(searchByAnswer(answer))
+    }
+
     return (
         <div style={{margin: '30px auto', minWidth: '850px'}}>
             <div className={styles.profileContainer}>
                 <div className={styles.content}>
                     <div className={styles.cardsSearchBars}>
-                    <SearchField/>
-                    <SearchField/>
+                        <div>
+                            Search by question
+                    <SearchField searchCallback={searchByQuestionCallback}/>
+                    </div>
+                        <div>
+                            Search by answer
+                    <SearchField searchCallback={searchByAnswerCallback}/>
+                        </div>
                     </div>
                     <TableCards cards={cards}/>
                     <Pagination page={cardsPage}

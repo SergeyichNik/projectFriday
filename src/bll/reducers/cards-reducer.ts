@@ -33,6 +33,10 @@ export const cardsReducer = (state: InitialStateType = initialState,
             return {...state, cards: action.cards}
         case "CARDS/SET-PACK-ID":
             return {...state, cardsPackId: action.packId}
+        case "CARDS/SET-ANSWER":
+            return {...state, cardAnswer: action.cardAnswer}
+        case "CARDS/SET-QUESTION":
+            return {...state, cardAnswer: action.cardQuestion}
         default:
             return state
     }
@@ -41,7 +45,9 @@ export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof setCardsInfo>
     | ReturnType<typeof setPage>
     | ReturnType<typeof setPageCount>
+    | ReturnType<typeof searchByAnswer>
     | ReturnType<typeof setPackId>
+    | ReturnType<typeof searchByQuestion>
 
 // actions
 export const setCards = (cards: CardType[]) => ({type: 'CARDS/SET-CARDS', cards} as const)
@@ -49,6 +55,8 @@ export const setCardsInfo = (info: CardsInfoType) => ({type: 'CARDS/SET-INFO', i
 export const setPage = (page: number) => ({type: 'CARDS/SET_PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type: 'CARDS/SET_PAGE_COUNT', pageCount} as const)
 export const setPackId = (packId: string) => ({type: 'CARDS/SET-PACK-ID', packId} as const)
+export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER', cardAnswer} as const)
+export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)
 
 // thunk
 export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType,

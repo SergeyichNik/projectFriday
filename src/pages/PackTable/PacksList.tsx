@@ -1,7 +1,7 @@
 import React from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {fetchCardsPack, selectPack, setPage, setPageCount} from '../../bll/reducers/pack-reducer';
+import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
 import {PackCard} from '../../api/pack-api';
 import styles from '../Profile/Profile.module.css';
 import {RangeCards} from './RangeCards/RangeCards';
@@ -31,6 +31,9 @@ export const PacksList = () => {
     const setPackPageCountCallback = (page: number) => {
         dispatch(setPageCount(page))
     }
+    const searchByPackName = (search: string) => {
+        dispatch(setSearchPackName(search))
+    }
 
     React.useEffect(() => {
         dispatch(fetchCardsPack())
@@ -50,8 +53,7 @@ export const PacksList = () => {
                 </div>
 
                 <div className={styles.content}>
-
-                    <SearchField/>
+                    <SearchField searchCallback={searchByPackName}/>
                     <TablePack pack={pack} sortBy={sortBy} order={order}/>
                     <Pagination page={page}
                                 pageCount={pageCount}
