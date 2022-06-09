@@ -10,14 +10,21 @@ import {useAppDispatch} from '../../../bll/store/store';
 const minDistance = 1;
 
 type RangeCardsPropsType = {
+    minSort: number
+    maxSort: number
     minCardsCount: number
     maxCardsCount: number
 }
 
-export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCount, maxCardsCount}) => {
+export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({
+                                                                         minSort,
+                                                                         maxSort,
+                                                                         minCardsCount,
+                                                                         maxCardsCount
+                                                                     }) => {
     const dispatch = useAppDispatch()
 
-    const [value, setValue] = React.useState<number[]>([0, maxCardsCount]);
+    const [value, setValue] = React.useState<number[]>([0, 0]);
 
     const handleChange = (event: Event, newValue: number | number[], activeThumb: number) => {
         if (!Array.isArray(newValue)) {
@@ -63,12 +70,15 @@ export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCo
     }, [value])
 
     React.useEffect(() => {
-        setValue([minCardsCount, maxCardsCount])
-    }, [maxCardsCount])
+        if (minSort !== minCardsCount || maxSort !== maxCardsCount && maxSort !== 0) {
+            setValue([minSort, maxSort])
+        } else setValue([minCardsCount, maxCardsCount])
+    }, [minSort, maxSort, minCardsCount, maxCardsCount])
 
     return (
         <div className={styles.wrapper}>
-            <div style={{marginBottom: '38px'}}>Number of cards</div>
+            <div className={styles.option}>Number of cards</div>
+
             <AirbnbSlider
                 components={{Thumb: AirbnbThumbComponent}}
                 getAriaLabel={(index) => (index === 0 ? 'Minimum cards' : 'Maximum cards')}

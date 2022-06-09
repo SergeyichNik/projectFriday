@@ -13,28 +13,6 @@ import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 
-interface Data {
-    packName: string;
-    cardsCount: number;
-    createdDate: string;
-    createdByName: string;
-    updatedDate: string;
-    packID: string;
-    packUserID: string;
-    actions?: null;
-}
-
-function createData(
-    packName: string,
-    cardsCount: number,
-    createdDate: string,
-    createdByName: string,
-    updatedDate: string,
-    packID: string,
-    packUserID: string
-): Data {
-    return {packName, cardsCount, createdDate, createdByName, updatedDate, packID, packUserID};
-}
 
 type TablePackPropsType = {
     pack: PackCard[]
@@ -62,7 +40,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         background: '#2c2b3f',
         // background: 'rgb(109,106,153, 0.8)',
         'th': {color: '#fff', fontWeight: 'bold'},
-        'th: nth-of-type(6)': {width: '288px'}
+        'th: nth-of-type(6)': {width: '280px'}
     }
 
     const styleTd = {
@@ -94,17 +72,6 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const updatePackHandler = (id: string) => {
         dispatch(updatePack(id))
     }
-
-    const ButtonCP = styled(Button)<ButtonProps>(() => ({
-        backgroundColor: '#33b198',
-        color: '#fff',
-        transition: '.3s',
-        textTransform: 'none',
-        '&:hover': {
-            backgroundColor: '#33b198',
-            opacity: '0.85'
-        }
-    }))
 
     return (
         <>
@@ -168,7 +135,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 <TableCell>{row.createdByName}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
                                 <TableCell>
-                                    <div style={{display: 'flex', gap: '8px', justifyContent: 'end'}}>
+                                    <div style={{display: 'flex', gap: '14px', justifyContent: 'end'}}>
                                         {row.packUserID === authorizedUserId &&
                                             <Button variant={'contained'}
                                                     color={'error'}
@@ -180,7 +147,10 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                                 onClick={() => updatePackHandler(row.packID)}
                                             >Edit</ButtonCP>
                                         }
-                                        <ButtonCP onClick={() => handlerGetCards(row.packID)}>Learn</ButtonCP>
+                                        <ButtonCP
+                                            disabled={!row.cardsCount}
+                                            onClick={() => handlerGetCards(row.packID)}
+                                        >Learn</ButtonCP>
                                     </div>
                                 </TableCell>
                             </TableRow>
@@ -188,7 +158,45 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                     </TableBody>
                 </Table>
             </TableContainer>
-
         </>
     );
 }
+
+
+interface Data {
+    packName: string;
+    cardsCount: number;
+    createdDate: string;
+    createdByName: string;
+    updatedDate: string;
+    packID: string;
+    packUserID: string;
+    actions?: null;
+}
+
+function createData(
+    packName: string,
+    cardsCount: number,
+    createdDate: string,
+    createdByName: string,
+    updatedDate: string,
+    packID: string,
+    packUserID: string
+): Data {
+    return {packName, cardsCount, createdDate, createdByName, updatedDate, packID, packUserID};
+}
+
+const ButtonCP = styled(Button)<ButtonProps>(() => ({
+    backgroundColor: '#33b198',
+    color: '#fff',
+    transition: '.3s',
+    textTransform: 'none',
+    '&:hover': {
+        backgroundColor: '#33b198',
+        opacity: '0.85'
+    },
+    '&:disabled': {
+        background: '#d9d9d9',
+        color: '#858585'
+    }
+}))

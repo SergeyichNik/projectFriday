@@ -27,28 +27,25 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
             return {...state, cardPacks: action.cardPacks}
         case 'PACK/SET_CARD_PACKS_INFO':
             return {...state, ...action.cardPacksInfo}
-        case 'PACK/SET_SORT_BY':{
+        case 'PACK/SET_SORT_BY': {
             const isAsc = state.sortBy === action.sortBy && state.order === 'asc';
-            return {
-                ...state,
-                order: isAsc ? 'desc' : 'asc',
-                sortBy: action.sortBy
-            }
+            return {...state, order: isAsc ? 'desc' : 'asc', sortBy: action.sortBy}
         }
         case 'PACK/SET_PACK_OWNER':
             return {...state, packOwner: action.owner}
         case 'PACK/SET_MIN_MAX_SORT':
             return {...state, minSort: action.range[0], maxSort: action.range[1]}
-        case "PACK/SET_PAGE":
+        case 'PACK/SET_PAGE':
             return {...state, page: action.page}
-        case "PACK/SET_PAGE_COUNT":
+        case 'PACK/SET_PAGE_COUNT':
             return {...state, pageCount: action.pageCount}
-        case "PACK/SET_PACK_NAME":
+        case 'PACK/SET_PACK_NAME':
             return {...state, ...action}
         case 'PACK/ADD_NEW_PACK':
             const newCardPack: PackCard = {...action.cardsPack}
             return {...state, cardPacks: [newCardPack, ...state.cardPacks]}
-        default: return state
+        default:
+            return state
     }
 }
 
@@ -60,7 +57,7 @@ export const setSortBy = (sortBy: string) => ({type: 'PACK/SET_SORT_BY', sortBy}
 export const setPackOwner = (owner: 'all' | 'my') => ({type: 'PACK/SET_PACK_OWNER', owner} as const)
 export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT', range} as const)
 export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
-export const setPageCount = (pageCount: number) => ({type:'PACK/SET_PAGE_COUNT', pageCount} as const)
+export const setPageCount = (pageCount: number) => ({type: 'PACK/SET_PAGE_COUNT', pageCount} as const)
 export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
 export const addNewPack = (cardsPack: PackCard) => ({type: 'PACK/ADD_NEW_PACK', cardsPack} as const)
 
@@ -91,7 +88,6 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
             tokenDeathTime: res.data.tokenDeathTime
         }
         dispatch(setCardPacksInfo(info))
-
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
@@ -100,7 +96,7 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     }
 }
 
-export const addCardPack = (): ThunkType => async(dispatch: DispatchActionType) => {
+export const addCardPack = (): ThunkType => async (dispatch: DispatchActionType) => {
     const newName = 'JS/React/Redux'
     try {
         dispatch(setLoadingStatus('loading'))
@@ -109,8 +105,7 @@ export const addCardPack = (): ThunkType => async(dispatch: DispatchActionType) 
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-    }
-    finally {
+    } finally {
         dispatch(setLoadingStatus('idle'))
     }
 }

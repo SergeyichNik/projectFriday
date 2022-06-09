@@ -45,7 +45,7 @@ const CardsList = () => {
                 <Grid item justifyContent={'center'}>
                     <Paper elevation={3} sx={styleContainer}>
                         <div className={s.contentBlock}>
-                            <Link className={s.backLink} to={'../pack-table'}>Back</Link>
+                            <div><Link className={s.backLink} to={'../pack-table'}>Back</Link></div>
                             <div className={s.cardsSearchBar}>
                                     <SearchField
                                         searchCallback={searchByQuestionCallback}
