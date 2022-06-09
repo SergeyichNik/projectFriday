@@ -14,11 +14,12 @@ import {
 import {TableCards} from "./TableCards";
 import {CardType} from "../../api/cards-api";
 import {Grid, Paper} from "@mui/material";
-import {useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
+
 
 const CardsList = () => {
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
+
     const cards = useAppSelector<CardType[]>(state => state.cards.cards)
     const cardsPage = useAppSelector<number>(state => state.cards.page)
     const cardsPageCount = useAppSelector<number>(state => state.cards.pageCount)
@@ -42,7 +43,6 @@ const CardsList = () => {
         dispatch(searchByAnswer(answer))
     }
     const backToPacksHandler = () => {
-        navigate('../pack-table')
         dispatch(setCards([]))
     }
 
@@ -58,15 +58,19 @@ const CardsList = () => {
                 <Grid item justifyContent={'center'}>
                     <Paper elevation={3} sx={styleContainer}>
                         <div className={s.contentBlock}>
-                            <div className={s.backLink} onClick={backToPacksHandler}>Back</div>
+                            <div>
+                            <Link className={s.backLink} to={'../pack-table'} onClick={backToPacksHandler}>Back</Link>
+                            </div>
                             <div className={s.cardsSearchBar}>
                                     <SearchField
                                         searchCallback={searchByQuestionCallback}
                                         placeholder={'Question'}
+                                        initState={cardsQuestion}
                                     />
                                     <SearchField
                                         searchCallback={searchByAnswerCallback}
                                         placeholder={'Answer'}
+                                        initState={cardsAnswer}
                                     />
                             </div>
                             <TableCards cards={cards} order={order} sortCards={sortCards}/>

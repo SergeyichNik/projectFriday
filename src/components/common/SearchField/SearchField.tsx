@@ -4,10 +4,11 @@ import s from './SearchField.module.css';
 type SearchFieldType = {
     searchCallback: (search: string) => void
     placeholder: string
+    initState: string
 }
 
 const SearchField = (props: SearchFieldType) => {
-    const [searchTerm, setSearchTerm] = useState<string>("");
+    const [searchTerm, setSearchTerm] = useState<string>(props.initState);
     const debouncedSearchTerm: string = useDebounce<string>(searchTerm, 1000);
 
     // Effect for API call

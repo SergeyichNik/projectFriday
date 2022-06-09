@@ -79,7 +79,6 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     }
     try {
         dispatch(setLoadingStatus('loading'))
-        debugger
         const res = await CardsPackAPI.getPack(params)
         dispatch(setCardPacks(res.data.cardPacks))
         const info: PackCardsInfo = {
@@ -91,7 +90,6 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
             token: res.data.token,
             tokenDeathTime: res.data.tokenDeathTime
         }
-        debugger
         dispatch(setCardPacksInfo(info))
 
     } catch (e: any) {

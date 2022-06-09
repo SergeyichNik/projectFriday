@@ -72,7 +72,7 @@ export const PacksList = () => {
                 </div>
 
                 <div className={styles.content}>
-                    <SearchField searchCallback={searchByPackName} placeholder={'Search'}/>
+                    <SearchField searchCallback={searchByPackName} placeholder={'Search'} initState={packName}/>
                     <Button
                             variant={'contained'}
                             onClick={addNewPack}
