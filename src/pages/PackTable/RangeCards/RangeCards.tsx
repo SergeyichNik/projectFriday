@@ -16,12 +16,8 @@ type RangeCardsPropsType = {
     maxCardsCount: number
 }
 
-export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({
-                                                                         minSort,
-                                                                         maxSort,
-                                                                         minCardsCount,
-                                                                         maxCardsCount
-                                                                     }) => {
+export const RangeCards: React.FC<RangeCardsPropsType>
+    = React.memo(({minSort, maxSort, minCardsCount, maxCardsCount}) => {
     const dispatch = useAppDispatch()
 
     const [value, setValue] = React.useState<number[]>([0, 0]);
@@ -53,7 +49,6 @@ export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({
         const onChangeMinMax = () => {
             dispatch(setMinMaxSort(value))
         };
-
 
         // element.addEventListener('mousedown', openListeners)
 

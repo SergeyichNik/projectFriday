@@ -87,14 +87,20 @@ export const PacksList = () => {
                         </Button>
                     </div>
 
-                    <TablePack pack={pack} sortBy={sortBy} order={order}/>
+                    {pack.length === 0 && owner === 'my'
+                        ? <div>You have no any Pack, do want to add?</div>
+                        : <>
+                            <TablePack pack={pack} sortBy={sortBy} order={order}/>
 
-                    <Pagination page={page}
-                                pageCount={pageCount}
-                                cardsPacksTotalCount={cardsPacksTotalCount}
-                                setPageCallback={setPackPageCallback}
-                                setPageCountCallback={setPackPageCountCallback}
-                    />
+                            <Pagination page={page}
+                                        pageCount={pageCount}
+                                        cardsPacksTotalCount={cardsPacksTotalCount}
+                                        setPageCallback={setPackPageCallback}
+                                        setPageCountCallback={setPackPageCountCallback}
+                            />
+                        </>
+                    }
+
                 </div>
             </div>
         </div>

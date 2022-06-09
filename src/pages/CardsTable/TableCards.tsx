@@ -49,22 +49,6 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
         el._id,
         el.cardsPack_id))
 
-    const styleTHead = {
-        background: 'rgb(109,106,153, 0.8)',
-        'th': {color: '#fff', fontWeight: 'bold'}
-    }
-    const styleTd = {
-        '&:last-child td, &:last-child th': {border: 0},
-        '&:nth-of-type(even)': {background: ' #F8F7FD'}
-    }
-    const styleAlignCell = {
-        '& :not(:first-of-type)': {textAlign: 'left'}
-    }
-    const styleActiveLabel = {
-        color: '#fff !important',
-        '& svg': {color: '#fff !important'}
-    }
-
     const onClickSortByHandler = (sortCard: string) => () => {
         dispatch(setSortCards(sortCard))
     }
@@ -136,4 +120,21 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
 
         </>
     );
+}
+
+const styleTHead = {
+    background: '#2c2b3f',
+    'th': {color: '#fff', fontWeight: 'bold'},
+    'th: nth-of-type(4)': {width: '158px'}
+}
+const styleTd = {
+    '&:last-child td, &:last-child th': {border: 0},
+    '&:nth-of-type(even)': {background: ' #F8F7FD'}
+}
+const styleAlignCell = {
+    '& :not(:first-of-type)': {textAlign: 'left'}
+}
+const styleActiveLabel = {
+    color: '#fff !important',
+    '& svg': {color: '#fff !important'}
 }

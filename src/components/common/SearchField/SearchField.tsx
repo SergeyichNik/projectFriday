@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import s from './SearchField.module.css';
 
+
 type SearchFieldType = {
     searchCallback: (search: string) => void
     placeholder: string
@@ -21,13 +22,13 @@ const SearchField = (props: SearchFieldType) => {
 
     return (
         <div className={s.searchWrapper}>
-                <input
-                    className={s.searchInput}
-                    type="search"
-                    placeholder={props.placeholder}
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.currentTarget.value)}
-                />
+            <input
+                className={s.searchInput}
+                type="search"
+                placeholder={props.placeholder}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.currentTarget.value)}
+            />
         </div>
     );
 };

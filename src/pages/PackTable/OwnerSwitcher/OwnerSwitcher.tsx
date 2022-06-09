@@ -12,7 +12,6 @@ type OwnerSwitcherPropsType = {
 export const OwnerSwitcher: React.FC<OwnerSwitcherPropsType> = ({owner}) => {
     const dispatch = useAppDispatch()
 
-
     const setOwnerHandler = (owner: 'all' | 'my') => {
         dispatch(setPackOwner(owner))
     }

@@ -1,9 +1,10 @@
 .searchWrapper {
     width: 100%;
 }
+
 .searchInput {
     border-radius: 5px;
-    border: 1px solid rgb(109,106,153, 0.8);
+    border: 1px solid rgb(109, 106, 153, 0.8);
     outline: none;
     font-size: 16px;
     background-color: #ECECF9;
@@ -13,6 +14,11 @@
     height: 50px;
     margin: 10px auto 20px;
 }
+
+.searchInput:focus {
+    border-color: #33b198;
+}
+
 ::placeholder {
-    color: rgb(109,106,153, 0.8);
+    color: rgb(109, 106, 153, 0.8);
 }
