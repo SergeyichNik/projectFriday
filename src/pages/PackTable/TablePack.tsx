@@ -10,7 +10,6 @@ import {useAppDispatch} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
 import {TableSortLabel} from '@mui/material';
 import {setSortBy} from '../../bll/reducers/pack-reducer';
-import {CardType} from "../../api/cards-api";
 import {useNavigate} from "react-router-dom";
 import {setPackId} from "../../bll/reducers/cards-reducer";
 

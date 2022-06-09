@@ -1,9 +1,9 @@
 import {CardsApi, CardsQueryParams, CardType} from "../../api/cards-api";
 import {AppRootStateType, DispatchActionType, ThunkType} from "../store/store";
 import {setAppError, setLoadingStatus} from "./app-reducer";
-import {PackQueryParams} from "../../api";
 
-const initialState = {
+export type OrderType = 'desc' | 'asc'
+const initialState: InitialStateType = {
     cards: [],
     cardsTotalCount: 0,
     minGrade: 0,
@@ -13,6 +13,7 @@ const initialState = {
     packUserId: '',
 
     sortCards: '',
+    order: 'desc',
     cardAnswer: '',
     cardQuestion: '',
     cardsPack_id: '',
@@ -38,6 +39,9 @@ export const cardsReducer = (state: InitialStateType = initialState,
             return {...state, cardAnswer: action.cardAnswer}
         case "CARDS/SET-QUESTION":
             return {...state, cardQuestion: action.cardQuestion}
+        case "CARDS/SET-SORT-CARDS":
+            const isAsc = state.sortCards === action.sortCards && state.order === 'asc'
+            return {...state, sortCards: action.sortCards, order: isAsc ? 'desc' : 'asc'}
         default:
             return state
     }
@@ -49,6 +53,7 @@ export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof searchByAnswer>
     | ReturnType<typeof setPackId>
     | ReturnType<typeof searchByQuestion>
+    | ReturnType<typeof setSortCards>
 
 // actions
 export const setCards = (cards: CardType[]) => ({type: 'CARDS/SET-CARDS', cards} as const)
@@ -58,6 +63,7 @@ export const setPageCount = (pageCount: number) => ({type: 'CARDS/SET_PAGE_COUNT
 export const setPackId = (packId: string) => ({type: 'CARDS/SET-PACK-ID', packId} as const)
 export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER', cardAnswer} as const)
 export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)
+export const setSortCards = (sortCards: string) => ({type: 'CARDS/SET-SORT-CARDS', sortCards} as const)
 
 // thunk
 export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
@@ -66,9 +72,9 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
         cardQuestion: state.cards.cardQuestion,
         cardAnswer: state.cards.cardAnswer,
         cardsPack_id: state.cards.cardsPackId,
+        sortCards: (state.cards.order === 'desc' ? 0 : 1) + state.cards.sortCards,
         min: state.cards.min,
         max: state.cards.max,
-        sortCards: state.cards.sortCards,
         page: state.cards.page,
         pageCount: state.cards.pageCount,
     }
@@ -94,7 +100,7 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
 }
 
 // type
-export type InitialStateType = CardsInfoType & {
+type InitialStateType = CardsInfoType & {
     cards: CardType[]
     sortCards: string
     cardAnswer: string
@@ -103,6 +109,7 @@ export type InitialStateType = CardsInfoType & {
     min: number
     max: number
     cardsPackId: string
+    order: OrderType
 }
 type CardsInfoType = {
     cardsTotalCount: number

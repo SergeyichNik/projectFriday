@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch} from '../../bll/store/store';
 import {Rating, TableSortLabel} from '@mui/material';
-import {setSortBy} from '../../bll/reducers/pack-reducer';
 import {CardType} from "../../api/cards-api";
 import StarIcon from '@mui/icons-material/Star';
+import {OrderType, setSortCards} from "../../bll/reducers/cards-reducer";
 
 interface Data {
     question: string;
@@ -34,11 +34,11 @@ function createData(
 
 type TablePackPropsType = {
     cards: CardType[]
-    // sortBy: string
-    // order: 'desc' | 'asc'
+    sortCards: string
+    order: OrderType
 }
 
-export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
+export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards}) => {
     const dispatch = useAppDispatch()
 
     const rows = cards.map(el => createData(
@@ -65,9 +65,9 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
         '& svg': {color: '#fff !important'}
     }
 
-    // const onClickSortByHandler = (sortBy: string) => () => {
-    //     dispatch(setSortBy(sortBy))
-    // }
+    const onClickSortByHandler = (sortCard: string) => () => {
+        dispatch(setSortCards(sortCard))
+    }
 
     return (
         <>
@@ -78,33 +78,33 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
                             <TableCell>
                                 <TableSortLabel
                                     sx={styleActiveLabel}
-                                    // active={sortBy === 'name'}
-                                    // direction={sortBy === 'name' ? order : 'asc'}
-                                    // onClick={onClickSortByHandler('name')}
+                                    active={sortCards === 'question'}
+                                    direction={sortCards === 'question' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('question')}
                                 >Question</TableSortLabel>
                             </TableCell>
                             <TableCell>
                                 <TableSortLabel
                                     sx={styleActiveLabel}
-                                    // active={sortBy === 'cardsCount'}
-                                    // direction={sortBy === 'cardsCount' ? order : 'asc'}
-                                    // onClick={onClickSortByHandler('cardsCount')}
+                                    active={sortCards === 'answer'}
+                                    direction={sortCards === 'answer' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('answer')}
                                 >Answer</TableSortLabel>
                             </TableCell>
                             <TableCell>
                                 <TableSortLabel
                                     sx={styleActiveLabel}
-                                    // active={sortBy === 'created'}
-                                    // direction={sortBy === 'created' ? order : 'asc'}
-                                    // onClick={onClickSortByHandler('created')}
+                                    active={sortCards === 'updated'}
+                                    direction={sortCards === 'updated' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('updated')}
                                 >Last Updated</TableSortLabel>
                             </TableCell>
                             <TableCell>
                                 <TableSortLabel
                                     sx={styleActiveLabel}
-                                    // active={sortBy === 'user_name'}
-                                    // direction={sortBy === 'user_name' ? order : 'asc'}
-                                    // onClick={onClickSortByHandler('user_name')}
+                                    active={sortCards === 'grade'}
+                                    direction={sortCards === 'grade' ? order : 'asc'}
+                                    onClick={onClickSortByHandler('grade')}
                                 >Grade</TableSortLabel>
                             </TableCell>
                         </TableRow>
@@ -122,7 +122,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards}) => {
                                 <TableCell>
                                     <Rating
                                         name="simple-controlled"
-                                        value={row.grade}
+                                        value={3}
                                         readOnly
                                         precision={0.5}
                                         emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
