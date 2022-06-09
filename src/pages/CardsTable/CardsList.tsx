@@ -8,8 +8,8 @@ import {
     OrderType,
     searchByAnswer,
     searchByQuestion, setCards,
-    setPage,
-    setPageCount
+    setCardPage,
+    setCardPageCount
 } from '../../bll/reducers/cards-reducer';
 import {TableCards} from './TableCards';
 import {CardType} from '../../api/cards-api';
@@ -18,24 +18,23 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import styles from '../Profile/Profile.module.css';
 
 
+
 const CardsList = () => {
     const dispatch = useAppDispatch()
 
     const cards = useAppSelector<CardType[]>(state => state.cards.cards)
-    const cardsPage = useAppSelector<number>(state => state.cards.page)
+    const cardsCurrentPage = useAppSelector<number>(state => state.cards.page)
     const cardsPageCount = useAppSelector<number>(state => state.cards.pageCount)
     const cardsTotalCount = useAppSelector<number>(state => state.cards.cardsTotalCount)
     const cardsQuestion = useAppSelector<string>(state => state.cards.cardQuestion)
     const cardsAnswer = useAppSelector<string>(state => state.cards.cardAnswer)
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const order = useAppSelector<OrderType>(state => state.cards.order)
-    const setCardsPageCallback = (page: number) => dispatch(setPage(page))
-    const setCardsPageCountCallback = (page: number) => dispatch(setPageCount(page))
     const cardsPackId = useAppSelector(state => state.cards.cardsPackId)
 
     React.useEffect(() => {
         dispatch(fetchCards())
-    }, [cardsAnswer, cardsQuestion, cardsPage, cardsPageCount, cardsTotalCount, cardsPackId, sortCards, order])
+    }, [cardsAnswer, cardsQuestion, cardsCurrentPage, cardsPageCount, cardsPackId, sortCards, order])
 
     const searchByQuestionCallback = (question: string) => {
         dispatch(searchByQuestion(question))
@@ -45,6 +44,12 @@ const CardsList = () => {
     }
     const backToPacksHandler = () => {
         dispatch(setCards([]))
+    }
+    const setCardsPageCallback = (page: number) => {
+        dispatch(setCardPage(page + 1))
+    }
+    const setCardsPageCountCallback = (page: number) => {
+        dispatch(setCardPageCount(page))
     }
 
     return (
@@ -70,7 +75,7 @@ const CardsList = () => {
                         />
                     </div>
                     <TableCards cards={cards} order={order} sortCards={sortCards}/>
-                    <Pagination page={cardsPage}
+                    <Pagination page={cardsCurrentPage}
                                 pageCount={cardsPageCount}
                                 cardsPacksTotalCount={cardsTotalCount}
                                 setPageCallback={setCardsPageCallback}

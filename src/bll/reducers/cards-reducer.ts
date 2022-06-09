@@ -8,7 +8,7 @@ const initialState: InitialStateType = {
     cardsTotalCount: 0,
     minGrade: 0,
     maxGrade: 0,
-    page: 0,
+    page: 1,
     pageCount: 5,
     packUserId: '',
 
@@ -26,10 +26,10 @@ export const cardsReducer = (state: InitialStateType = initialState,
                              action: CardsReducerActionType): InitialStateType => {
     switch (action.type) {
         case "CARDS/SET-INFO":
-            return {...state, ...action}
-        case "CARDS/SET_PAGE":
+            return {...state, ...action.info}
+        case "CARDS/SET_CARD_PAGE":
             return {...state, page: action.page}
-        case "CARDS/SET_PAGE_COUNT":
+        case "CARDS/SET_CARD_PAGE_COUNT":
             return {...state, pageCount: action.pageCount}
         case "CARDS/SET-CARDS":
             return {...state, cards: action.cards}
@@ -48,8 +48,8 @@ export const cardsReducer = (state: InitialStateType = initialState,
 }
 export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof setCardsInfo>
-    | ReturnType<typeof setPage>
-    | ReturnType<typeof setPageCount>
+    | ReturnType<typeof setCardPage>
+    | ReturnType<typeof setCardPageCount>
     | ReturnType<typeof searchByAnswer>
     | ReturnType<typeof setPackId>
     | ReturnType<typeof searchByQuestion>
@@ -58,8 +58,8 @@ export type CardsReducerActionType = ReturnType<typeof setCards>
 // actions
 export const setCards = (cards: CardType[]) => ({type: 'CARDS/SET-CARDS', cards} as const)
 export const setCardsInfo = (info: CardsInfoType) => ({type: 'CARDS/SET-INFO', info} as const)
-export const setPage = (page: number) => ({type: 'CARDS/SET_PAGE', page} as const)
-export const setPageCount = (pageCount: number) => ({type: 'CARDS/SET_PAGE_COUNT', pageCount} as const)
+export const setCardPage = (page: number) => ({type: 'CARDS/SET_CARD_PAGE', page} as const)
+export const setCardPageCount = (pageCount: number) => ({type: 'CARDS/SET_CARD_PAGE_COUNT', pageCount} as const)
 export const setPackId = (packId: string) => ({type: 'CARDS/SET-PACK-ID', packId} as const)
 export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER', cardAnswer} as const)
 export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)

@@ -5,6 +5,15 @@ export const CardsApi = {
         return instance.get<CardsResponseType>('/cards/card',
             {params: {cardAnswer, cardQuestion, cardsPack_id, sortCards, min, max, page, pageCount}})
     },
+    addNewCard(cardsPack_id: string, question: string, answer: string) {
+        return instance.post('/cards/card', {card: {cardsPack_id, question, answer}})
+    },
+    deleteCard(id: string) {
+        return instance.delete('/cards/card', {params: {id}})
+    },
+    updateCard(_id: string, name: string) {
+        return instance.put('/cards/card', {card: {_id, name}})
+    }
 }
 
 // type
