@@ -1,6 +1,6 @@
 import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
 import {CardsPackAPI, Pack, PackCard, PackQueryParams} from '../../api/pack-api';
-import {setAppError, setLoadingStatus} from './app-reducer';
+import {setAppError, setLoadingStatus, setTrash} from './app-reducer';
 
 const initialState: PackInitStateType = {
     cardPacks: [],
@@ -79,7 +79,6 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     }
     try {
         dispatch(setLoadingStatus('loading'))
-        debugger
         const res = await CardsPackAPI.getPack(params)
         dispatch(setCardPacks(res.data.cardPacks))
         const info: PackCardsInfo = {
@@ -91,7 +90,6 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
             token: res.data.token,
             tokenDeathTime: res.data.tokenDeathTime
         }
-        debugger
         dispatch(setCardPacksInfo(info))
 
     } catch (e: any) {
@@ -113,6 +111,35 @@ export const addCardPack = (): ThunkType => async(dispatch: DispatchActionType) 
         dispatch(setAppError(error))
     }
     finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
+export const removePack = (id: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsPackAPI.deletePack(id)
+        dispatch(setTrash(res.data))
+        dispatch(fetchCardsPack())
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
+export const updatePack = (id: string): ThunkType => async dispatch => {
+    const name = `Updated pack's name`
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsPackAPI.updatePack(id, name)
+        dispatch(setTrash(res.data))
+        dispatch(fetchCardsPack())
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
         dispatch(setLoadingStatus('idle'))
     }
 }

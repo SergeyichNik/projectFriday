@@ -15,9 +15,14 @@
     padding: 10px;
     text-align: center;
     cursor: pointer;
+    transition: 0.15s;
+}
+
+.ownerBtn:hover {
+    box-shadow: inset 0 0 6px rgba(51, 177, 152, 0.35);
 }
 
 .activeOwner {
-    background: #9A91C8;
+    background: #33b198;
     color: #fff;
 }

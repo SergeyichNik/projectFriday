@@ -15,8 +15,9 @@ import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
 import SearchField from '../../components/common/SearchField/SearchField';
 import {Pagination} from '../../components/common/Pagination/Pagination';
-import {Paper} from "@mui/material";
-import {Button} from "@mui/material";
+import {Paper} from '@mui/material';
+import {Button} from '@mui/material';
+import {styleBtn} from '../../styles/commonMui';
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
@@ -61,11 +62,10 @@ export const PacksList = () => {
     return (
         <div style={{margin: '30px auto'}}>
             <Paper className={styles.profileContainer} sx={styleContainer} elevation={3}>
+
                 <div className={styles.sidebar}>
                     <OwnerSwitcher owner={owner}/>
                     <RangeCards
-                        // minSort={minSort}
-                        //         maxSort={maxSort}
                         maxCardsCount={maxCardsCount}
                         minCardsCount={minCardsCount}
                     />
@@ -74,12 +74,22 @@ export const PacksList = () => {
                 <div className={styles.content}>
                     <SearchField searchCallback={searchByPackName} placeholder={'Search'}/>
                     <Button
-                            variant={'contained'}
-                            onClick={addNewPack}
+                        sx={[styleBtn, {
+                            borderRadius: '4px',
+                            fontWeight: 'bold',
+                            margin: '0 0 14px 0',
+                            padding: '8px 0 4px',
+                            color: '#2c2b3f',
+                            height: 'auto'
+                        }]}
+                        variant={'contained'}
+                        onClick={addNewPack}
                     >
                         Add new Pack
                     </Button>
+
                     <TablePack pack={pack} sortBy={sortBy} order={order}/>
+
                     <Pagination page={page}
                                 pageCount={pageCount}
                                 cardsPacksTotalCount={cardsPacksTotalCount}
