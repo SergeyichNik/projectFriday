@@ -7,7 +7,6 @@ import {Navigate} from 'react-router-dom';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {EditProfile} from './EditProfile/EditProfile';
 import {ProfileInfo} from './ProfileInfo/ProfileInfo';
-import {fetchCardsPack} from '../../bll/reducers/pack-reducer';
 
 
 const Profile = () => {

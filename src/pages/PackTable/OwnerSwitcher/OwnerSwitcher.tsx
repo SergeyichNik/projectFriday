@@ -19,7 +19,7 @@ export const OwnerSwitcher: React.FC<OwnerSwitcherPropsType> = ({owner}) => {
 
     return (
         <div className={styles.wrapper}>
-            <div>
+            <div className={styles.option}>
                 Show packs cards
             </div>
             <div className={styles.owner}>

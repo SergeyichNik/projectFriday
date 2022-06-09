@@ -6,33 +6,13 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch} from '../../bll/store/store';
+import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
-import {TableSortLabel} from '@mui/material';
-import {setSortBy} from '../../bll/reducers/pack-reducer';
-import {useNavigate} from "react-router-dom";
-import {setPackId} from "../../bll/reducers/cards-reducer";
+import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
+import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
+import {useNavigate} from 'react-router-dom';
+import {setPackId} from '../../bll/reducers/cards-reducer';
 
-interface Data {
-    packName: string;
-    cardsCount: number;
-    createdDate: string;
-    createdByName: string;
-    updatedDate: string;
-    packID: string;
-    actions?: null;
-}
-
-function createData(
-    packName: string,
-    cardsCount: number,
-    createdDate: string,
-    createdByName: string,
-    updatedDate: string,
-    packID: string
-): Data {
-    return {packName, cardsCount, createdDate, createdByName, updatedDate, packID};
-}
 
 type TablePackPropsType = {
     pack: PackCard[]
@@ -44,18 +24,23 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
+    //todo может потом перенести
+    const authorizedUserId = useAppSelector(state => state.login.data._id)
+
     const rows = pack.map(el => createData(
         el.name,
         el.cardsCount,
         new Date(el.created).toLocaleDateString(),
         el.user_name,
         new Date(el.updated).toLocaleString(),
-        el._id))
+        el._id,
+        el.user_id))
 
     const styleTHead = {
-        // background: '#2c2b3f',
-        background: 'rgb(109,106,153, 0.8)',
-        'th': {color: '#fff', fontWeight: 'bold'}
+        background: '#2c2b3f',
+        // background: 'rgb(109,106,153, 0.8)',
+        'th': {color: '#fff', fontWeight: 'bold'},
+        'th: nth-of-type(6)': {width: '280px'}
     }
 
     const styleTd = {
@@ -78,6 +63,14 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const handlerGetCards = (id: string) => {
         navigate('../cards')
         dispatch(setPackId(id))
+    }
+
+    const removePackHandler = (packID: string) => {
+        dispatch(removePack(packID))
+    }
+
+    const updatePackHandler = (id: string) => {
+        dispatch(updatePack(id))
     }
 
     return (
@@ -142,14 +135,68 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 <TableCell>{row.createdByName}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
                                 <TableCell>
-                                    <button onClick={() => handlerGetCards(row.packID)}>Learn</button>
+                                    <div style={{display: 'flex', gap: '14px', justifyContent: 'end'}}>
+                                        {row.packUserID === authorizedUserId &&
+                                            <Button variant={'contained'}
+                                                    color={'error'}
+                                                    onClick={() => removePackHandler(row.packID)}
+                                            >Delete</Button>
+                                        }
+                                        {row.packUserID === authorizedUserId &&
+                                            <ButtonCP
+                                                onClick={() => updatePackHandler(row.packID)}
+                                            >Edit</ButtonCP>
+                                        }
+                                        <ButtonCP
+                                            disabled={!row.cardsCount}
+                                            onClick={() => handlerGetCards(row.packID)}
+                                        >Learn</ButtonCP>
+                                    </div>
                                 </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-
         </>
     );
 }
+
+
+interface Data {
+    packName: string;
+    cardsCount: number;
+    createdDate: string;
+    createdByName: string;
+    updatedDate: string;
+    packID: string;
+    packUserID: string;
+    actions?: null;
+}
+
+function createData(
+    packName: string,
+    cardsCount: number,
+    createdDate: string,
+    createdByName: string,
+    updatedDate: string,
+    packID: string,
+    packUserID: string
+): Data {
+    return {packName, cardsCount, createdDate, createdByName, updatedDate, packID, packUserID};
+}
+
+const ButtonCP = styled(Button)<ButtonProps>(() => ({
+    backgroundColor: '#33b198',
+    color: '#fff',
+    transition: '.3s',
+    textTransform: 'none',
+    '&:hover': {
+        backgroundColor: '#33b198',
+        opacity: '0.85'
+    },
+    '&:disabled': {
+        background: '#d9d9d9',
+        color: '#858585'
+    }
+}))

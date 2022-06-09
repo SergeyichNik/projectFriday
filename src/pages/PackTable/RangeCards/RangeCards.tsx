@@ -10,16 +10,21 @@ import {useAppDispatch} from '../../../bll/store/store';
 const minDistance = 1;
 
 type RangeCardsPropsType = {
-    // minSort: number
-    // maxSort: number
+    minSort: number
+    maxSort: number
     minCardsCount: number
     maxCardsCount: number
 }
 
-export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCount, maxCardsCount}) => {
+export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({
+                                                                         minSort,
+                                                                         maxSort,
+                                                                         minCardsCount,
+                                                                         maxCardsCount
+                                                                     }) => {
     const dispatch = useAppDispatch()
 
-    const [value, setValue] = React.useState<number[]>([0, maxCardsCount]);
+    const [value, setValue] = React.useState<number[]>([0, 0]);
 
     const handleChange = (event: Event, newValue: number | number[], activeThumb: number) => {
         if (!Array.isArray(newValue)) {
@@ -65,14 +70,15 @@ export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCo
     }, [value])
 
     React.useEffect(() => {
-        setValue([minCardsCount, maxCardsCount])
-    }, [maxCardsCount])
-
-    console.log(value)
+        if (minSort !== minCardsCount || maxSort !== maxCardsCount && maxSort !== 0) {
+            setValue([minSort, maxSort])
+        } else setValue([minCardsCount, maxCardsCount])
+    }, [minSort, maxSort, minCardsCount, maxCardsCount])
 
     return (
         <div className={styles.wrapper}>
-            <div style={{marginBottom: '38px'}}>Number of cards</div>
+            <div className={styles.option}>Number of cards</div>
+
             <AirbnbSlider
                 components={{Thumb: AirbnbThumbComponent}}
                 getAriaLabel={(index) => (index === 0 ? 'Minimum cards' : 'Maximum cards')}
@@ -86,8 +92,9 @@ export const RangeCards: React.FC<RangeCardsPropsType> = React.memo(({minCardsCo
     );
 });
 
-const AirbnbSlider = styled(Slider)(({theme}) => ({
-    color: '#43C6AC',
+
+const AirbnbSlider = styled(Slider)(() => ({
+    color: '#33b198',
     height: 3,
     padding: '13px 0',
     width: 'calc(100% - 10px)',
@@ -102,7 +109,7 @@ const AirbnbSlider = styled(Slider)(({theme}) => ({
         },
     },
     '& .MuiSlider-valueLabel': {
-        background: '#43C6AC',
+        background: '#33b198',
         padding: '0.25rem 0.55rem',
         top: '-12px',
         lineHeight: '1.2'
@@ -110,11 +117,6 @@ const AirbnbSlider = styled(Slider)(({theme}) => ({
     '& .MuiSlider-track': {
         height: 3,
     },
-    // '& .MuiSlider-rail': {
-    //     color: theme.palette.mode === 'dark' ? '#bfbfbf' : '#d8d8d8',
-    //     opacity: theme.palette.mode === 'dark' ? undefined : 1,
-    //     height: 3,
-    // },
 }));
 
 interface AirbnbThumbComponentProps extends React.HTMLAttributes<unknown> {
