@@ -10,11 +10,11 @@ import {
     searchByQuestion, setCards,
     setCardPage,
     setCardPageCount,
-    addNewCard
+    addNewCard, setPackId
 } from '../../bll/reducers/cards-reducer';
 import {TableCards} from './TableCards';
 import {CardType} from '../../api/cards-api';
-import {Link} from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import styles from '../Profile/Profile.module.css';
 import {styleBtn} from '../../styles/commonMui';
@@ -23,6 +23,7 @@ import {Button} from '@mui/material';
 
 const CardsList = () => {
     const dispatch = useAppDispatch()
+    const {id: packUrlId} = useParams()
 
     const cards = useAppSelector<CardType[]>(state => state.cards.cards)
     const cardsCurrentPage = useAppSelector<number>(state => state.cards.page)
@@ -32,30 +33,30 @@ const CardsList = () => {
     const cardsAnswer = useAppSelector<string>(state => state.cards.cardAnswer)
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const order = useAppSelector<OrderType>(state => state.cards.order)
-    const cardsPackId = useAppSelector(state => state.cards.cardsPackId)
+    const cardsPackId = useAppSelector(state => state.cards.cardsPack_id)
     const cardsPackUserID = useAppSelector(state => state.cards.packUserId)
 
     //todo может потом перенести
     const authorizedUserId = useAppSelector(state => state.login.data._id)
 
-    React.useEffect(() => {
-        dispatch(fetchCards())
-    }, [cardsAnswer, cardsQuestion, cardsCurrentPage, cardsPageCount, cardsPackId, sortCards, order])
-
     const searchByQuestionCallback = (question: string) => {
         dispatch(searchByQuestion(question))
     }
+
     const searchByAnswerCallback = (answer: string) => {
         dispatch(searchByAnswer(answer))
     }
+
     const backToPacksHandler = () => {
         dispatch(setCards([]))
         dispatch(searchByQuestion(''))
         dispatch(searchByAnswer(''))
     }
+
     const setCardsPageCallback = (page: number) => {
         dispatch(setCardPage(page + 1))
     }
+
     const setCardsPageCountCallback = (page: number) => {
         dispatch(setCardPageCount(page))
     }
@@ -63,6 +64,14 @@ const CardsList = () => {
     const addNewCardHandler = () => {
         dispatch(addNewCard(cardsPackId))
     }
+
+    React.useEffect(() => {
+        packUrlId && dispatch(setPackId(packUrlId))
+    }, [])
+
+    React.useEffect(() => {
+        cardsPackId && dispatch(fetchCards())
+    }, [cardsAnswer, cardsQuestion, cardsCurrentPage, cardsPageCount, cardsPackId, sortCards, order])
 
     return (
         <div style={{margin: '30px auto'}}>

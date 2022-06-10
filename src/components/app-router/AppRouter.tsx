@@ -23,7 +23,7 @@ const AppRouter = () => {
                 <Route path={'registration'} element={<Registration/>}/>
 
                 <Route path={'pack-table'} element={<PacksList/>} />
-                <Route path={'cards'} element={<CardsList/>} />
+                <Route path={'cards/:id'} element={<CardsList/>} />
                 <Route path={'*'} element={<NotFound/>}/>
             </Route>
         </Routes>

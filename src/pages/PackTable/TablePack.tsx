@@ -40,7 +40,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         dispatch(setSortBy(sortBy))
     }
     const handlerGetCards = (id: string) => {
-        navigate('../cards')
+        navigate(`../cards/${id}`)
         dispatch(setPackId(id))
     }
 

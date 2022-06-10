@@ -1,6 +1,6 @@
-import {CardsApi, CardsQueryParams, CardType} from "../../api/cards-api";
-import {AppRootStateType, DispatchActionType, ThunkType} from "../store/store";
-import {setAppError, setLoadingStatus} from "./app-reducer";
+import {CardsApi, CardsQueryParams, CardType} from '../../api/cards-api';
+import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
+import {setAppError, setLoadingStatus} from './app-reducer';
 
 export type OrderType = 'desc' | 'asc'
 const initialState: InitialStateType = {
@@ -18,34 +18,33 @@ const initialState: InitialStateType = {
     cardQuestion: '',
     cardsPack_id: '',
     min: 0,
-    max: 0,
-    cardsPackId: '',
+    max: 0
 }
 
-export const cardsReducer = (state: InitialStateType = initialState,
-                             action: CardsReducerActionType): InitialStateType => {
+export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
     switch (action.type) {
-        case "CARDS/SET-INFO":
+        case 'CARDS/SET-INFO':
             return {...state, ...action.info}
-        case "CARDS/SET_CARD_PAGE":
+        case 'CARDS/SET_CARD_PAGE':
             return {...state, page: action.page}
-        case "CARDS/SET_CARD_PAGE_COUNT":
+        case 'CARDS/SET_CARD_PAGE_COUNT':
             return {...state, pageCount: action.pageCount}
-        case "CARDS/SET-CARDS":
+        case 'CARDS/SET-CARDS':
             return {...state, cards: action.cards}
-        case "CARDS/SET-PACK-ID":
-            return {...state, cardsPackId: action.packId}
-        case "CARDS/SET-ANSWER":
+        case 'CARDS/SET-PACK-ID':
+            return {...state, cardsPack_id: action.packId}
+        case 'CARDS/SET-ANSWER':
             return {...state, cardAnswer: action.cardAnswer}
-        case "CARDS/SET-QUESTION":
+        case 'CARDS/SET-QUESTION':
             return {...state, cardQuestion: action.cardQuestion}
-        case "CARDS/SET-SORT-CARDS":
+        case 'CARDS/SET-SORT-CARDS':
             const isAsc = state.sortCards === action.sortCards && state.order === 'asc'
             return {...state, sortCards: action.sortCards, order: isAsc ? 'desc' : 'asc'}
         default:
             return state
     }
 }
+
 export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof setCardsInfo>
     | ReturnType<typeof setCardPage>
@@ -72,7 +71,7 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
     const params: CardsQueryParams = {
         cardQuestion: state.cards.cardQuestion,
         cardAnswer: state.cards.cardAnswer,
-        cardsPack_id: state.cards.cardsPackId,
+        cardsPack_id: state.cards.cardsPack_id,
         sortCards: (state.cards.order === 'desc' ? 0 : 1) + state.cards.sortCards,
         min: state.cards.min,
         max: state.cards.max,
@@ -102,8 +101,8 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
 
 export const addNewCard = (packID: string): ThunkType => async (dispatch: DispatchActionType) => {
 
-        const question = 'Question for card'
-        const answer = 'Answer for card'
+    const question = 'Question for card'
+    const answer = 'Answer for card'
 
     try {
         dispatch(setLoadingStatus('loading'))
@@ -154,7 +153,6 @@ type InitialStateType = CardsInfoType & {
     cardsPack_id: string
     min: number
     max: number
-    cardsPackId: string
     order: OrderType
 }
 type CardsInfoType = {
