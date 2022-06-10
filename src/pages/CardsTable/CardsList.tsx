@@ -9,14 +9,16 @@ import {
     searchByAnswer,
     searchByQuestion, setCards,
     setCardPage,
-    setCardPageCount
+    setCardPageCount,
+    addNewCard
 } from '../../bll/reducers/cards-reducer';
 import {TableCards} from './TableCards';
 import {CardType} from '../../api/cards-api';
 import {Link} from 'react-router-dom';
 import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import styles from '../Profile/Profile.module.css';
-
+import {styleBtn} from '../../styles/commonMui';
+import {Button} from '@mui/material';
 
 
 const CardsList = () => {
@@ -31,6 +33,10 @@ const CardsList = () => {
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const order = useAppSelector<OrderType>(state => state.cards.order)
     const cardsPackId = useAppSelector(state => state.cards.cardsPackId)
+    const cardsPackUserID = useAppSelector(state => state.cards.packUserId)
+
+    //todo может потом перенести
+    const authorizedUserId = useAppSelector(state => state.login.data._id)
 
     React.useEffect(() => {
         dispatch(fetchCards())
@@ -44,12 +50,18 @@ const CardsList = () => {
     }
     const backToPacksHandler = () => {
         dispatch(setCards([]))
+        dispatch(searchByQuestion(''))
+        dispatch(searchByAnswer(''))
     }
     const setCardsPageCallback = (page: number) => {
         dispatch(setCardPage(page + 1))
     }
     const setCardsPageCountCallback = (page: number) => {
         dispatch(setCardPageCount(page))
+    }
+
+    const addNewCardHandler = () => {
+        dispatch(addNewCard(cardsPackId))
     }
 
     return (
@@ -74,7 +86,27 @@ const CardsList = () => {
                             initState={cardsAnswer}
                         />
                     </div>
-                    <TableCards cards={cards} order={order} sortCards={sortCards}/>
+
+                    {cardsPackUserID === authorizedUserId &&
+                        <div>
+                            <Button
+                                sx={[styleBtn, {
+                                    borderRadius: '4px',
+                                    fontWeight: 'bold',
+                                    margin: '0 0 14px 0',
+                                    padding: '8px 16px 4px',
+                                    color: '#2c2b3f',
+                                    height: 'auto'
+                                }]}
+                                variant={'contained'}
+                                onClick={addNewCardHandler}
+                            >
+                                Add new Card
+                            </Button>
+                        </div>
+                    }
+
+                    <TableCards cards={cards} order={order} sortCards={sortCards} authorizedUserId={authorizedUserId}/>
                     <Pagination page={cardsCurrentPage}
                                 pageCount={cardsPageCount}
                                 cardsPacksTotalCount={cardsTotalCount}

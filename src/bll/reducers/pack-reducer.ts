@@ -41,9 +41,9 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
             return {...state, pageCount: action.pageCount}
         case 'PACK/SET_PACK_NAME':
             return {...state, ...action}
-        case 'PACK/ADD_NEW_PACK':
-            const newCardPack: PackCard = {...action.cardsPack}
-            return {...state, cardPacks: [newCardPack, ...state.cardPacks]}
+        // case 'PACK/ADD_NEW_PACK':
+        //     const newCardPack: PackCard = {...action.cardsPack}
+        //     return {...state, cardPacks: [newCardPack, ...state.cardPacks]}
         default:
             return state
     }
@@ -59,7 +59,8 @@ export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT
 export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type: 'PACK/SET_PAGE_COUNT', pageCount} as const)
 export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
-export const addNewPack = (cardsPack: PackCard) => ({type: 'PACK/ADD_NEW_PACK', cardsPack} as const)
+// export const addNewPack = (cardsPack: PackCard) => ({type: 'PACK/ADD_NEW_PACK', cardsPack} as const)
+
 
 // --- thunk
 export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
@@ -150,7 +151,7 @@ export type PackReducerActionsType =
     | ReturnType<typeof setPage>
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof setSearchPackName>
-    | ReturnType<typeof addNewPack>
+    // | ReturnType<typeof addNewPack>
 
 type PackCardsInfo = {
     page: number

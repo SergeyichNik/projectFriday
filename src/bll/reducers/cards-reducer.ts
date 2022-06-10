@@ -65,6 +65,7 @@ export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER'
 export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)
 export const setSortCards = (sortCards: string) => ({type: 'CARDS/SET-SORT-CARDS', sortCards} as const)
 
+
 // thunk
 export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
     const state = getState();
@@ -98,6 +99,51 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
         dispatch(setLoadingStatus('idle'))
     }
 }
+
+export const addNewCard = (packID: string): ThunkType => async (dispatch: DispatchActionType) => {
+
+        const question = 'Question for card'
+        const answer = 'Answer for card'
+
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsApi.addNewCard(packID, question, answer)
+        dispatch(fetchCards())
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
+export const removeCard = (id: string): ThunkType => async dispatch => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsApi.deleteCard(id)
+        dispatch(fetchCards())
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
+export const editCard = (id: string): ThunkType => async dispatch => {
+    const newQ = 'Updated question'
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsApi.updateCard(id, newQ)
+        dispatch(fetchCards())
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
 
 // type
 type InitialStateType = CardsInfoType & {

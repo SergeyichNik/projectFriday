@@ -65,7 +65,7 @@ export const RangeCards: React.FC<RangeCardsPropsType>
     }, [value])
 
     React.useEffect(() => {
-        if (minSort !== minCardsCount || maxSort !== maxCardsCount && maxSort !== 0) {
+        if ((minSort !== minCardsCount || maxSort !== maxCardsCount) && maxSort !== 0) {
             setValue([minSort, maxSort])
         } else setValue([minCardsCount, maxCardsCount])
     }, [minSort, maxSort, minCardsCount, maxCardsCount])

@@ -6,40 +6,25 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch} from '../../bll/store/store';
-import {Rating, TableSortLabel} from '@mui/material';
+import {useAppDispatch, useAppSelector} from '../../bll/store/store';
+import {Button, Rating, TableSortLabel} from '@mui/material';
 import {CardType} from "../../api/cards-api";
 import StarIcon from '@mui/icons-material/Star';
-import {OrderType, setSortCards} from "../../bll/reducers/cards-reducer";
+import {editCard, OrderType, removeCard, setSortCards} from '../../bll/reducers/cards-reducer';
+import {ButtonCP} from '../PackTable/TablePack';
 
-interface Data {
-    question: string;
-    answer: string;
-    updatedDate: string;
-    grade: number;
-    cardID: string;
-    cardsPackID: string;
-}
-
-function createData(
-    question: string,
-    answer: string,
-    updatedDate: string,
-    grade: number,
-    cardID: string,
-    cardsPackID: string,
-): Data {
-    return {question, answer, updatedDate, grade, cardID, cardsPackID};
-}
 
 type TablePackPropsType = {
     cards: CardType[]
     sortCards: string
     order: OrderType
+    authorizedUserId: string
 }
 
-export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards}) => {
+export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards, authorizedUserId}) => {
     const dispatch = useAppDispatch()
+
+
 
     const rows = cards.map(el => createData(
         el.question,
@@ -47,10 +32,19 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
         new Date(el.updated).toLocaleString(),
         el.grade,
         el._id,
-        el.cardsPack_id))
+        el.cardsPack_id,
+        el.user_id))
 
     const onClickSortByHandler = (sortCard: string) => () => {
         dispatch(setSortCards(sortCard))
+    }
+
+    const removeCardHandler = (id: string) => {
+        dispatch(removeCard(id))
+    }
+
+    const editCardHandler = (id: string) => {
+        dispatch(editCard(id))
     }
 
     return (
@@ -100,7 +94,18 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                 sx={[styleTd, styleAlignCell]}
                                 // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell>{row.question}</TableCell>
+                                <TableCell>
+                                    {row.cardsPackOwnerID === authorizedUserId &&
+                                    <Button variant={'contained'}
+                                            color={'error'}
+                                            sx={{textTransform: 'none'}}
+                                            onClick={() => removeCardHandler(row.cardID)}
+                                    >Delete card</Button>
+                                }
+                                    {row.cardsPackOwnerID === authorizedUserId &&
+                                        <ButtonCP onClick={() => editCardHandler(row.cardID)}>Edit</ButtonCP>
+                                    }
+                                {row.question}</TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
                                 <TableCell>
@@ -137,4 +142,26 @@ const styleAlignCell = {
 const styleActiveLabel = {
     color: '#fff !important',
     '& svg': {color: '#fff !important'}
+}
+
+interface Data {
+    question: string;
+    answer: string;
+    updatedDate: string;
+    grade: number;
+    cardID: string;
+    cardsPackID: string;
+    cardsPackOwnerID: string
+}
+
+function createData(
+    question: string,
+    answer: string,
+    updatedDate: string,
+    grade: number,
+    cardID: string,
+    cardsPackID: string,
+    cardsPackOwnerID: string
+): Data {
+    return {question, answer, updatedDate, grade, cardID, cardsPackID, cardsPackOwnerID};
 }

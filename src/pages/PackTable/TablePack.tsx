@@ -128,7 +128,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                             >Edit</ButtonCP>
                                         }
                                         <ButtonCP
-                                            disabled={!row.cardsCount}
+                                            disabled={!row.cardsCount && row.packUserID !== authorizedUserId}
                                             onClick={() => handlerGetCards(row.packID)}
                                         >Learn</ButtonCP>
                                     </div>
@@ -166,7 +166,7 @@ function createData(
     return {packName, cardsCount, createdDate, createdByName, updatedDate, packID, packUserID};
 }
 
-const ButtonCP = styled(Button)<ButtonProps>(() => ({
+export const ButtonCP = styled(Button)<ButtonProps>(() => ({
     backgroundColor: '#33b198',
     color: '#fff',
     boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',

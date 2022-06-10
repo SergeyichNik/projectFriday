@@ -2,7 +2,7 @@ import styles from './OwnerSwitcher.module.css'
 
 import React from 'react';
 import {useAppDispatch} from '../../../bll/store/store';
-import {setPackOwner} from '../../../bll/reducers/pack-reducer';
+import {setMinMaxSort, setPackOwner} from '../../../bll/reducers/pack-reducer';
 
 
 type OwnerSwitcherPropsType = {
@@ -14,6 +14,7 @@ export const OwnerSwitcher: React.FC<OwnerSwitcherPropsType> = ({owner}) => {
 
     const setOwnerHandler = (owner: 'all' | 'my') => {
         dispatch(setPackOwner(owner))
+        dispatch(setMinMaxSort([0, 0]))
     }
 
     return (
