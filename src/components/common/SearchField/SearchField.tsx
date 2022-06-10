@@ -20,6 +20,10 @@ const SearchField = (props: SearchFieldType) => {
         [debouncedSearchTerm] // Only call effect if debounced search term changes
     );
 
+    useEffect(() => {
+        setSearchTerm(props.initState)
+    }, [props.initState])
+
     return (
         <div className={s.searchWrapper}>
             <input

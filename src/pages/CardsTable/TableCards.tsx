@@ -24,8 +24,6 @@ type TablePackPropsType = {
 export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards, authorizedUserId}) => {
     const dispatch = useAppDispatch()
 
-
-
     const rows = cards.map(el => createData(
         el.question,
         el.answer,
