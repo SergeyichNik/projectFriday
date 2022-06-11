@@ -21,7 +21,7 @@ function App() {
 
     return (
         <HashRouter>
-            {loadingStatus === 'loading' && <Loader/>}
+            {/*{loadingStatus === 'loading' && <Loader/>}*/}
             <ErrorSnackbar/>
             <AppRouter/>
         </HashRouter>

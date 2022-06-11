@@ -12,6 +12,8 @@ import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
 import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
+import {PackItem} from "./pack-item/PackItem";
+import {PackItemSkeleton} from "./pack-item-skeleton/PackItemSkeleton";
 
 
 type TablePackPropsType = {
@@ -26,6 +28,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
 
     //todo может потом перенести
     const authorizedUserId = useAppSelector(state => state.login.data._id)
+    const status = useAppSelector(state => state.appReducer.loadingStatus)
 
     const rows = pack.map(el => createData(
         el.name,
@@ -58,7 +61,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                 <Table sx={{minWidth: 650}} aria-label="simple table">
                     <TableHead sx={styleTHead}>
                         <TableRow sx={styleAlignCell}>
-                            <TableCell>
+                            <TableCell >
                                 <TableSortLabel
                                     sx={styleActiveLabel}
                                     active={sortBy === 'name'}
@@ -66,7 +69,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                     onClick={onClickSortByHandler('name')}
                                 >Pack name</TableSortLabel>
                             </TableCell>
-                            <TableCell>
+                            <TableCell >
                                 <TableSortLabel
                                     sx={styleActiveLabel}
                                     active={sortBy === 'cardsCount'}
@@ -102,39 +105,17 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
-                            <TableRow
-                                key={row.packID}
-                                sx={[styleTd, styleAlignCell]}
-                                // sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                            >
-                                <TableCell>{row.packName}</TableCell>
-                                <TableCell>{row.cardsCount}</TableCell>
-                                <TableCell>{row.createdDate}</TableCell>
-                                <TableCell>{row.createdByName}</TableCell>
-                                <TableCell>{row.updatedDate}</TableCell>
-                                <TableCell>
-                                    <div style={{display: 'flex', gap: '14px', justifyContent: 'end'}}>
-                                        {row.packUserID === authorizedUserId &&
-                                            <Button variant={'contained'}
-                                                    color={'error'}
-                                                    sx={{textTransform: 'none'}}
-                                                    onClick={() => removePackHandler(row.packID)}
-                                            >Delete</Button>
-                                        }
-                                        {row.packUserID === authorizedUserId &&
-                                            <ButtonCP
-                                                onClick={() => updatePackHandler(row.packID)}
-                                            >Edit</ButtonCP>
-                                        }
-                                        <ButtonCP
-                                            disabled={!row.cardsCount && row.packUserID !== authorizedUserId}
-                                            onClick={() => handlerGetCards(row.packID)}
-                                        >Learn</ButtonCP>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        ))}
+                        {rows.map((row) => {
+                            if (status === "loading") {
+                                return <PackItemSkeleton/>
+                            }
+                            return <PackItem authorizedUserId={authorizedUserId}
+                                             removePackHandler={removePackHandler}
+                                             updatePackHandler={updatePackHandler}
+                                             handlerGetCards={handlerGetCards} {...row}/>
+                        }
+
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>
@@ -189,11 +170,6 @@ const styleTHead = {
     // background: 'rgb(109,106,153, 0.8)',
     'th': {color: '#fff', fontWeight: 'bold'},
     'th: nth-of-type(6)': {width: '268px'}
-}
-
-const styleTd = {
-    '&:last-child td, &:last-child th': {border: 0},
-    '&:nth-of-type(even)': {background: ' #F8F7FD'}
 }
 
 const styleAlignCell = {
