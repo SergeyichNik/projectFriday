@@ -107,7 +107,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                     <TableBody>
                         {rows.map((row) => {
                             if (status === "loading") {
-                                return <PackItemSkeleton/>
+                                return <PackItemSkeleton isOwner={authorizedUserId === row.packUserID}/>
                             }
                             return <PackItem authorizedUserId={authorizedUserId}
                                              removePackHandler={removePackHandler}

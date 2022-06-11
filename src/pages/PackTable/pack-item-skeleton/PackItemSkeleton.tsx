@@ -13,15 +13,15 @@ const styleAlignCell = {
 }
 
 
-export const PackItemSkeleton = () => {
+export const PackItemSkeleton = ({isOwner}: { isOwner: boolean }) => {
 
     return (
         <TableRow sx={[styleTd, styleAlignCell]}>
             <TableCell>
-                <Skeleton animation={'wave'} width={130}  variant={"text"}/>
+                <Skeleton animation={'wave'} width={130} variant={"text"}/>
             </TableCell>
             <TableCell>
-                <Skeleton animation={'wave'} width={15} variant={"text"}/>
+                <Skeleton animation={'wave'} width={20} variant={"text"}/>
             </TableCell>
             <TableCell>
                 <Skeleton animation={'wave'} width={80} variant={"text"}/>
@@ -34,7 +34,18 @@ export const PackItemSkeleton = () => {
             </TableCell>
             <TableCell>
                 <div style={{display: 'flex', gap: '14px', justifyContent: 'end'}}>
-                    <Skeleton animation={'wave'} sx={{borderRadius: '5px'}} width={65} height={36.5} variant={"rectangular"}/>
+                    {
+                        isOwner
+                        &&
+                        <>
+                            <Skeleton animation={'wave'} sx={{borderRadius: '5px'}} width={75} height={36.5}
+                                      variant={"rectangular"}/>
+                            <Skeleton animation={'wave'} sx={{borderRadius: '5px'}} width={65} height={36.5}
+                                      variant={"rectangular"}/>
+                        </>
+                    }
+                    <Skeleton animation={'wave'} sx={{borderRadius: '5px'}} width={65} height={36.5}
+                              variant={"rectangular"}/>
                 </div>
             </TableCell>
         </TableRow>
