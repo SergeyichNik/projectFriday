@@ -33,36 +33,9 @@ export const RangeCards: React.FC<RangeCardsPropsType>
         }
     };
 
-    const range = React.useRef(null)
-
-    React.useEffect(() => {
-        let element: any
-        if (range.current !== null) {
-            element = range.current;
-        }
-        //
-        // const openListeners = () => {
-        //     element.addEventListener('mouseup', onChangeMinMax);
-        //     element.addEventListener('mouseleave', onChangeMinMax);
-        // }
-
-        const onChangeMinMax = () => {
-            dispatch(setMinMaxSort(value))
-        };
-
-        // element.addEventListener('mousedown', openListeners)
-
-        element.addEventListener('click', onChangeMinMax);
-        // element.addEventListener('mouseout', onChangeMinMax);
-
-        return () => {
-            // element.removeEventListener('mousedown', openListeners);
-            // element.removeEventListener('mouseup', onChangeMinMax);
-            // element.removeEventListener('mouseleave', onChangeMinMax);
-            element.removeEventListener('click', onChangeMinMax);
-            // element.removeEventListener('mouseout', onChangeMinMax);
-        };
-    }, [value])
+    const fetchValue = () => {
+        dispatch(setMinMaxSort(value))
+    }
 
     React.useEffect(() => {
         if ((minSort !== minCardsCount || maxSort !== maxCardsCount) && maxSort !== 0) {
@@ -77,11 +50,11 @@ export const RangeCards: React.FC<RangeCardsPropsType>
             <AirbnbSlider
                 components={{Thumb: AirbnbThumbComponent}}
                 getAriaLabel={(index) => (index === 0 ? 'Minimum cards' : 'Maximum cards')}
-                valueLabelDisplay="on"
+                valueLabelDisplay={'on'}
                 value={value}
-                onChange={handleChange}
                 max={maxCardsCount}
-                ref={range}
+                onChange={handleChange}
+                onChangeCommitted={fetchValue}
             />
         </div>
     );

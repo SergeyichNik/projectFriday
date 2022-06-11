@@ -58,9 +58,6 @@ export const setPageCount = (pageCount: number) => ({type: 'PACK/SET_PAGE_COUNT'
 export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
 
 
-//todo закоментить выкл крутилку у добавления, то тогда норм. но, получается,
-// надо всегда следить где выключение крутилки диспатчить, а где нет. большое приложение, много действий, экшэов,
-// которые друг от друга зависят
 // --- thunk
 export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
     const state = getState()
@@ -100,13 +97,13 @@ export const addCardPack = (): ThunkType => async (dispatch: DispatchActionType)
     const newName = 'JS/React/Redux'
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await CardsPackAPI.addNewPack(newName)
+        await CardsPackAPI.addNewPack(newName)
         dispatch(fetchCardsPack())
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-    } finally {
         dispatch(setLoadingStatus('idle'))
+    } finally {
     }
 }
 

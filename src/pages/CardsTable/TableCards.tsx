@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {Button, Rating, TableSortLabel} from '@mui/material';
-import {CardType} from "../../api/cards-api";
+import {CardType} from '../../api/cards-api';
 import StarIcon from '@mui/icons-material/Star';
 import {editCard, OrderType, removeCard, setSortCards} from '../../bll/reducers/cards-reducer';
 import {ButtonCP} from '../PackTable/TablePack';
@@ -94,16 +94,16 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                             >
                                 <TableCell>
                                     {row.cardsPackOwnerID === authorizedUserId &&
-                                    <Button variant={'contained'}
-                                            color={'error'}
-                                            sx={{textTransform: 'none'}}
-                                            onClick={() => removeCardHandler(row.cardID)}
-                                    >Delete card</Button>
-                                }
+                                        <Button variant={'contained'}
+                                                color={'error'}
+                                                sx={{textTransform: 'none'}}
+                                                onClick={() => removeCardHandler(row.cardID)}
+                                        >Delete card</Button>
+                                    }
                                     {row.cardsPackOwnerID === authorizedUserId &&
                                         <ButtonCP onClick={() => editCardHandler(row.cardID)}>Edit</ButtonCP>
                                     }
-                                {row.question}</TableCell>
+                                    {row.question}</TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
                                 <TableCell>
@@ -112,7 +112,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                         value={3}
                                         readOnly
                                         precision={0.5}
-                                        emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                                        emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
                                     />
                                 </TableCell>
                             </TableRow>
