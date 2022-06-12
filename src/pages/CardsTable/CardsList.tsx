@@ -33,7 +33,6 @@ const CardsList = () => {
     const cardsAnswer = useAppSelector<string>(state => state.cards.cardAnswer)
     const sortCards = useAppSelector(state => state.cards.sortCards)
     const order = useAppSelector<OrderType>(state => state.cards.order)
-    const cardsPackId = useAppSelector(state => state.cards.cardsPack_id)
     const cardsPackUserID = useAppSelector(state => state.cards.packUserId)
 
     //todo может потом перенести
@@ -62,7 +61,7 @@ const CardsList = () => {
     }
 
     const addNewCardHandler = () => {
-        dispatch(addNewCard(cardsPackId))
+        packUrlId && dispatch(addNewCard(packUrlId))
     }
 
     React.useEffect(() => {
@@ -70,8 +69,8 @@ const CardsList = () => {
     }, [])
 
     React.useEffect(() => {
-        cardsPackId && dispatch(fetchCards())
-    }, [cardsAnswer, cardsQuestion, cardsCurrentPage, cardsPageCount, cardsPackId, sortCards, order])
+         dispatch(fetchCards())
+    }, [cardsAnswer, cardsQuestion, cardsCurrentPage, cardsPageCount, packUrlId, sortCards, order])
 
     return (
         <div style={{margin: '30px auto'}}>
@@ -115,7 +114,11 @@ const CardsList = () => {
                         </div>
                     }
 
-                    <TableCards cards={cards} order={order} sortCards={sortCards} authorizedUserId={authorizedUserId}/>
+                    <TableCards cards={cards}
+                                order={order}
+                                sortCards={sortCards}
+                                packUserId={cardsPackUserID}
+                                authorizedUserId={authorizedUserId}/>
                     <Pagination page={cardsCurrentPage}
                                 pageCount={cardsPageCount}
                                 cardsPacksTotalCount={cardsTotalCount}

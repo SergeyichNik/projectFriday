@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch, useAppSelector} from '../../bll/store/store';
+import {useAppDispatch} from '../../bll/store/store';
 import {Button, Rating, TableSortLabel} from '@mui/material';
 import {CardType} from '../../api/cards-api';
 import StarIcon from '@mui/icons-material/Star';
@@ -18,10 +18,11 @@ type TablePackPropsType = {
     cards: CardType[]
     sortCards: string
     order: OrderType
+    packUserId: string
     authorizedUserId: string
 }
 
-export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards, authorizedUserId}) => {
+export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCards, packUserId, authorizedUserId}) => {
     const dispatch = useAppDispatch()
 
     const rows = cards.map(el => createData(
@@ -83,6 +84,12 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                     onClick={onClickSortByHandler('grade')}
                                 >Grade</TableSortLabel>
                             </TableCell>
+
+                            {packUserId === authorizedUserId
+                                ? <TableCell>Actions</TableCell>
+                                : null
+                            }
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -92,18 +99,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                 sx={[styleTd, styleAlignCell]}
                                 // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell>
-                                    {row.cardsPackOwnerID === authorizedUserId &&
-                                        <Button variant={'contained'}
-                                                color={'error'}
-                                                sx={{textTransform: 'none'}}
-                                                onClick={() => removeCardHandler(row.cardID)}
-                                        >Delete card</Button>
-                                    }
-                                    {row.cardsPackOwnerID === authorizedUserId &&
-                                        <ButtonCP onClick={() => editCardHandler(row.cardID)}>Edit</ButtonCP>
-                                    }
-                                    {row.question}</TableCell>
+                                <TableCell>{row.question}</TableCell>
                                 <TableCell>{row.answer}</TableCell>
                                 <TableCell>{row.updatedDate}</TableCell>
                                 <TableCell>
@@ -115,6 +111,23 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                         emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}
                                     />
                                 </TableCell>
+                                {packUserId === authorizedUserId
+                                    ? <TableCell>
+                                        <div style={{display: 'flex', gap: '14px', justifyContent: 'end'}}>
+                                            {row.cardsPackOwnerID === authorizedUserId &&
+                                                <Button variant={'contained'}
+                                                        color={'error'}
+                                                        sx={{textTransform: 'none'}}
+                                                        onClick={() => removeCardHandler(row.cardID)}
+                                                >Delete</Button>
+                                            }
+                                            {row.cardsPackOwnerID === authorizedUserId &&
+                                                <ButtonCP onClick={() => editCardHandler(row.cardID)}>Edit</ButtonCP>
+                                            }
+                                        </div>
+                                    </TableCell>
+                                    : null
+                                }
                             </TableRow>
                         ))}
                     </TableBody>
@@ -128,7 +141,8 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
 const styleTHead = {
     background: '#2c2b3f',
     'th': {color: '#fff', fontWeight: 'bold'},
-    'th: nth-of-type(4)': {width: '158px'}
+    'th: nth-of-type(4)': {width: '158px'},
+    'th: nth-of-type(5)': {width: '186px'}
 }
 const styleTd = {
     '&:last-child td, &:last-child th': {border: 0},

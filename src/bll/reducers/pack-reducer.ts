@@ -102,8 +102,7 @@ export const addCardPack = (): ThunkType => async (dispatch: DispatchActionType)
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-        dispatch(setLoadingStatus('idle'))
-    } finally {
+    dispatch(setLoadingStatus('idle'))
     }
 }
 
@@ -116,8 +115,7 @@ export const removePack = (id: string): ThunkType => async dispatch => {
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-    } finally {
-        dispatch(setLoadingStatus('idle'))
+    dispatch(setLoadingStatus('idle'))
     }
 }
 

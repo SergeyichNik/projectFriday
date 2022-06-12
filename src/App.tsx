@@ -24,6 +24,7 @@ function App() {
             {loadingStatus === 'loading' && <Loader/>}
             <ErrorSnackbar/>
             <AppRouter/>
+
         </HashRouter>
     );
 }

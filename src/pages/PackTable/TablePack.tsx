@@ -11,7 +11,6 @@ import {PackCard} from '../../api/pack-api';
 import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
 import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
-import {setPackId} from '../../bll/reducers/cards-reducer';
 
 
 type TablePackPropsType = {
@@ -41,7 +40,6 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     }
     const handlerGetCards = (id: string) => {
         navigate(`../cards/${id}`)
-        dispatch(setPackId(id))
     }
 
     const removePackHandler = (packID: string) => {
