@@ -4,7 +4,6 @@ import {Button} from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import {ButtonCP} from "../TablePack";
 import {ModalComponentType} from "../../../bll";
-import {ModalModelType} from "../../../bll/reducers/modal-reducer";
 
 const styleTd = {
     '&:last-child td, &:last-child th': {border: 0},
@@ -25,10 +24,8 @@ interface PropsType {
     packUserID: string;
     actions?: null;
     authorizedUserId: string;
-    removePackHandler: (packID: string) => void;
-    updatePackHandler: (packID: string) => void;
     handlerGetCards: (packID: string) => void;
-    openModalWindow: (model: ModalModelType) => void
+    openModalWindow: (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => void
 }
 
 
@@ -43,23 +40,10 @@ export const PackItem: FC<PropsType> = (props) => {
         cardsCount,
         updatedDate,
         authorizedUserId,
-        removePackHandler,
-        updatePackHandler,
         handlerGetCards,
-        openModalWindow
+        openModalWindow,
     } = props
-    const removableModel: ModalModelType = {
-        isOpen: true,
-        currentPackID: packID,
-        component: "DELETE",
-        currentPackName: packName
-    }
-    const editableModel: ModalModelType = {
-        isOpen: true,
-        currentPackID: packID,
-        component: "EDIT",
-        currentPackName: packName
-    }
+
     return (
         <TableRow
             key={packID}
@@ -77,12 +61,12 @@ export const PackItem: FC<PropsType> = (props) => {
                         <Button variant={'contained'}
                                 color={'error'}
                                 sx={{textTransform: 'none'}}
-                                onClick={() => openModalWindow(removableModel)}
+                                onClick={() => openModalWindow(true, "DELETE", packID, packName)}
                         >Delete</Button>
                     }
                     {packUserID === authorizedUserId &&
                         <ButtonCP
-                            onClick={() => openModalWindow(editableModel)}
+                            onClick={() => openModalWindow(true, "EDIT", packID, packName)}
                         >Edit</ButtonCP>
                     }
                     <ButtonCP

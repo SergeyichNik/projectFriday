@@ -1,14 +1,7 @@
 import React from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {
-    addCardPack,
-    fetchCardsPack,
-    selectPack,
-    setPage,
-    setPageCount,
-    setSearchPackName
-} from '../../bll/reducers/pack-reducer';
+import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
 import {PackCard} from '../../api/pack-api';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
@@ -19,7 +12,6 @@ import {styleBtn} from '../../styles/commonMui';
 import styles from '../Profile/Profile.module.css';
 import stylesPL from './PacksList.module.css';
 import {controlModalWindowAC} from "../../bll";
-import {ModalModelType} from "../../bll/reducers/modal-reducer";
 
 
 export const PacksList = () => {
@@ -38,13 +30,6 @@ export const PacksList = () => {
     const pageCount = useAppSelector<number>(state => state.pack.pageCount)
     const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
-    const addedModel: ModalModelType = {
-        isOpen: true,
-        currentPackID: null,
-        currentPackName: null,
-        component: "ADD"
-    }
-
     const setPackPageCallback = (page: number) => {
         dispatch(setPage(page + 1));
     }
@@ -54,12 +39,9 @@ export const PacksList = () => {
     const searchByPackName = (search: string) => {
         dispatch(setSearchPackName(search))
     }
-    const addNewPack = () => {
-        dispatch(addCardPack())
-    }
 
     const openAddModalWindowHandle = () => {
-        dispatch(controlModalWindowAC(addedModel))
+        dispatch(controlModalWindowAC(true, "ADD"))
     }
 
     React.useEffect(() => {

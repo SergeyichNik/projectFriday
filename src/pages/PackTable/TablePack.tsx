@@ -1,21 +1,18 @@
 import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
-import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
-import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
+import {Button, ButtonProps, styled} from '@mui/material';
+import {setCurrentPackPropsAC, setSortBy} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
 import {PackItemSkeleton} from "./pack-item-skeleton/PackItemSkeleton";
 import {controlModalWindowAC, ModalComponentType} from "../../bll";
-import {ModalModelType} from "../../bll/reducers/modal-reducer";
+import {PackTableHeader} from "./pack-table-header/PackTableHeader";
 
 
 type TablePackPropsType = {
@@ -49,76 +46,24 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         dispatch(setPackId(id))
     }
 
-    const removePackHandler = (packID: string) => {
-        dispatch(removePack(packID))
-    }
-
-    const updatePackHandler = (id: string) => {
-        dispatch(updatePack(id))
-    }
-
-    const openModalWindowHandle = (model: ModalModelType) => {
-        dispatch(controlModalWindowAC(model))
+    const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => {
+        dispatch(controlModalWindowAC(isOpen, component))
+        dispatch(setCurrentPackPropsAC(packName, packID))
     }
 
     return (
         <>
             <TableContainer component={Paper}>
                 <Table sx={{minWidth: 650}} aria-label="simple table">
-                    <TableHead sx={styleTHead}>
-                        <TableRow sx={styleAlignCell}>
-                            <TableCell >
-                                <TableSortLabel
-                                    sx={styleActiveLabel}
-                                    active={sortBy === 'name'}
-                                    direction={sortBy === 'name' ? order : 'asc'}
-                                    onClick={onClickSortByHandler('name')}
-                                >Pack name</TableSortLabel>
-                            </TableCell>
-                            <TableCell >
-                                <TableSortLabel
-                                    sx={styleActiveLabel}
-                                    active={sortBy === 'cardsCount'}
-                                    direction={sortBy === 'cardsCount' ? order : 'asc'}
-                                    onClick={onClickSortByHandler('cardsCount')}
-                                >Count</TableSortLabel>
-                            </TableCell>
-                            <TableCell>
-                                <TableSortLabel
-                                    sx={styleActiveLabel}
-                                    active={sortBy === 'created'}
-                                    direction={sortBy === 'created' ? order : 'asc'}
-                                    onClick={onClickSortByHandler('created')}
-                                >Created at</TableSortLabel>
-                            </TableCell>
-                            <TableCell>
-                                <TableSortLabel
-                                    sx={styleActiveLabel}
-                                    active={sortBy === 'user_name'}
-                                    direction={sortBy === 'user_name' ? order : 'asc'}
-                                    onClick={onClickSortByHandler('user_name')}
-                                >Created by</TableSortLabel>
-                            </TableCell>
-                            <TableCell>
-                                <TableSortLabel
-                                    sx={styleActiveLabel}
-                                    active={sortBy === 'updated'}
-                                    direction={sortBy === 'updated' ? order : 'asc'}
-                                    onClick={onClickSortByHandler('updated')}
-                                >Updated</TableSortLabel>
-                            </TableCell>
-                            <TableCell>Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <PackTableHeader sortBy={sortBy} order={order} onClickSortByHandler={onClickSortByHandler}/>
                     <TableBody>
                         {rows.map((row) => {
                             if (status === "loading") {
-                                return <PackItemSkeleton isOwner={authorizedUserId === row.packUserID}/>
+                                return <PackItemSkeleton key={row.packID} isOwner={authorizedUserId === row.packUserID}/>
                             }
                             return <PackItem authorizedUserId={authorizedUserId}
+                                             key={row.packID}
                                              openModalWindow={openModalWindowHandle}
-                                             removePackHandler={removePackHandler}
-                                             updatePackHandler={updatePackHandler}
                                              handlerGetCards={handlerGetCards} {...row}/>
                         }
 
@@ -171,19 +116,3 @@ export const ButtonCP = styled(Button)<ButtonProps>(() => ({
         boxShadow: 'none'
     }
 }))
-
-const styleTHead = {
-    background: '#2c2b3f',
-    // background: 'rgb(109,106,153, 0.8)',
-    'th': {color: '#fff', fontWeight: 'bold'},
-    'th: nth-of-type(6)': {width: '268px'}
-}
-
-const styleAlignCell = {
-    '& :not(:first-of-type)': {textAlign: 'left'}
-}
-
-const styleActiveLabel = {
-    color: '#fff !important',
-    '& svg': {color: '#fff !important'}
-}
