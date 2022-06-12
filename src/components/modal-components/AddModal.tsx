@@ -16,8 +16,6 @@ export const AddModal: FC<PropsType> = ({closeModalClick}) => {
                 <ButtonCP style={{width: "130px", backgroundColor: '#7f8383'}}
                           onClick={closeModalClick}>Cancel</ButtonCP>
                 <ButtonCP style={{width: "130px"}} onClick={closeModalClick}>Add</ButtonCP>
-
-
             </div>
         </div>
     );

@@ -4,10 +4,12 @@ import {ButtonCP} from "../../pages/PackTable/TablePack";
 import classes from "./DeleteModal.module.css";
 
 type PropsType = {
+    currentPackName?: string | null
     closeModalClick: () => void
+    removePackClick: () => void
 }
 
-export const DeleteModal: FC<PropsType> = ({closeModalClick}) => {
+export const DeleteModal: FC<PropsType> = ({closeModalClick, removePackClick, currentPackName}) => {
 
     return (
         <div className={classes.wrapper}>
@@ -15,7 +17,7 @@ export const DeleteModal: FC<PropsType> = ({closeModalClick}) => {
 
             <p className={classes.text}>
                 Do you really want to remove
-                <span className={classes.packName}> Pack Name </span>?
+                <span className={classes.packName}>{currentPackName}</span>?
                 <br/> All cards will be excluded from this course.</p>
 
             <div className={classes.btnGroup}>
@@ -25,8 +27,7 @@ export const DeleteModal: FC<PropsType> = ({closeModalClick}) => {
                             style={{width: "130px"}}
                             color={'error'}
                             sx={{textTransform: 'none'}}
-                            onClick={() => {
-                            }}
+                            onClick={removePackClick}
                     >Delete</Button>
             </div>
         </div>

@@ -19,6 +19,7 @@ import {styleBtn} from '../../styles/commonMui';
 import styles from '../Profile/Profile.module.css';
 import stylesPL from './PacksList.module.css';
 import {controlModalWindowAC} from "../../bll";
+import {ModalModelType} from "../../bll/reducers/modal-reducer";
 
 
 export const PacksList = () => {
@@ -37,6 +38,13 @@ export const PacksList = () => {
     const pageCount = useAppSelector<number>(state => state.pack.pageCount)
     const cardsPacksTotalCount = useAppSelector<number>(state => state.pack.cardPacksTotalCount)
 
+    const addedModel: ModalModelType = {
+        isOpen: true,
+        currentPackID: null,
+        currentPackName: null,
+        component: "ADD"
+    }
+
     const setPackPageCallback = (page: number) => {
         dispatch(setPage(page + 1));
     }
@@ -51,7 +59,7 @@ export const PacksList = () => {
     }
 
     const openAddModalWindowHandle = () => {
-        dispatch(controlModalWindowAC(true, "ADD"))
+        dispatch(controlModalWindowAC(addedModel))
     }
 
     React.useEffect(() => {

@@ -7,6 +7,8 @@ import {useAppDispatch, useAppSelector} from "../../bll/store/store";
 import {AddModal, DeleteModal, EditModal} from "../modal-components";
 import {controlModalWindowAC, selectModal} from "../../bll";
 import classes from "./ModalWindow.module.css";
+import {removePack} from "../../bll/reducers/pack-reducer";
+import {clearedModalModel} from "../../bll/reducers/modal-reducer";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -22,12 +24,20 @@ const style = {
 
 
 export const ModalWindow = () => {
+
     const isOpen = useAppSelector(selectModal).isOpen
     const component = useAppSelector(selectModal).component
+    const currentPackID = useAppSelector(selectModal).currentPackID
+    const currentPackName = useAppSelector(selectModal).currentPackName
+
     const dispatch = useAppDispatch()
 
     const closeModalClick = () => {
-        dispatch(controlModalWindowAC(false, null))
+        dispatch(controlModalWindowAC(clearedModalModel))
+    }
+
+    const removePackClick = () => {
+        dispatch(removePack(currentPackID as string))
     }
 
     return (
@@ -46,7 +56,9 @@ export const ModalWindow = () => {
                 <Fade in={isOpen}>
                     <Box className={classes.modalWrapper} sx={style}>
                         {component === "ADD" && <AddModal closeModalClick={closeModalClick}/>}
-                        {component === "DELETE" && <DeleteModal closeModalClick={closeModalClick}/>}
+                        {component === "DELETE" && <DeleteModal removePackClick={removePackClick}
+                                                                currentPackName={currentPackName}
+                                                                closeModalClick={closeModalClick}/>}
                         {component === "EDIT" && <EditModal closeModalClick={closeModalClick}/>}
                     </Box>
                 </Fade>

@@ -1,11 +1,18 @@
 import {AppRootStateType} from "../store/store";
 
 
-
+export const clearedModalModel: ModalModelType = {
+    isOpen: false,
+    currentPackName: null,
+    component: null,
+    currentPackID: null,
+}
 
 const initialState: ModalStateType = {
     isOpen: false,
-    component: null
+    component: null,
+    currentPackID: null,
+    currentPackName: null
 }
 
 export const modalReducer =
@@ -29,12 +36,12 @@ export const modalReducer =
 export const selectModal = (state: AppRootStateType) => state.modal
 
 //actionCreators
-export const controlModalWindowAC = (isOpen: boolean, component: ModalComponentType) => {
+export const controlModalWindowAC =
+    (model: ModalModelType) => {
     return {
         type: "TOGGLE_IS_OPEN",
         payload: {
-            isOpen,
-            component
+            ...model
         }
     } as const
 }
@@ -45,8 +52,17 @@ export type ModalComponentType = "DELETE" | "ADD" | "EDIT" | null
 
 export type ModalStateType = {
     isOpen: boolean,
-    component: ModalComponentType
+    component: ModalComponentType,
+    currentPackID: string | null,
+    currentPackName: string | null,
 }
 
 export type ModalReducerActionsType =
     | ReturnType<typeof controlModalWindowAC>
+
+export type ModalModelType = {
+    isOpen: boolean,
+    component: ModalComponentType
+    currentPackID: string | null
+    currentPackName: string | null
+}

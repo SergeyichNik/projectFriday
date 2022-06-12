@@ -1,6 +1,7 @@
 import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
 import {CardsPackAPI, Pack, PackCard, PackQueryParams} from '../../api/pack-api';
 import {setAppError, setLoadingStatus, setTrash} from './app-reducer';
+import {clearedModalModel, controlModalWindowAC} from "./modal-reducer";
 
 const initialState: PackInitStateType = {
     cardPacks: [],
@@ -121,6 +122,7 @@ export const removePack = (id: string): ThunkType => async dispatch => {
         dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC(clearedModalModel))
     }
 }
 

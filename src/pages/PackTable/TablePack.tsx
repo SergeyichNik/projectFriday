@@ -15,6 +15,7 @@ import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
 import {PackItemSkeleton} from "./pack-item-skeleton/PackItemSkeleton";
 import {controlModalWindowAC, ModalComponentType} from "../../bll";
+import {ModalModelType} from "../../bll/reducers/modal-reducer";
 
 
 type TablePackPropsType = {
@@ -56,8 +57,8 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         dispatch(updatePack(id))
     }
 
-    const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType) => {
-        dispatch(controlModalWindowAC(isOpen, component))
+    const openModalWindowHandle = (model: ModalModelType) => {
+        dispatch(controlModalWindowAC(model))
     }
 
     return (
