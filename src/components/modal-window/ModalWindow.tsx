@@ -6,15 +6,16 @@ import Fade from '@mui/material/Fade';
 import {useAppDispatch, useAppSelector} from "../../bll/store/store";
 import {AddModal, DeleteModal, EditModal} from "../modal-components";
 import {controlModalWindowAC, selectModal} from "../../bll";
+import classes from "./ModalWindow.module.css";
 
 const style = {
     position: 'absolute' as 'absolute',
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
+    borderRadius: "5px",
     width: 400,
     bgcolor: 'background.paper',
-    border: '2px solid #000',
     boxShadow: 24,
     p: 4,
 };
@@ -43,10 +44,10 @@ export const ModalWindow = () => {
                 }}
             >
                 <Fade in={isOpen}>
-                    <Box sx={style}>
-                        {component === "ADD" && <AddModal/>}
-                        {component === "DELETE" && <DeleteModal/>}
-                        {component === "EDIT" && <EditModal/>}
+                    <Box className={classes.modalWrapper} sx={style}>
+                        {component === "ADD" && <AddModal closeModalClick={closeModalClick}/>}
+                        {component === "DELETE" && <DeleteModal closeModalClick={closeModalClick}/>}
+                        {component === "EDIT" && <EditModal closeModalClick={closeModalClick}/>}
                     </Box>
                 </Fade>
             </Modal>
