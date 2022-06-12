@@ -14,6 +14,7 @@ import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
 import {PackItemSkeleton} from "./pack-item-skeleton/PackItemSkeleton";
+import {toggleIsOpenModal} from "../../bll/reducers/modal-reducer";
 
 
 type TablePackPropsType = {
@@ -53,6 +54,10 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
 
     const updatePackHandler = (id: string) => {
         dispatch(updatePack(id))
+    }
+
+    const openModalWindowHandle = () => {
+        dispatch(toggleIsOpenModal(true))
     }
 
     return (
@@ -110,6 +115,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 return <PackItemSkeleton isOwner={authorizedUserId === row.packUserID}/>
                             }
                             return <PackItem authorizedUserId={authorizedUserId}
+                                             openModalWindow={openModalWindowHandle}
                                              removePackHandler={removePackHandler}
                                              updatePackHandler={updatePackHandler}
                                              handlerGetCards={handlerGetCards} {...row}/>

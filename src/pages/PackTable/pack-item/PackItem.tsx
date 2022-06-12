@@ -26,7 +26,7 @@ interface PropsType {
     removePackHandler: (packID: string) => void;
     updatePackHandler: (packID: string) => void;
     handlerGetCards: (packID: string) => void;
-    openModalWindow: (isOpen: boolean) => void
+    openModalWindow: () => void
 }
 
 
@@ -43,7 +43,8 @@ export const PackItem: FC<PropsType> = (props) => {
         authorizedUserId,
         removePackHandler,
         updatePackHandler,
-        handlerGetCards
+        handlerGetCards,
+        openModalWindow
     } = props
 
     return (
@@ -63,12 +64,12 @@ export const PackItem: FC<PropsType> = (props) => {
                         <Button variant={'contained'}
                                 color={'error'}
                                 sx={{textTransform: 'none'}}
-                                onClick={() => removePackHandler(packID)}
+                                onClick={openModalWindow}
                         >Delete</Button>
                     }
                     {packUserID === authorizedUserId &&
                         <ButtonCP
-                            onClick={() => updatePackHandler(packID)}
+                            onClick={openModalWindow}
                         >Edit</ButtonCP>
                     }
                     <ButtonCP
