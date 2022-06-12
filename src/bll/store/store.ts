@@ -9,7 +9,8 @@ import {RecoveryPasswordActionsType, recoveryPasswordReducer} from '../reducers/
 import {newPasswordReducer} from '../reducers/newPasswordReducer';
 import {packReducer, PackReducerActionsType} from '../reducers/pack-reducer';
 import {cardsReducer, CardsReducerActionType} from "../reducers/cards-reducer";
-import {modalReducer, ModalReducerActionsType} from "../reducers/modal-reducer";
+import {modalReducer, ModalReducerActionsType} from "../reducers";
+
 
 
 // @ts-ignore

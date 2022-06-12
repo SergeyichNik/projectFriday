@@ -3,6 +3,7 @@ import TableCell from "@mui/material/TableCell";
 import {Button} from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import {ButtonCP} from "../TablePack";
+import {ModalComponentType} from "../../../bll";
 
 const styleTd = {
     '&:last-child td, &:last-child th': {border: 0},
@@ -26,7 +27,7 @@ interface PropsType {
     removePackHandler: (packID: string) => void;
     updatePackHandler: (packID: string) => void;
     handlerGetCards: (packID: string) => void;
-    openModalWindow: () => void
+    openModalWindow: (isOpen: boolean, component: ModalComponentType) => void
 }
 
 
@@ -64,12 +65,12 @@ export const PackItem: FC<PropsType> = (props) => {
                         <Button variant={'contained'}
                                 color={'error'}
                                 sx={{textTransform: 'none'}}
-                                onClick={openModalWindow}
+                                onClick={() => openModalWindow(true, "DELETE")}
                         >Delete</Button>
                     }
                     {packUserID === authorizedUserId &&
                         <ButtonCP
-                            onClick={openModalWindow}
+                            onClick={() => openModalWindow(true, "EDIT")}
                         >Edit</ButtonCP>
                     }
                     <ButtonCP

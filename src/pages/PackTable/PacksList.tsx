@@ -18,7 +18,7 @@ import {Button} from '@mui/material';
 import {styleBtn} from '../../styles/commonMui';
 import styles from '../Profile/Profile.module.css';
 import stylesPL from './PacksList.module.css';
-import {toggleIsOpenModal} from "../../bll/reducers/modal-reducer";
+import {controlModalWindowAC} from "../../bll";
 
 
 export const PacksList = () => {
@@ -50,8 +50,8 @@ export const PacksList = () => {
         dispatch(addCardPack())
     }
 
-    const openModalWindowHandle = () => {
-        dispatch(toggleIsOpenModal(true))
+    const openAddModalWindowHandle = () => {
+        dispatch(controlModalWindowAC(true, "ADD"))
     }
 
     React.useEffect(() => {
@@ -86,7 +86,7 @@ export const PacksList = () => {
                                 height: 'auto'
                             }]}
                             variant={'contained'}
-                            onClick={openModalWindowHandle}
+                            onClick={openAddModalWindowHandle}
                         >
                             Add new Pack
                         </Button>

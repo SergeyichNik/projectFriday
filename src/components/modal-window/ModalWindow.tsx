@@ -1,12 +1,11 @@
-import  React from 'react';
+import React from 'react';
 import Backdrop from '@mui/material/Backdrop';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
 import {useAppDispatch, useAppSelector} from "../../bll/store/store";
-import {selectModal, toggleIsOpenModal} from "../../bll/reducers/modal-reducer";
+import {AddModal, DeleteModal, EditModal} from "../modal-components";
+import {controlModalWindowAC, selectModal} from "../../bll";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -23,10 +22,11 @@ const style = {
 
 export const ModalWindow = () => {
     const isOpen = useAppSelector(selectModal).isOpen
+    const component = useAppSelector(selectModal).component
     const dispatch = useAppDispatch()
 
     const closeModalClick = () => {
-        dispatch(toggleIsOpenModal(false))
+        dispatch(controlModalWindowAC(false, null))
     }
 
     return (
@@ -44,12 +44,9 @@ export const ModalWindow = () => {
             >
                 <Fade in={isOpen}>
                     <Box sx={style}>
-                        <Typography id="transition-modal-title" variant="h6" component="h2">
-                            Text in a modal
-                        </Typography>
-                        <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                        </Typography>
+                        {component === "ADD" && <AddModal/>}
+                        {component === "DELETE" && <DeleteModal/>}
+                        {component === "EDIT" && <EditModal/>}
                     </Box>
                 </Fade>
             </Modal>

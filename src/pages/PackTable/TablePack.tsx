@@ -14,7 +14,7 @@ import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
 import {PackItemSkeleton} from "./pack-item-skeleton/PackItemSkeleton";
-import {toggleIsOpenModal} from "../../bll/reducers/modal-reducer";
+import {controlModalWindowAC, ModalComponentType} from "../../bll";
 
 
 type TablePackPropsType = {
@@ -56,8 +56,8 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         dispatch(updatePack(id))
     }
 
-    const openModalWindowHandle = () => {
-        dispatch(toggleIsOpenModal(true))
+    const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType) => {
+        dispatch(controlModalWindowAC(isOpen, component))
     }
 
     return (
