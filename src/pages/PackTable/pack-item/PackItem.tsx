@@ -26,6 +26,7 @@ interface PropsType {
     removePackHandler: (packID: string) => void;
     updatePackHandler: (packID: string) => void;
     handlerGetCards: (packID: string) => void;
+    openModalWindow: (isOpen: boolean) => void
 }
 
 

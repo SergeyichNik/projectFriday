@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
 import store from "./bll/store/store";
+import {TransparentLayer} from "./components/transparent-layer/TransparentLayer";
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

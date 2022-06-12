@@ -6,6 +6,8 @@ import ErrorSnackbar from './components/common/c7-ErrorSnackbar/ErrorSnackbar';
 import {Loader} from './components/common/Loader/Loader';
 import {useAppDispatch, useAppSelector} from './bll/store/store';
 import {authMe, LoadingStatusType} from './bll/reducers/app-reducer';
+import {TransparentLayer} from "./components/transparent-layer/TransparentLayer";
+import {ModalWindow} from "./components/modal-window/ModalWindow";
 
 function App() {
     const dispatch = useAppDispatch()
@@ -20,11 +22,16 @@ function App() {
     if (!isInitialize) return <Loader />
 
     return (
-        <HashRouter>
-            {/*{loadingStatus === 'loading' && <Loader/>}*/}
-            <ErrorSnackbar/>
-            <AppRouter/>
-        </HashRouter>
+        <>
+
+            <HashRouter>
+                <ModalWindow/>
+                {/*{loadingStatus === 'loading' && <Loader/>}*/}
+                <ErrorSnackbar/>
+                <AppRouter/>
+            </HashRouter>
+        </>
+
     );
 }
 
