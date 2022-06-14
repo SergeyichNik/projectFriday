@@ -12,7 +12,7 @@ export const modalReducer =
     ): ModalStateType => {
 
     switch (action.type) {
-        case "TOGGLE_IS_OPEN":
+        case "SET_MODAL_WINDOW_PROP":
             return {
                 ...state,
                 ...action.payload
@@ -29,7 +29,7 @@ export const selectModal = (state: AppRootStateType) => state.modal
 export const controlModalWindowAC =
     (isOpen: boolean = false, component: ModalComponentType = null) => {
     return {
-        type: "TOGGLE_IS_OPEN",
+        type: "SET_MODAL_WINDOW_PROP",
         payload: {
             isOpen,
             component
