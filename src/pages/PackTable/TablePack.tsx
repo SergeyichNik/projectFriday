@@ -6,9 +6,7 @@ import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
 import {Button, ButtonProps, styled} from '@mui/material';
-import {setCurrentPackPropsAC, setSortBy} from '../../bll/reducers/pack-reducer';
-import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
-import {removePack, setSearchPackName, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
+import {setCurrentPackPropsAC, setSearchPackName, setSortBy} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
@@ -73,6 +71,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                             }
                             return <PackItem authorizedUserId={authorizedUserId}
                                              key={row.packID}
+                                             handlerLearnCards={handlerLearnCards}
                                              openModalWindow={openModalWindowHandle}
                                              handlerGetCards={handlerGetCards} {...row}/>
                         }

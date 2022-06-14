@@ -4,6 +4,7 @@ import {Button} from "@mui/material";
 import TableRow from "@mui/material/TableRow";
 import {ButtonCP} from "../TablePack";
 import {ModalComponentType} from "../../../bll";
+import {Link} from "react-router-dom";
 
 const styleTd = {
     '&:last-child td, &:last-child th': {border: 0},
@@ -24,6 +25,7 @@ interface PropsType {
     packUserID: string;
     actions?: null;
     authorizedUserId: string;
+    handlerLearnCards: (id: string, name: string) => void
     handlerGetCards: (e: React.MouseEvent<HTMLAnchorElement>, id: string, length: number) => void;
     openModalWindow: (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => void
 }
@@ -41,6 +43,7 @@ export const PackItem: FC<PropsType> = (props) => {
         updatedDate,
         authorizedUserId,
         handlerGetCards,
+        handlerLearnCards,
         openModalWindow,
     } = props
 
@@ -50,7 +53,7 @@ export const PackItem: FC<PropsType> = (props) => {
             sx={[styleTd, styleAlignCell]}
             // sx={{'&:last-child td, &:last-child th': {border: 0}}}
         >
-            <TableCell>{packName}</TableCell>
+            <TableCell><Link to={'#'} onClick={(e) => handlerGetCards(e, packID, cardsCount)}>{packName}</Link></TableCell>
             <TableCell>{cardsCount}</TableCell>
             <TableCell>{createdDate}</TableCell>
             <TableCell>{createdByName}</TableCell>
@@ -71,7 +74,7 @@ export const PackItem: FC<PropsType> = (props) => {
                     }
                     <ButtonCP
                         disabled={!cardsCount && packUserID !== authorizedUserId}
-                        onClick={() => {}}
+                        onClick={() => handlerLearnCards(packID, packName)}
                     >Learn</ButtonCP>
                 </div>
             </TableCell>
