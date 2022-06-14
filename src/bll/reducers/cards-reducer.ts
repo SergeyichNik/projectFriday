@@ -154,9 +154,8 @@ export const updateCardGrade = (id: string, grade: number): ThunkType => async d
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await CardsApi.updateGrade(id, grade)
-        // const data = res.data.updatedGrade
-        // dispatch(updateGrade(data.card_id, data.grade, data.shots))
-        dispatch(fetchCards())
+        const data = res.data.updatedGrade
+        dispatch(updateGrade(data.card_id, data.grade, data.shots))
     }
     catch(e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');

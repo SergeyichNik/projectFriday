@@ -11,6 +11,7 @@ import NotFound from "../../pages/NotFound";
 import {PacksList} from '../../pages/PackTable/PacksList';
 import CardsList from "../../pages/CardsTable/CardsList";
 import LearnPack from "../../pages/Card/LearnPack";
+import {RequireAuth} from "../../hoc";
 
 const AppRouter = () => {
     return (
@@ -22,7 +23,11 @@ const AppRouter = () => {
                 <Route path={'new-password'} element={<NewPassword/>}/>
                 <Route path={'test-page'} element={<TestPage/>}/>
                 <Route path={'registration'} element={<Registration/>}/>
-                <Route path={'pack-table'} element={<PacksList/>} />
+                <Route path={'pack-table'} element={
+                    <RequireAuth>
+                        <PacksList/>
+                    </RequireAuth>
+                } />
                 <Route path={'cards/:id'} element={<CardsList/>} />
                 <Route path={'*'} element={<NotFound/>}/>
                 <Route path={'card/:id'} element={<LearnPack/>}/>

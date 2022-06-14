@@ -26,7 +26,7 @@ interface PropsType {
     actions?: null;
     authorizedUserId: string;
     handlerLearnCards: (id: string, name: string) => void
-    handlerGetCards: (e: React.MouseEvent<HTMLAnchorElement>, id: string, length: number) => void;
+    handlerGetCards: (e: React.MouseEvent<HTMLAnchorElement>, length: number, isOwner: boolean) => void;
     openModalWindow: (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => void
 }
 
@@ -47,13 +47,18 @@ export const PackItem: FC<PropsType> = (props) => {
         openModalWindow,
     } = props
 
+    const isOwner = packUserID === authorizedUserId
+
     return (
         <TableRow
             key={packID}
             sx={[styleTd, styleAlignCell]}
             // sx={{'&:last-child td, &:last-child th': {border: 0}}}
         >
-            <TableCell><Link to={'#'} onClick={(e) => handlerGetCards(e, packID, cardsCount)}>{packName}</Link></TableCell>
+            <TableCell><Link to={`/cards/${packID}`} onClick={
+                (
+                    e
+                ) => handlerGetCards(e, cardsCount, isOwner)}>{packName}</Link></TableCell>
             <TableCell>{cardsCount}</TableCell>
             <TableCell>{createdDate}</TableCell>
             <TableCell>{createdByName}</TableCell>
@@ -73,7 +78,7 @@ export const PackItem: FC<PropsType> = (props) => {
                         >Edit</ButtonCP>
                     }
                     <ButtonCP
-                        disabled={!cardsCount && packUserID !== authorizedUserId}
+                        disabled={!cardsCount && !isOwner}
                         onClick={() => handlerLearnCards(packID, packName)}
                     >Learn</ButtonCP>
                 </div>

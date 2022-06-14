@@ -41,11 +41,11 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const onClickSortByHandler = (sortBy: string) => () => {
         dispatch(setSortBy(sortBy))
     }
-    const handlerGetCards = (e: React.MouseEvent<HTMLAnchorElement>, id: string, length: number) => {
-        if (length !== 0 ) {
-        navigate(`../cards/${id}`)
+
+    const handlerGetCards = (e: React.MouseEvent<HTMLAnchorElement>, length: number, isOwner: boolean) => {
+        if (length === 0 && !isOwner) {
+            e.preventDefault()
         }
-        e.preventDefault()
     }
 
     const handlerLearnCards = (id: string, name: string) => {
@@ -66,16 +66,17 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                     <PackTableHeader sortBy={sortBy} order={order} onClickSortByHandler={onClickSortByHandler}/>
                     <TableBody>
                         {rows.map((row) => {
-                            if (status === "loading") {
-                                return <PackItemSkeleton key={row.packID} isOwner={authorizedUserId === row.packUserID}/>
-                            }
-                            return <PackItem authorizedUserId={authorizedUserId}
-                                             key={row.packID}
-                                             handlerLearnCards={handlerLearnCards}
-                                             openModalWindow={openModalWindowHandle}
-                                             handlerGetCards={handlerGetCards} {...row}/>
-                        }
+                                if (status === "loading") {
+                                    return <PackItemSkeleton key={row.packID}
+                                                             isOwner={authorizedUserId === row.packUserID}/>
+                                }
+                                return <PackItem authorizedUserId={authorizedUserId}
 
+                                                 key={row.packID}
+                                                 handlerLearnCards={handlerLearnCards}
+                                                 openModalWindow={openModalWindowHandle}
+                                                 handlerGetCards={handlerGetCards} {...row}/>
+                            }
                         )}
                     </TableBody>
                 </Table>
