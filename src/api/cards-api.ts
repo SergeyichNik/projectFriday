@@ -13,6 +13,9 @@ export const CardsApi = {
     },
     updateCard(_id: string, question: string) {
         return instance.put('/cards/card', {card: {_id, question}})
+    },
+    updateGrade(card_id: string, grade: number) {
+        return instance.put<GradeResponseType>('/cards/grade', {grade, card_id})
     }
 }
 
@@ -46,4 +49,16 @@ export type CardsQueryParams = {
     sortCards?: string
     page?: number
     pageCount?: number
+}
+export type GradeResponseType = {
+    updatedGrade: {
+        _id: string
+        cardsPack_id: string
+        card_id: string
+        user_id: string
+        grade: number
+        shots: number
+    }
+    token: string
+    tokenDeathTime: Date
 }

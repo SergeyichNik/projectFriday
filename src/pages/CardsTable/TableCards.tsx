@@ -105,7 +105,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                 <TableCell>
                                     <Rating
                                         name="simple-controlled"
-                                        value={3}
+                                        value={row.grade}
                                         readOnly
                                         precision={0.5}
                                         emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}

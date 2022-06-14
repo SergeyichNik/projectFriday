@@ -7,6 +7,8 @@ import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
 import {Button, ButtonProps, styled} from '@mui/material';
 import {setCurrentPackPropsAC, setSortBy} from '../../bll/reducers/pack-reducer';
+import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
+import {removePack, setSearchPackName, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 import {PackItem} from "./pack-item/PackItem";
@@ -46,6 +48,12 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
         navigate(`../cards/${id}`)
         }
         e.preventDefault()
+    }
+
+    const handlerLearnCards = (id: string, name: string) => {
+        navigate(`../card/${id}`)
+        dispatch(setPackId(id))
+        dispatch(setSearchPackName(name))
     }
 
     const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => {
