@@ -5,12 +5,12 @@ import AppRouter from './components/app-router/AppRouter';
 import ErrorSnackbar from './components/common/c7-ErrorSnackbar/ErrorSnackbar';
 import {Loader} from './components/common/Loader/Loader';
 import {useAppDispatch, useAppSelector} from './bll/store/store';
-import {authMe, LoadingStatusType} from './bll/reducers/app-reducer';
+import {authMe} from './bll/reducers/app-reducer';
+import {ModalWindow} from "./components/modal-window/ModalWindow";
 
 function App() {
     const dispatch = useAppDispatch()
 
-    const loadingStatus = useAppSelector<LoadingStatusType>(state => state.appReducer.loadingStatus)
     const isInitialize = useAppSelector<boolean>(state => state.appReducer.isInitialized)
 
     React.useEffect(() => {
@@ -20,12 +20,15 @@ function App() {
     if (!isInitialize) return <Loader />
 
     return (
-        <HashRouter>
-            {loadingStatus === 'loading' && <Loader/>}
-            <ErrorSnackbar/>
-            <AppRouter/>
+        <>
 
-        </HashRouter>
+            <HashRouter>
+                <ModalWindow/>
+                <ErrorSnackbar/>
+                <AppRouter/>
+            </HashRouter>
+        </>
+
     );
 }
 

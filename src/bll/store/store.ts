@@ -9,6 +9,8 @@ import {RecoveryPasswordActionsType, recoveryPasswordReducer} from '../reducers/
 import {newPasswordReducer} from '../reducers/newPasswordReducer';
 import {packReducer, PackReducerActionsType} from '../reducers/pack-reducer';
 import {cardsReducer, CardsReducerActionType} from "../reducers/cards-reducer";
+import {modalReducer, ModalReducerActionsType} from "../reducers";
+
 
 
 // @ts-ignore
@@ -21,13 +23,15 @@ const reducer = combineReducers({
     login: loginReducer,
     registration: RegistrationReducer,
     pack: packReducer,
-    cards: cardsReducer
+    cards: cardsReducer,
+    modal: modalReducer,
 })
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(thunk)))
 
 export type AppRootStateType = ReturnType<typeof reducer>
 export type AppRootActionsType =
+    | ModalReducerActionsType
     | RegistrationActionType
     | LoginActionType
     | RecoveryPasswordActionsType

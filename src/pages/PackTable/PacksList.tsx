@@ -1,14 +1,7 @@
 import React from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {
-    addCardPack,
-    fetchCardsPack,
-    selectPack,
-    setPage,
-    setPageCount,
-    setSearchPackName
-} from '../../bll/reducers/pack-reducer';
+import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
 import {PackCard} from '../../api/pack-api';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';
@@ -18,6 +11,7 @@ import {Button} from '@mui/material';
 import {styleBtn} from '../../styles/commonMui';
 import styles from '../Profile/Profile.module.css';
 import stylesPL from './PacksList.module.css';
+import {controlModalWindowAC} from "../../bll";
 
 
 export const PacksList = () => {
@@ -45,8 +39,9 @@ export const PacksList = () => {
     const searchByPackName = (search: string) => {
         dispatch(setSearchPackName(search))
     }
-    const addNewPack = () => {
-        dispatch(addCardPack())
+
+    const openAddModalWindowHandle = () => {
+        dispatch(controlModalWindowAC(true, "ADD"))
     }
 
     React.useEffect(() => {
@@ -81,7 +76,7 @@ export const PacksList = () => {
                                 height: 'auto'
                             }]}
                             variant={'contained'}
-                            onClick={addNewPack}
+                            onClick={openAddModalWindowHandle}
                         >
                             Add new Pack
                         </Button>

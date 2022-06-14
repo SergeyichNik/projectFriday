@@ -1,4 +1,4 @@
-import {ThunkType} from '../store/store';
+import {AppRootStateType, ThunkType} from '../store/store';
 import {authApi} from '../../api/auth-api';
 import {getUserData, LoginResponseType} from './login-reducer';
 
@@ -36,6 +36,10 @@ export const AppReducer = (state: InitialStateType = initialState, action: AppAc
             return state;
     }
 }
+//selector
+export const selectAppStatus = (state: AppRootStateType) => state.appReducer.loadingStatus
+
+//actions
 export const setAppError = (error: string | null) => ({type: 'app/SET-APP-ERROR', error} as const)
 export const setLoadingStatus = (loadingStatus: LoadingStatusType) => {
     return {

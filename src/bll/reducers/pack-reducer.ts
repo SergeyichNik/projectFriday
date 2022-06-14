@@ -1,6 +1,9 @@
 import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
 import {CardsPackAPI, Pack, PackCard, PackQueryParams} from '../../api/pack-api';
 import {setAppError, setLoadingStatus, setTrash} from './app-reducer';
+import {controlModalWindowAC} from "./modal-reducer";
+import {EMPTY_STRING} from "../../constants";
+
 
 const initialState: PackInitStateType = {
     cardPacks: [],
@@ -17,7 +20,10 @@ const initialState: PackInitStateType = {
     order: 'desc',
     packOwner: 'all',
     minSort: 0,
-    maxSort: 0
+    maxSort: 0,
+
+    currentPackID: null,
+    currentPackName: EMPTY_STRING
 }
 
 export const packReducer = (state: PackInitStateType = initialState, action: PackReducerActionsType): PackInitStateType => {
@@ -41,6 +47,11 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
             return {...state, pageCount: action.pageCount}
         case 'PACK/SET_PACK_NAME':
             return {...state, ...action}
+        case "PACK/SET_CURRENT_PACK_PROPS":
+            return {
+                ...state,
+                ...action.payload
+            }
         default:
             return state
     }
@@ -56,6 +67,15 @@ export const setMinMaxSort = (range: number[]) => ({type: 'PACK/SET_MIN_MAX_SORT
 export const setPage = (page: number) => ({type: 'PACK/SET_PAGE', page} as const)
 export const setPageCount = (pageCount: number) => ({type: 'PACK/SET_PAGE_COUNT', pageCount} as const)
 export const setSearchPackName = (packName: string) => ({type: 'PACK/SET_PACK_NAME', packName} as const)
+export const setCurrentPackPropsAC = (currentPackName: string = EMPTY_STRING, currentPackID: string | null = null) => {
+    return {
+        type: 'PACK/SET_CURRENT_PACK_PROPS',
+        payload: {
+            currentPackName,
+            currentPackID
+        }
+    } as const
+}
 
 
 // --- thunk
@@ -93,20 +113,22 @@ export const fetchCardsPack = (): ThunkType => async (dispatch: DispatchActionTy
     }
 }
 
-export const addCardPack = (): ThunkType => async (dispatch: DispatchActionType) => {
-    const newName = 'JS/React/Redux'
+export const addCardPackTC = (name: string): ThunkType => async (dispatch: DispatchActionType) => {
     try {
         dispatch(setLoadingStatus('loading'))
-        await CardsPackAPI.addNewPack(newName)
+        await CardsPackAPI.addNewPack(name)
         dispatch(fetchCardsPack())
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-    dispatch(setLoadingStatus('idle'))
+        dispatch(setLoadingStatus('idle'))
+    } finally {
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 
-export const removePack = (id: string): ThunkType => async dispatch => {
+export const removePackTC = (id: string): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await CardsPackAPI.deletePack(id)
@@ -115,12 +137,18 @@ export const removePack = (id: string): ThunkType => async dispatch => {
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
-    dispatch(setLoadingStatus('idle'))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 
-export const updatePack = (id: string): ThunkType => async dispatch => {
-    const name = `Updated pack's name`
+export const updatePackNameTC = (id: string, name: string): ThunkType =>
+    async (
+        dispatch,
+
+    ) => {
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await CardsPackAPI.updatePack(id, name)
@@ -131,6 +159,8 @@ export const updatePack = (id: string): ThunkType => async dispatch => {
         dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 
@@ -145,6 +175,7 @@ export type PackReducerActionsType =
     | ReturnType<typeof setPage>
     | ReturnType<typeof setPageCount>
     | ReturnType<typeof setSearchPackName>
+    | ReturnType<typeof setCurrentPackPropsAC>
 
 type PackCardsInfo = {
     page: number
@@ -163,6 +194,9 @@ type PackInitStateType = Pack & {
     packOwner: 'all' | 'my'
     minSort: number
     maxSort: number
+
+    currentPackID: null | string,
+    currentPackName: string
 }
 
 //selector
