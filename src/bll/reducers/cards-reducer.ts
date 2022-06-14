@@ -17,6 +17,7 @@ const initialState: InitialStateType = {
     cardAnswer: '',
     cardQuestion: '',
     cardsPack_id: '',
+    card_id: '',
     min: 0,
     max: 0
 }
@@ -37,6 +38,10 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
             return {...state, cardAnswer: action.cardAnswer}
         case 'CARDS/SET-QUESTION':
             return {...state, cardQuestion: action.cardQuestion}
+        case "CARDS/UPDATE-GRADE":
+            const newCards = state.cards.map((c: CardType) => c._id === action.id ?
+                {...c, grade: action.grade, shots: action.shots} : c)
+            return {...state, cards: newCards}
         case 'CARDS/SET-SORT-CARDS':
             const isAsc = state.sortCards === action.sortCards && state.order === 'asc'
             return {...state, sortCards: action.sortCards, order: isAsc ? 'desc' : 'asc'}
@@ -53,6 +58,7 @@ export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof setPackId>
     | ReturnType<typeof searchByQuestion>
     | ReturnType<typeof setSortCards>
+    | ReturnType<typeof updateGrade>
 
 // actions
 export const setCards = (cards: CardType[]) => ({type: 'CARDS/SET-CARDS', cards} as const)
@@ -63,7 +69,8 @@ export const setPackId = (packId: string) => ({type: 'CARDS/SET-PACK-ID', packId
 export const searchByAnswer = (cardAnswer: string) => ({type: 'CARDS/SET-ANSWER', cardAnswer} as const)
 export const searchByQuestion = (cardQuestion: string) => ({type: 'CARDS/SET-QUESTION', cardQuestion} as const)
 export const setSortCards = (sortCards: string) => ({type: 'CARDS/SET-SORT-CARDS', sortCards} as const)
-
+export const updateGrade = (id: string, grade: number, shots: number) => (
+    {type: 'CARDS/UPDATE-GRADE', id, grade, shots} as const)
 
 // thunk
 export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, getState: () => AppRootStateType) => {
@@ -143,6 +150,22 @@ export const editCard = (id: string): ThunkType => async dispatch => {
     }
 }
 
+export const updateCardGrade = (id: string, grade: number): ThunkType => async dispatch => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await CardsApi.updateGrade(id, grade)
+        // const data = res.data.updatedGrade
+        // dispatch(updateGrade(data.card_id, data.grade, data.shots))
+        dispatch(fetchCards())
+    }
+    catch(e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
 
 // type
 type InitialStateType = CardsInfoType & {
@@ -154,6 +177,7 @@ type InitialStateType = CardsInfoType & {
     min: number
     max: number
     order: OrderType
+    card_id: string
 }
 type CardsInfoType = {
     cardsTotalCount: number

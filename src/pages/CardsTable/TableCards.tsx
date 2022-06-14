@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import {useAppDispatch, useAppSelector} from '../../bll/store/store';
+import {useAppDispatch} from '../../bll/store/store';
 import {Button, Rating, TableSortLabel} from '@mui/material';
 import {CardType} from '../../api/cards-api';
 import StarIcon from '@mui/icons-material/Star';
@@ -109,7 +109,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                 <TableCell>
                                     <Rating
                                         name="simple-controlled"
-                                        value={3}
+                                        value={row.grade}
                                         readOnly
                                         precision={0.5}
                                         emptyIcon={<StarIcon style={{opacity: 0.55}} fontSize="inherit"/>}

@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
 import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
-import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
+import {removePack, setSearchPackName, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
 import {useNavigate} from 'react-router-dom';
 import {setPackId} from '../../bll/reducers/cards-reducer';
 
@@ -39,9 +39,10 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const onClickSortByHandler = (sortBy: string) => () => {
         dispatch(setSortBy(sortBy))
     }
-    const handlerGetCards = (id: string) => {
-        navigate(`../cards/${id}`)
+    const handlerGetCards = (id: string, name: string) => {
+        navigate(`../card/${id}`)
         dispatch(setPackId(id))
+        dispatch(setSearchPackName(name))
     }
 
     const removePackHandler = (packID: string) => {
@@ -106,7 +107,6 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                             <TableRow
                                 key={row.packID}
                                 sx={[styleTd, styleAlignCell]}
-                                // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
                                 <TableCell>{row.packName}</TableCell>
                                 <TableCell>{row.cardsCount}</TableCell>
@@ -129,7 +129,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                         }
                                         <ButtonCP
                                             disabled={!row.cardsCount && row.packUserID !== authorizedUserId}
-                                            onClick={() => handlerGetCards(row.packID)}
+                                            onClick={() => handlerGetCards(row.packID, row.packName)}
                                         >Learn</ButtonCP>
                                     </div>
                                 </TableCell>
