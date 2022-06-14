@@ -24,7 +24,7 @@ interface PropsType {
     packUserID: string;
     actions?: null;
     authorizedUserId: string;
-    handlerGetCards: (packID: string) => void;
+    handlerGetCards: (e: React.MouseEvent<HTMLAnchorElement>, id: string, length: number) => void;
     openModalWindow: (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => void
 }
 
@@ -71,7 +71,7 @@ export const PackItem: FC<PropsType> = (props) => {
                     }
                     <ButtonCP
                         disabled={!cardsCount && packUserID !== authorizedUserId}
-                        onClick={() => handlerGetCards(packID)}
+                        onClick={() => {}}
                     >Learn</ButtonCP>
                 </div>
             </TableCell>
