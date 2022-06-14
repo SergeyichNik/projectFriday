@@ -10,7 +10,7 @@ import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {PackCard} from '../../api/pack-api';
 import {Button, ButtonProps, styled, TableSortLabel} from '@mui/material';
 import {removePack, setSortBy, updatePack} from '../../bll/reducers/pack-reducer';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 
 type TablePackPropsType = {
@@ -38,8 +38,11 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
     const onClickSortByHandler = (sortBy: string) => () => {
         dispatch(setSortBy(sortBy))
     }
-    const handlerGetCards = (id: string) => {
+    const handlerGetCards = (e: React.MouseEvent<HTMLAnchorElement>, id: string, length: number) => {
+        if (length !== 0 ) {
         navigate(`../cards/${id}`)
+        }
+        e.preventDefault()
     }
 
     const removePackHandler = (packID: string) => {
@@ -106,7 +109,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                 sx={[styleTd, styleAlignCell]}
                                 // sx={{'&:last-child td, &:last-child th': {border: 0}}}
                             >
-                                <TableCell>{row.packName}</TableCell>
+                                <TableCell><Link to={'/cards'} onClick={(e) => handlerGetCards(e, row.packID, row.cardsCount)}>{row.packName}</Link></TableCell>
                                 <TableCell>{row.cardsCount}</TableCell>
                                 <TableCell>{row.createdDate}</TableCell>
                                 <TableCell>{row.createdByName}</TableCell>
@@ -127,7 +130,7 @@ export const TablePack: React.FC<TablePackPropsType> = ({pack, sortBy, order}) =
                                         }
                                         <ButtonCP
                                             disabled={!row.cardsCount && row.packUserID !== authorizedUserId}
-                                            onClick={() => handlerGetCards(row.packID)}
+                                            // onClick={() => handlerGetCards(row.packID)}
                                         >Learn</ButtonCP>
                                     </div>
                                 </TableCell>
