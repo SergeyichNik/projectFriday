@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {
     addCardPack,
     fetchCardsPack,
-    selectPack,
+    selectPack, setPackOwner,
     setPage,
     setPageCount,
     setSearchPackName
@@ -22,6 +22,7 @@ import stylesPL from './PacksList.module.css';
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
+    const [first, setFirst] = useState<boolean>(true)
 
     const packName = useAppSelector(selectPack).packName
     const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
@@ -50,8 +51,13 @@ export const PacksList = () => {
     }
 
     React.useEffect(() => {
+        if(first) {
+            dispatch(setPackOwner('all'))
+            setFirst(false)
+        }
+        debugger
         dispatch(fetchCardsPack())
-    }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
+    }, [first, sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
 
     return (
         <div style={{margin: '30px auto'}}>
@@ -88,7 +94,7 @@ export const PacksList = () => {
                     </div>
 
                     {pack.length === 0 && owner === 'my'
-                        ? <div>You have no any Pack, do want to add?</div>
+                        ? <div>You have no packs. Do you want to add?</div>
                         : <>
                             <TablePack pack={pack} sortBy={sortBy} order={order}/>
 
