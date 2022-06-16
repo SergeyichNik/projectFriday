@@ -108,8 +108,8 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
 
 export const addNewCard = (packID: string): ThunkType => async (dispatch: DispatchActionType) => {
 
-    const question = 'Question for card'
-    const answer = 'Answer for card'
+    const question = '5'
+    const answer = '5'
 
     try {
         dispatch(setLoadingStatus('loading'))

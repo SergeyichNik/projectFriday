@@ -81,7 +81,8 @@ const LearnPack = () => {
                     <div className={classes.cardContent}>
                         <Typography sx={titleOne} variant={'h1'}>
                             Learn "{packName}"</Typography>
-                        <p><b>Question:</b> "{card.question}"</p>
+                        {loadingStatus === 'loading' ? <span>ПРИВЕТ</span>
+                        : <p><b>Question:</b> "{card.question}"</p>}
                         {isChecked && <p><b>Answer:</b> "{card.answer}"</p>}
                         {
                             !isChecked
