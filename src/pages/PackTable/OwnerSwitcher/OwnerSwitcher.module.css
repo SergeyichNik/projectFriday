@@ -12,12 +12,14 @@
     margin-top: 20px;
     border-radius: 4px;
     overflow: hidden;
+    box-shadow: 0 0 3px grey;
 }
 
 .ownerBtn {
     flex-grow: 1;
-    background: #fff;
+    background: #33b198;
     padding: 10px;
+    color: #F8FFAE;
     text-align: center;
     cursor: pointer;
     transition: 0.15s;
@@ -28,6 +30,6 @@
 }
 
 .activeOwner {
-    background: #33b198;
-    color: #fff;
+    background: #F8FFAE;
+    color: #33b198;
 }

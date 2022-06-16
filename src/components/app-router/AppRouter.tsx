@@ -28,9 +28,9 @@ const AppRouter = () => {
                         <PacksList/>
                     </RequireAuth>
                 } />
-                <Route path={'cards/:id'} element={<CardsList/>} />
+                <Route path={'/cards/:id'} element={<CardsList/>} />
+                <Route path={'/card/:id'} element={<LearnPack/>}/>
                 <Route path={'*'} element={<NotFound/>}/>
-                <Route path={'card/:id'} element={<LearnPack/>}/>
             </Route>
         </Routes>
     );
