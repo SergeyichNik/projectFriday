@@ -55,9 +55,11 @@ export const PacksList = () => {
             dispatch(setPackOwner('all'))
             setFirst(false)
         }
-        debugger
+    }, [])
+
+    React.useEffect(() => {
         dispatch(fetchCardsPack())
-    }, [first, sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
+    }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
 
     return (
         <div style={{margin: '30px auto'}}>

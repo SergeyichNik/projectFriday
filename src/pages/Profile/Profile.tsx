@@ -24,7 +24,6 @@ import {PackCard} from "../../api/pack-api";
 
 const Profile = () => {
     const dispatch = useAppDispatch()
-    debugger
 
     const isAuth = useAppSelector<boolean>(state => state.login.isAuth)
     const avatar = useAppSelector<string | undefined>(state => state.login.data.avatar)
@@ -64,14 +63,12 @@ const Profile = () => {
     }
 
     React.useEffect(() => {
-        debugger
         isAuth && dispatch(setPackOwner('my'))
     }, [dispatch, isAuth])
 
     React.useEffect(() => {
-        debugger
-        dispatch(fetchCardsPack())
-    }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
+        dispatch(fetchCardsPack());
+    }, [sortBy, order, minSort, maxSort, packName, pageCount, page])
 
     if (!isAuth) return <Navigate to={'/login'}/>
 
@@ -91,10 +88,6 @@ const Profile = () => {
                                     onClick={onClickLogOutHandler}>
                                 Log out
                             </Button>
-                            <div>
-                                <div>Packs: {cardsPacksTotalCount}</div>
-                                {/*<div>Cards: {cardsNumber}</div>*/}
-                            </div>
                         </div>
                     </div>
 
