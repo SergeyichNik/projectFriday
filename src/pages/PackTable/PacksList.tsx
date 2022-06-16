@@ -1,7 +1,14 @@
 import React, {useState} from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
-import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
+import {
+    fetchCardsPack,
+    selectPack,
+    setPackOwner,
+    setPage,
+    setPageCount,
+    setSearchPackName
+} from '../../bll/reducers/pack-reducer';
 import {PackCard} from '../../api/pack-api';
 import {RangeCards} from './RangeCards/RangeCards';
 import {OwnerSwitcher} from './OwnerSwitcher/OwnerSwitcher';

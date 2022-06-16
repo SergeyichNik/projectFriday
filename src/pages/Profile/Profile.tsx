@@ -12,7 +12,6 @@ import SearchField from "../../components/common/SearchField/SearchField";
 import stylesPL from "../PackTable/PacksList.module.css";
 import {styleBtn} from "../../styles/commonMui";
 import {
-    addCardPack,
     fetchCardsPack,
     selectPack, setPackOwner,
     setPage,
@@ -20,6 +19,7 @@ import {
     setSearchPackName
 } from "../../bll/reducers/pack-reducer";
 import {PackCard} from "../../api/pack-api";
+import {controlModalWindowAC} from "../../bll";
 
 
 const Profile = () => {
@@ -52,14 +52,16 @@ const Profile = () => {
     const searchByPackName = (search: string) => {
         dispatch(setSearchPackName(search))
     }
-    const addNewPack = () => {
-        dispatch(addCardPack())
-    }
+
     const setPackPageCallback = (page: number) => {
         dispatch(setPage(page + 1));
     }
     const setPackPageCountCallback = (page: number) => {
         dispatch(setPageCount(page))
+    }
+
+    const openAddModalWindowHandle = () => {
+        dispatch(controlModalWindowAC(true, "ADD"))
     }
 
     React.useEffect(() => {
@@ -105,7 +107,7 @@ const Profile = () => {
                                     height: 'auto'
                                 }]}
                                 variant={'contained'}
-                                onClick={addNewPack}
+                                onClick={openAddModalWindowHandle}
                             >
                                 Add new Pack
                             </Button>

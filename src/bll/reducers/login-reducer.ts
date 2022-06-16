@@ -6,6 +6,7 @@ type LoginStateType = {
     data: LoginResponseType
     isAuth: boolean
 }
+
 export type LoginResponseType = {
     _id: string
     email: string
@@ -36,7 +37,9 @@ const initState: LoginStateType = {
     },
     isAuth: false
 }
-export type LoginActionType = ReturnType<typeof getUserData>
+
+export type LoginActionType =
+    | ReturnType<typeof getUserData>
     | ReturnType<typeof updateUserDataInfo>
 
 export const loginReducer = (state: LoginStateType = initState, action: LoginActionType): LoginStateType => {
