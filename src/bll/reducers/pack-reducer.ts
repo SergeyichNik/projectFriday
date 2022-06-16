@@ -46,7 +46,7 @@ export const packReducer = (state: PackInitStateType = initialState, action: Pac
         case 'PACK/SET_PAGE_COUNT':
             return {...state, pageCount: action.pageCount}
         case 'PACK/SET_PACK_NAME':
-            return {...state, ...action}
+            return {...state, packName: action.packName}
         case "PACK/SET_CURRENT_PACK_PROPS":
             return {
                 ...state,

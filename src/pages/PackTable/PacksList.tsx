@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {TablePack} from './TablePack';
 import {useAppDispatch, useAppSelector} from '../../bll/store/store';
 import {fetchCardsPack, selectPack, setPage, setPageCount, setSearchPackName} from '../../bll/reducers/pack-reducer';
@@ -16,6 +16,7 @@ import {controlModalWindowAC} from "../../bll";
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
+    const [first, setFirst] = useState<boolean>(true)
 
     const packName = useAppSelector(selectPack).packName
     const pack = useAppSelector<PackCard[]>(state => state.pack.cardPacks)
@@ -43,6 +44,13 @@ export const PacksList = () => {
     const openAddModalWindowHandle = () => {
         dispatch(controlModalWindowAC(true, "ADD"))
     }
+
+    React.useEffect(() => {
+        if(first) {
+            dispatch(setPackOwner('all'))
+            setFirst(false)
+        }
+    }, [])
 
     React.useEffect(() => {
         dispatch(fetchCardsPack())
@@ -83,7 +91,7 @@ export const PacksList = () => {
                     </div>
 
                     {pack.length === 0 && owner === 'my'
-                        ? <div>You have no any Pack, do want to add?</div>
+                        ? <div>You have no packs. Do you want to add?</div>
                         : <>
                             <TablePack pack={pack} sortBy={sortBy} order={order}/>
 
