@@ -1,6 +1,8 @@
 import {CardsApi, CardsQueryParams, CardType} from '../../api/cards-api';
 import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
 import {setAppError, setLoadingStatus} from './app-reducer';
+import {controlModalWindowAC} from "./modal-reducer";
+import {setCurrentPackPropsAC} from "./pack-reducer";
 
 export type OrderType = 'desc' | 'asc'
 const initialState: InitialStateType = {
@@ -133,6 +135,8 @@ export const removeCard = (id: string): ThunkType => async dispatch => {
         dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 

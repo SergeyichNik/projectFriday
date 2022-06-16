@@ -7,8 +7,10 @@ export {
     removePackTC,
     addCardPackTC,
     selectAppStatus,
-    selectLoginIsAuth
+    selectLoginIsAuth,
 } from "./reducers"
+
+export { cards } from "./reducers"
 
 
 

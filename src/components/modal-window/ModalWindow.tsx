@@ -6,7 +6,8 @@ import {useAppDispatch, useAppSelector} from "../../bll/store/store";
 import {AddModal, DeleteModal, EditModal} from "../modal-components";
 import {
     addCardPackTC,
-    controlModalWindowAC,
+    cards,
+    controlModalWindowAC, ModalComponentType,
     removePackTC, selectAppStatus,
     selectModal,
     selectPack,
@@ -49,6 +50,11 @@ export const ModalWindow = () => {
         dispatch(removePackTC(currentPackID as string))
     }
 
+    const removeCardClick = () => {
+        dispatch(cards.removeCard(currentPackID as string))
+    }
+
+
     const updateCurrentPackName = (e: ChangeEvent<HTMLTextAreaElement>) => {
         dispatch(setCurrentPackPropsAC(e.currentTarget.value, currentPackID))
     }
@@ -74,10 +80,16 @@ export const ModalWindow = () => {
                                                           addNewPack={addNewPack}
                                                           updateNewPackName={updateCurrentPackName}
                                                           closeModalClick={closeModalClick}/>}
-                        {component === "DELETE" && <DeleteModal removePackClick={removePackClick}
-                                                                isLoading={status === "loading"}
-                                                                currentPackName={currentPackName}
-                                                                closeModalClick={closeModalClick}/>}
+                        {component === "DELETE" && <DeleteModal isLoading={status === "loading"}
+                                                                title={"Delete Pack"}
+                                                                 removeClick={removePackClick}
+                                                                 currentName={currentPackName}
+                                                                 closeModalClick={closeModalClick}/>}
+                        {component === "CARD-DELETE" && <DeleteModal isLoading={status === "loading"}
+                                                                     title={"Delete Card"}
+                                                                     removeClick={removeCardClick}
+                                                                     currentName={currentPackName}
+                                                                     closeModalClick={closeModalClick}/>}
                         {component === "EDIT" && <EditModal onChangeValue={updateCurrentPackName}
                                                             isLoading={status === "loading"}
                                                             updatePackName={updatePackName}

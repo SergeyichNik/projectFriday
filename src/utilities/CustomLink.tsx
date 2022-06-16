@@ -9,7 +9,6 @@ type PropsType = {
 }
 export const CustomLink: FC<PropsType> = (props) => {
     const match = useMatch(props.to)
-    console.log(props.to)
     return (
         <Link  {...props}
               style={{

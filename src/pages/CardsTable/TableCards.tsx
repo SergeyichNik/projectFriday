@@ -12,6 +12,7 @@ import {CardType} from '../../api/cards-api';
 import StarIcon from '@mui/icons-material/Star';
 import {editCard, OrderType, removeCard, setSortCards} from '../../bll/reducers/cards-reducer';
 import {ButtonCP} from '../PackTable/TablePack';
+import {controlModalWindowAC, ModalComponentType, setCurrentPackPropsAC} from "../../bll";
 
 
 type TablePackPropsType = {
@@ -40,6 +41,11 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
 
     const removeCardHandler = (id: string) => {
         dispatch(removeCard(id))
+    }
+
+    const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => {
+        dispatch(controlModalWindowAC(isOpen, component))
+        dispatch(setCurrentPackPropsAC(packName, packID))
     }
 
     const editCardHandler = (id: string) => {
@@ -118,7 +124,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                                 <Button variant={'contained'}
                                                         color={'error'}
                                                         sx={{textTransform: 'none'}}
-                                                        onClick={() => removeCardHandler(row.cardID)}
+                                                        onClick={() => openModalWindowHandle(true, "CARD-DELETE", row.cardID, row.question)}
                                                 >Delete</Button>
                                             }
                                             {row.cardsPackOwnerID === authorizedUserId &&
