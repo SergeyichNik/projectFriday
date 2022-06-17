@@ -37,7 +37,7 @@ export const AddCardModal: FC<PropsType> =
 
         return (
             <div className={classes.wrapper}>
-                <h3>Add new pack</h3>
+                <h3>Add new card</h3>
                 <TextField id="standard-basic"
                            value={question}
                            onChange={(e) => changeQuestionValue(e.currentTarget.value)}
