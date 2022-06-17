@@ -23,9 +23,6 @@ const initialState: InitialStateType = {
     card_id: '',
     min: 0,
     max: 0,
-
-    currentCardAnswer: EMPTY_STRING,
-    currentCardQuestion: EMPTY_STRING
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
@@ -187,9 +184,6 @@ type InitialStateType = CardsInfoType & {
     max: number
     order: OrderType
     card_id: string
-
-    currentCardQuestion: string,
-    currentCardAnswer: string
 }
 type CardsInfoType = {
     cardsTotalCount: number
