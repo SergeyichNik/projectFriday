@@ -3,8 +3,9 @@
     justify-content: space-evenly;
     align-items: center;
     padding: 0 100px;
-    background-color: #2c2b3f;
+    background-color: #9ce1ac;
     height: 80px;
+    box-shadow: 0 0 7px grey;
 }
 
 .header a {
