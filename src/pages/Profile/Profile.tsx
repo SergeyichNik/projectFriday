@@ -69,7 +69,7 @@ const Profile = () => {
     }, [dispatch, isAuth])
 
     React.useEffect(() => {
-        dispatch(fetchCardsPack());
+        isAuth && dispatch(fetchCardsPack());
     }, [sortBy, order, minSort, maxSort, packName, pageCount, page])
 
     if (!isAuth) return <Navigate to={'/login'}/>

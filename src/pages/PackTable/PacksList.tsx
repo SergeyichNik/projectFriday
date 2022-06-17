@@ -18,11 +18,12 @@ import {Button} from '@mui/material';
 import {styleBtn} from '../../styles/commonMui';
 import styles from '../Profile/Profile.module.css';
 import stylesPL from './PacksList.module.css';
-import {controlModalWindowAC} from "../../bll";
+import {controlModalWindowAC} from '../../bll';
 
 
 export const PacksList = () => {
     const dispatch = useAppDispatch()
+
     const [first, setFirst] = useState<boolean>(true)
 
     const packName = useAppSelector(selectPack).packName
@@ -49,19 +50,18 @@ export const PacksList = () => {
     }
 
     const openAddModalWindowHandle = () => {
-        dispatch(controlModalWindowAC(true, "ADD"))
+        dispatch(controlModalWindowAC(true, 'ADD'))
     }
 
     React.useEffect(() => {
-        if(first) {
+        if (first) {
             dispatch(setPackOwner('all'))
             setFirst(false)
+            return
         }
-    }, [])
-
-    React.useEffect(() => {
         dispatch(fetchCardsPack())
-    }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page])
+
+    }, [sortBy, order, owner, minSort, maxSort, packName, pageCount, page, first])
 
     return (
         <div style={{margin: '30px auto'}}>
@@ -78,7 +78,8 @@ export const PacksList = () => {
                 </div>
 
                 <div className={styles.content}>
-                    <SearchField searchCallback={searchByPackName} placeholder={'Search'} initState={packName}/>
+                    <SearchField searchCallback={searchByPackName} placeholder={'Search'}
+                                 initState={packName}/>
 
                     <div className={stylesPL.buttonPosition}>
                         <Button

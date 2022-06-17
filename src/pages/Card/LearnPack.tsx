@@ -1,14 +1,19 @@
 import React, {useState} from 'react';
 import classes from './Card.module.css'
 import '../../styles/common.css';
-import {Button, Grid, Typography} from "@mui/material";
-import {useAppDispatch, useAppSelector} from "../../bll/store/store";
-import {useNavigate, useParams} from "react-router-dom";
-import {styleBtn, titleOne} from "../../styles/commonMui";
-import {CardType} from "../../api/cards-api";
-import {fetchCards, setCards, setPackId, updateCardGrade} from "../../bll/reducers/cards-reducer";
-import {setSearchPackName} from "../../bll/reducers/pack-reducer";
-import AnswerForm from "./AnswerForm";
+import {Button, Grid, Typography} from '@mui/material';
+import {useAppDispatch, useAppSelector} from '../../bll/store/store';
+import {useNavigate, useParams} from 'react-router-dom';
+import {styleBtn, titleOne} from '../../styles/commonMui';
+import {CardType} from '../../api/cards-api';
+import {
+    fetchCards,
+    setCards,
+    setPackId,
+    updateCardGrade
+} from '../../bll/reducers/cards-reducer';
+import {setSearchPackName} from '../../bll/reducers/pack-reducer';
+import AnswerForm from './AnswerForm';
 
 const getCard = (cards: CardType[]) => {
     const sum = cards.reduce((acc, card) => acc + (6 - card.grade) * (6 - card.grade), 0);
@@ -65,7 +70,8 @@ const LearnPack = () => {
 
         if (cards.length > 0) {
             dispatch(updateCardGrade(card._id, grade))
-            setCard(getCard(cards));
+            // setCard(getCard(cards)); чтобы не было мерцания, т.к. обновление карточки тоже сетает карточку;
+            // или крутилку или другой контент вместо вопроса во время лоадинга (запроса и ответа на сервер)
         }
     }
     const onCancel = () => {
