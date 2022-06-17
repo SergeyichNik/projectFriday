@@ -38,7 +38,14 @@ export const controlModalWindowAC =
 }
 
 //types
-export type ModalComponentType = "DELETE" | "ADD" | "EDIT" | "CARD-DELETE" | "CARD-EDIT" | null
+export type ModalComponentType =
+    | "DELETE"
+    | "ADD"
+    | "EDIT"
+    | "ADD-NEW-CARD"
+    | "CARD-DELETE"
+    | "CARD-EDIT"
+    | null
 
 export type ModalStateType = {
     isOpen: boolean,

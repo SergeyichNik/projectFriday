@@ -10,7 +10,7 @@ import {useAppDispatch} from '../../bll/store/store';
 import {Button, Rating, TableSortLabel} from '@mui/material';
 import {CardType} from '../../api/cards-api';
 import StarIcon from '@mui/icons-material/Star';
-import {editCard, OrderType, removeCard, setSortCards} from '../../bll/reducers/cards-reducer';
+import {OrderType, setSortCards} from '../../bll/reducers/cards-reducer';
 import {ButtonCP} from '../PackTable/TablePack';
 import {controlModalWindowAC, ModalComponentType, setCurrentPackPropsAC} from "../../bll";
 
@@ -39,17 +39,9 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
         dispatch(setSortCards(sortCard))
     }
 
-    const removeCardHandler = (id: string) => {
-        dispatch(removeCard(id))
-    }
-
     const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => {
         dispatch(controlModalWindowAC(isOpen, component))
         dispatch(setCurrentPackPropsAC(packName, packID))
-    }
-
-    const editCardHandler = (id: string) => {
-        dispatch(editCard(id))
     }
 
     return (
@@ -128,7 +120,7 @@ export const TableCards: React.FC<TablePackPropsType> = ({cards, order, sortCard
                                                 >Delete</Button>
                                             }
                                             {row.cardsPackOwnerID === authorizedUserId &&
-                                                <ButtonCP onClick={() => editCardHandler(row.cardID)}>Edit</ButtonCP>
+                                                <ButtonCP onClick={() => openModalWindowHandle(true, "CARD-EDIT", row.cardID, row.question)}>Edit</ButtonCP>
                                             }
                                         </div>
                                     </TableCell>

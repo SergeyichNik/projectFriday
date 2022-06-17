@@ -3,18 +3,20 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Fade from '@mui/material/Fade';
 import {useAppDispatch, useAppSelector} from "../../bll/store/store";
-import {AddModal, DeleteModal, EditModal} from "../modal-components";
+import {AddModal, DeleteModal, EditCardModal, EditModal} from "../modal-components";
 import {
     addCardPackTC,
     cards,
-    controlModalWindowAC, ModalComponentType,
-    removePackTC, selectAppStatus,
+    controlModalWindowAC,
+    removePackTC,
+    selectAppStatus,
     selectModal,
     selectPack,
     setCurrentPackPropsAC,
     updatePackNameTC
 } from "../../bll";
 import classes from "./ModalWindow.module.css";
+import {AddCardModal} from "../modal-components/AddCardModal";
 
 const style = {
     position: 'absolute' as 'absolute',
@@ -63,6 +65,14 @@ export const ModalWindow = () => {
         dispatch(addCardPackTC(currentPackName))
     }
 
+    const editCardQuestion = () => {
+        dispatch(cards.editCardTC(currentPackID as string, currentPackName))
+    }
+
+    const addNewCard = (question: string, answer: string) => {
+        dispatch(cards.addNewCard(currentPackID as string, question, answer ))
+    }
+
     const updatePackName = () => {
         dispatch(updatePackNameTC(currentPackID as string, currentPackName))
     }
@@ -79,22 +89,36 @@ export const ModalWindow = () => {
                                                           isLoading={status === "loading"}
                                                           addNewPack={addNewPack}
                                                           updateNewPackName={updateCurrentPackName}
-                                                          closeModalClick={closeModalClick}/>}
+                                                          closeModalClick={closeModalClick}/>
+                        }
                         {component === "DELETE" && <DeleteModal isLoading={status === "loading"}
                                                                 title={"Delete Pack"}
                                                                  removeClick={removePackClick}
                                                                  currentName={currentPackName}
-                                                                 closeModalClick={closeModalClick}/>}
+                                                                 closeModalClick={closeModalClick}/>
+                        }
                         {component === "CARD-DELETE" && <DeleteModal isLoading={status === "loading"}
                                                                      title={"Delete Card"}
                                                                      removeClick={removeCardClick}
                                                                      currentName={currentPackName}
-                                                                     closeModalClick={closeModalClick}/>}
+                                                                     closeModalClick={closeModalClick}/>
+                        }
+                        {component === "ADD-NEW-CARD" && <AddCardModal closeModalClick={closeModalClick}
+                                                                       addNewCard={addNewCard}
+                                                                       isLoading={status === "loading"}/>
+                        }
                         {component === "EDIT" && <EditModal onChangeValue={updateCurrentPackName}
                                                             isLoading={status === "loading"}
                                                             updatePackName={updatePackName}
                                                             value={currentPackName}
-                                                            closeModalClick={closeModalClick}/>}
+                                                            closeModalClick={closeModalClick}/>
+                        }
+                        {component === "CARD-EDIT" && <EditCardModal closeModalClick={closeModalClick}
+                                                                     value={currentPackName}
+                                                                     onChangeValue={updateCurrentPackName}
+                                                                     editCardQuestion={editCardQuestion}
+                                                                     isLoading={status === "loading"}/>
+                        }
                     </Box>
                 </Fade>
             </Modal>

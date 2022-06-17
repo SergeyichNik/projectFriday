@@ -3,6 +3,7 @@ import {AppRootStateType, DispatchActionType, ThunkType} from '../store/store';
 import {setAppError, setLoadingStatus} from './app-reducer';
 import {controlModalWindowAC} from "./modal-reducer";
 import {setCurrentPackPropsAC} from "./pack-reducer";
+import {EMPTY_STRING} from "../../constants";
 
 export type OrderType = 'desc' | 'asc'
 const initialState: InitialStateType = {
@@ -21,7 +22,10 @@ const initialState: InitialStateType = {
     cardsPack_id: '',
     card_id: '',
     min: 0,
-    max: 0
+    max: 0,
+
+    currentCardAnswer: EMPTY_STRING,
+    currentCardQuestion: EMPTY_STRING
 }
 
 export const cardsReducer = (state: InitialStateType = initialState, action: CardsReducerActionType): InitialStateType => {
@@ -51,6 +55,8 @@ export const cardsReducer = (state: InitialStateType = initialState, action: Car
             return state
     }
 }
+//selector
+export const selectCards = (state: AppRootStateType) => state.cards
 
 export type CardsReducerActionType = ReturnType<typeof setCards>
     | ReturnType<typeof setCardsInfo>
@@ -108,10 +114,7 @@ export const fetchCards = (): ThunkType => async (dispatch: DispatchActionType, 
     }
 }
 
-export const addNewCard = (packID: string): ThunkType => async (dispatch: DispatchActionType) => {
-
-    const question = 'Question for card'
-    const answer = 'Answer for card'
+export const addNewCard = (packID: string, question: string, answer: string): ThunkType => async (dispatch: DispatchActionType) => {
 
     try {
         dispatch(setLoadingStatus('loading'))
@@ -122,6 +125,8 @@ export const addNewCard = (packID: string): ThunkType => async (dispatch: Dispat
         dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 
@@ -140,17 +145,18 @@ export const removeCard = (id: string): ThunkType => async dispatch => {
     }
 }
 
-export const editCard = (id: string): ThunkType => async dispatch => {
-    const newQ = 'Updated question'
+export const editCardTC = (id: string, question: string): ThunkType => async dispatch => {
     try {
         dispatch(setLoadingStatus('loading'))
-        const res = await CardsApi.updateCard(id, newQ)
+        const res = await CardsApi.updateCard(id, question)
         dispatch(fetchCards())
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
         dispatch(setAppError(error))
     } finally {
         dispatch(setLoadingStatus('idle'))
+        dispatch(controlModalWindowAC())
+        dispatch(setCurrentPackPropsAC())
     }
 }
 
@@ -181,6 +187,9 @@ type InitialStateType = CardsInfoType & {
     max: number
     order: OrderType
     card_id: string
+
+    currentCardQuestion: string,
+    currentCardAnswer: string
 }
 type CardsInfoType = {
     cardsTotalCount: number

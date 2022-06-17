@@ -7,10 +7,11 @@ import {
     fetchCards,
     OrderType,
     searchByAnswer,
-    searchByQuestion, setCards,
+    searchByQuestion,
     setCardPage,
     setCardPageCount,
-    addNewCard, setPackId
+    setCards,
+    setPackId
 } from '../../bll/reducers/cards-reducer';
 import {TableCards} from './TableCards';
 import {CardType} from '../../api/cards-api';
@@ -19,6 +20,8 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import styles from '../Profile/Profile.module.css';
 import {styleBtn} from '../../styles/commonMui';
 import {Button} from '@mui/material';
+import {controlModalWindowAC, ModalComponentType, setCurrentPackPropsAC} from "../../bll";
+import {EMPTY_STRING} from "../../constants";
 
 
 const CardsList = () => {
@@ -60,8 +63,9 @@ const CardsList = () => {
         dispatch(setCardPageCount(page))
     }
 
-    const addNewCardHandler = () => {
-        packUrlId && dispatch(addNewCard(packUrlId))
+    const openModalWindowHandle = (isOpen: boolean, component: ModalComponentType, packID: string, packName: string) => {
+        dispatch(controlModalWindowAC(isOpen, component))
+        dispatch(setCurrentPackPropsAC(packName, packID))
     }
 
     React.useEffect(() => {
@@ -107,7 +111,7 @@ const CardsList = () => {
                                     height: 'auto'
                                 }]}
                                 variant={'contained'}
-                                onClick={addNewCardHandler}
+                                onClick={() => openModalWindowHandle(true, "ADD-NEW-CARD" , packUrlId as string, EMPTY_STRING)}
                             >
                                 Add new Card
                             </Button>
