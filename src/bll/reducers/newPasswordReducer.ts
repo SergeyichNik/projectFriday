@@ -8,4 +8,6 @@ export const newPasswordReducer = (state: any = {}, action: any): any => {
     }
 }
 
-export let a = 1
+export type NewPassReducerStateType = {
+
+}

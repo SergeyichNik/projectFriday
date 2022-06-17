@@ -1,6 +1,7 @@
 import {authApi} from '../../api/auth-api';
 import {DispatchActionType, ThunkType} from '../store/store';
 import {setAppError, setLoadingStatus} from './app-reducer';
+import {useParams} from "react-router-dom";
 
 const init: InitStateType = {
     info: '',
@@ -15,7 +16,6 @@ export const recoveryPasswordReducer = (state: InitStateType = init, action: Rec
     }
 }
 
-
 // --- action ---------
 
 const setResponseInfoRecoveryPassword = (info: string) =>
@@ -28,6 +28,19 @@ export const sendPasswordRecovery = (email: string):ThunkType => async (dispatch
     try {
         dispatch(setLoadingStatus('loading'))
         const res = await authApi.recoveryPassword(email)
+        dispatch(setResponseInfoRecoveryPassword(res.data.info))
+    } catch (e: any) {
+        const error = e.response ? e.response.data.error : (e.message + ', more details in the console');
+        dispatch(setAppError(error))
+    } finally {
+        dispatch(setLoadingStatus('idle'))
+    }
+}
+
+export const setNewPasswordTC = (password: string, token: string) => async (dispatch: DispatchActionType) => {
+    try {
+        dispatch(setLoadingStatus('loading'))
+        const res = await authApi.setNewPass(password, token)
         dispatch(setResponseInfoRecoveryPassword(res.data.info))
     } catch (e: any) {
         const error = e.response ? e.response.data.error : (e.message + ', more details in the console');

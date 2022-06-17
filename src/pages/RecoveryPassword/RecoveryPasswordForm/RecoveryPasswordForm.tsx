@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, TextField, Typography} from '@mui/material';
+import {TextField, Typography} from '@mui/material';
 import {ErrorMessage, Form, Formik} from 'formik';
 import {ErrorText} from '../ErrorText/ErrorText';
 import {Link} from 'react-router-dom';
@@ -9,6 +9,7 @@ import {useAppDispatch, useAppSelector} from '../../../bll/store/store';
 import {LoadingStatusType} from '../../../bll/reducers/app-reducer';
 
 import {styleBtn} from '../../../styles/commonMui';
+import LoadingButton from "@mui/lab/LoadingButton";
 
 
 export type InitialValuesType = {
@@ -72,12 +73,10 @@ export const RecoveryPasswordForm = () => {
                                 </Typography>
 
                                 <div>
-                                    <Button type={'submit'}
-                                            variant={'contained'}
-                                            disabled={loadingStatus === 'loading'}
-                                            sx={styleBtn}>
-                                        Send Instructions
-                                    </Button>
+                                    <LoadingButton loadingPosition="center"
+                                                   type={'submit'}
+                                                   loading={loadingStatus === 'loading'}
+                                                   sx={styleBtn} >Send Instructions</LoadingButton>
                                 </div>
                             </Form>
                         )

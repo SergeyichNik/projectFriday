@@ -2,6 +2,11 @@ import React from 'react';
 import {Button, FormControl, IconButton, Input, InputAdornment} from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {useFormik} from "formik";
+import {useNavigate, useParams} from "react-router-dom";
+import {useAppDispatch, useAppSelector} from "../../bll/store/store";
+import {setNewPasswordTC} from "../../bll/reducers/recoveryPassword-reducer";
+import LoadingButton from "@mui/lab/LoadingButton";
+import {LoadingStatusType} from "../../bll/reducers/app-reducer";
 
 type FormikErrorType = {
     password?: string
@@ -60,11 +65,19 @@ const styleP = {
 
 const NewPassword = () => {
 
+    const loadingStatus = useAppSelector<LoadingStatusType>(state => state.appReducer.loadingStatus)
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate()
+
+    const token = useParams().token
+
     const [hidden, setHidden] = React.useState(true)
 
     const handleClickShowPassword = () => {
         setHidden(!hidden)
     };
+
 
     const formik = useFormik({
         initialValues: {
@@ -82,7 +95,7 @@ const NewPassword = () => {
             return errors;
         },
         onSubmit: values => {
-            console.log(values)
+            dispatch(setNewPasswordTC(values.password, token as string)).then(() => navigate('/', {replace: true}))
             formik.resetForm()
         }
     })
@@ -119,11 +132,10 @@ const NewPassword = () => {
                     <p style={{textAlign: 'left', ...styleP}}>
                         Create new password and we will send you further instructions to email
                     </p>
-                    <Button
-                        type={"submit"}
-                        sx={styleBtn}
-                        variant="contained"
-                    >Create new password</Button>
+                    <LoadingButton loadingPosition="center"
+                                   type={'submit'}
+                                   loading={loadingStatus === 'loading'}
+                                   sx={styleBtn} >Create new password</LoadingButton>
                 </FormControl>
             </form>
         </div>

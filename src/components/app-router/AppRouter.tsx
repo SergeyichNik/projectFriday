@@ -20,7 +20,7 @@ const AppRouter = () => {
                 <Route index element={<Profile/>}/>
                 <Route path={'login'} element={<Login/>}/>
                 <Route path={'recovery-password'} element={<RecoveryPassword/>}/>
-                <Route path={'new-password'} element={<NewPassword/>}/>
+                <Route path={'set-new-password/:token'} element={<NewPassword/>}/>
                 <Route path={'test-page'} element={<TestPage/>}/>
                 <Route path={'registration'} element={<Registration/>}/>
                 <Route path={'pack-table'} element={

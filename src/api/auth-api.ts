@@ -11,8 +11,8 @@ export const authApi = {
     getPing() {
         return instance.get("/ping?frontTime=1596635884283")
     },
-    setNewPass() {
-        return instance.post("/auth/set-new-password", {password: "new-password"})
+    setNewPass(password: string, token: string) {
+        return instance.post("/auth/set-new-password", {password: password, resetPasswordToken: token})
     },
     registration(data: RegistrationParamsType) {
         return instance.post("/auth/register", data)
@@ -21,12 +21,12 @@ export const authApi = {
         return instance.post<{info: string}>(
             "/auth/forgot",
             {
-                email, // кому восстанавливать пароль
-                from: "test-front-admin <gipis67316@nifect.com>",
+                email: email, // кому восстанавливать пароль
+                from: `test-front-admin <${email}>`,
                 // можно указать разработчика фронта)
                 message: `<div style="background-color: #f7f7f7; padding: 15px">
                     Follow 
-                    <a href='https://sergeyichnik.github.io/projectFriday/#/new-password/$token$'
+                    <a href='https://sergeyichnik.github.io/projectFriday/#/set-new-password/$token$'
                     style="font-weight: bold; color: #1a73e8;">
                     this link</a> to recover your password
                     </div>` // хтмп-письмо, вместо $token$ бэк вставит токен
