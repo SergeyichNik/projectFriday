@@ -32,14 +32,6 @@ export const RecoveryPasswordForm = () => {
         dispatch(sendPasswordRecovery(values.email))
     }
 
-    const forgot = {
-        fontStyle: 'normal',
-        fontWeight: 600,
-        fontSize: 22,
-        lineHeight: '33px',
-        color: '#2D2E46'
-    }
-
     return (
         <>
             <Typography sx={forgot} variant={'body1'} marginBottom={'56px'}>
@@ -94,3 +86,11 @@ export const RecoveryPasswordForm = () => {
         </>
     );
 };
+
+const forgot = {
+    fontStyle: 'normal',
+    fontWeight: 600,
+    fontSize: 22,
+    lineHeight: '33px',
+    color: '#2D2E46'
+}
