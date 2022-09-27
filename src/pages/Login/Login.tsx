@@ -61,6 +61,11 @@ const Login = () => {
                             <FormLabel>
                                 <h1 className={s.styleH1}>It-incubator</h1>
                                 <h2 className={s.styleH2}>Sign In</h2>
+                                <div>
+                                    <p>use common test account credentials:</p>
+                                    <p>Email: free@samuraijs.com</p>
+                                    <p>Password: 12345678</p>
+                                </div>
                             </FormLabel>
                             <FormGroup>
                                 <TextField
